@@ -29,8 +29,11 @@ flexprice-docs/
 │   ├── webhook/             ← Webhook reference
 │   ├── event-ingestion/     ← Event & metering docs
 │   └── ...
+├── api-reference/           ← API Reference tab: introduction, pagination, error-responses, openapi.json
 ├── images/docs/             ← Screenshots referenced from docs
-├── docs.json                ← Navigation config (Mintlify v2)
+├── docs.json                ← Navigation config (Mintlify v2), including every API endpoint
+├── scripts/sync-api-nav.py  ← Keeps the API Reference sidebar in docs.json in sync with openapi.json
+├── .github/workflows/       ← sync-api-nav.yml runs that script in --check mode on PRs and main (flags only, never edits)
 └── .claude/skills/          ← This skills directory
 ```
 
@@ -254,9 +257,72 @@ The navigation lives in `navigation.tabs[0].groups` (the Documentation tab). Str
 
 ---
 
+## API Reference Navigation (docs.json)
+
+The API Reference tab (`navigation.tabs[1]`) does **not** auto-generate its sidebar. Every endpoint is listed explicitly so the sidebar shows one collapsible group per resource, Stripe-style:
+
+```json
+{
+  "tab": "API Reference",
+  "openapi": { "source": "/api-reference/openapi.json", "directory": "api-reference" },
+  "groups": [
+    { "group": "API Documentation", "pages": ["api-reference/introduction", "..."] },
+    {
+      "group": "Resources",
+      "pages": [
+        {
+          "group": "Add-ons",
+          "pages": [
+            "POST /addons",
+            "PUT /addons/{id}",
+            "DELETE /addons/{id}",
+            "GET /addons/lookup/{lookup_key}",
+            "GET /addons/{id}",
+            "POST /addons/search"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+**How it works:**
+- An entry of the form `"METHOD /path"` renders the endpoint page for that operation from `openapi.json`. The path is the spec path, without the `/v1` base URL, with `{param}` placeholders kept as-is.
+- Only nested groups collapse with a chevron. Top-level groups are always-open headers. That is why every resource sits inside the single top-level `Resources` group.
+- Mintlify stops auto-populating endpoint pages as soon as any explicit `"METHOD /path"` entry exists. An endpoint that is in `openapi.json` but not in `docs.json` does not appear in the sidebar and its page 404s.
+- Generated page URLs are `/api-reference/<tag-kebab>/<summary-kebab>` (for example `/api-reference/addons/create-addon`). The tag and summary come from the spec; the sidebar label of the endpoint is the spec `summary`.
+
+**When `openapi.json` changes, `docs.json` must gain or lose the matching `"METHOD /path"` lines.** This is automated:
+
+- `scripts/sync-api-nav.py` compares the spec with the sidebar. It adds missing endpoints to the sub-group whose label matches the tag (creating the sub-group in alphabetical position if none exists), removes entries whose endpoint left the spec, and leaves everything else alone (hand ordering, labels, object pages). New endpoints are placed by kind: create (POST), update (PUT/PATCH), delete, retrieve (GET by id), list, then `/search` and other actions. The map of tag to sidebar label lives in its `LABELS` dict (`Addons` to `Add-ons`, `AlertSettings` to `Alert Settings`).
+- `.github/workflows/sync-api-nav.yml` runs it in `--check` mode on pull requests and on pushes to `main`. It never edits files: it fails the check and lists the missing or stale entries (also in the job summary) when `docs.json` and `openapi.json` disagree. Whoever fixes the PR runs the script below.
+
+When `openapi.json` changes in a session, run it yourself so the check passes:
+
+```bash
+python3 scripts/sync-api-nav.py          # updates docs.json
+python3 scripts/sync-api-nav.py --check  # exit 1 and a list if anything is missing
+mintlify validate
+```
+
+**Object pages (optional):** to add a Stripe-style "The X object" page at the top of a resource group, create `api-reference/<tag-kebab>/the-<x>-object.mdx` with only frontmatter, then list its path as the first entry of that group:
+
+```mdx
+---
+title: "The add-on object"
+description: "Fields returned for an add-on by the Flexprice API"
+openapi-schema: AddonResponse
+---
+```
+
+`openapi-schema` names a schema under `components.schemas` in `openapi.json`; Mintlify renders its fields and a JSON example. None exist today.
+
+---
+
 ## Validation Commands
 
-Run these **before opening a PR**. Both use Node 22 (mintlify does not support Node 25+).
+Run these **before opening a PR**. The same two checks run in CI on every pull request (`.github/workflows/docs-checks.yml`: `mint validate` then `mint broken-links`, on Node 22), together with the API sidebar check in `sync-api-nav.yml`. All three are read-only and must be green before merge. Both use Node 22 (mintlify does not support Node 25+).
 
 ### Check for broken links
 
@@ -281,7 +347,7 @@ PATH="/opt/homebrew/opt/node@22/bin:$PATH" \
 ```
 
 - Confirms `docs.json` is valid, all referenced pages exist, and no structural errors
-- Pre-existing warning: `Invalid import path react in /components/Callout.tsx` — this is a known upstream issue, ignore it
+- Must exit 0 with `success build validation passed`; any warning fails CI
 
 ### Dev server (visual check)
 
@@ -321,10 +387,11 @@ The `.claude/launch.json` in this repo is configured to use this exact path. Use
 - [ ] File is in the right directory (`docs/<section>/`)
 - [ ] Frontmatter has `title` and `description`
 - [ ] Page is added to `docs.json` in the correct group
+- [ ] If `api-reference/openapi.json` changed, `python3 scripts/sync-api-nav.py --check` passes (see "API Reference Navigation")
 - [ ] No em dashes: `grep -n "—" docs/path/to/page.mdx` returns nothing
 - [ ] No `<Frame>` blocks reference images that don't exist in the repo
 - [ ] `mint broken-links` passes with no new errors
-- [ ] `mint validate` passes (the pre-existing `Callout.tsx` warning is acceptable)
+- [ ] `mint validate` passes with no warnings
 - [ ] Dev server renders the page correctly (check heading hierarchy, code block syntax, table alignment)
 - [ ] Internal links use `/docs/...` paths (not relative `../` paths)
 
@@ -332,4 +399,4 @@ The `.claude/launch.json` in this repo is configured to use this exact path. Use
 
 ## Known Pre-Existing Issues (Do Not Fix Unless Asked)
 
-- **`components/Callout.tsx` react import warning** — flagged by `mint validate`, pre-existing, not fixable from docs content.
+- None at the moment. The old `components/Callout.tsx` react-import warning was removed on 2026-09-18 (the unused `import React` line was dropped), so `mint validate` must exit 0. A new warning means something in the change under review.

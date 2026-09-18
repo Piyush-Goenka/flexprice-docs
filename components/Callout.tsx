@@ -1,6 +1,5 @@
-import React from 'react';
 
-export default function Callout({ children }: { children: React.ReactNode }) {
+export default function Callout({ children }) {
   return (
     <div style={{ 
       backgroundColor: '#f6f8fa', 
