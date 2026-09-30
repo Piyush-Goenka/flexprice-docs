@@ -165,6 +165,8 @@ import requests
 </CodeGroup>
 ```
 
+Every fence declares a language. For content that is not code, use `http` for request lines and header snippets (`POST /v1/events`, `x-api-key: ...`) and `text` for CLI output, folder trees, ASCII diagrams, formulas and bare URLs.
+
 ### Tables
 
 ```mdx
@@ -187,9 +189,11 @@ Use `horizontal={true}` for inline card links at the bottom of a page.
 
 ```mdx
 <Frame>
-  ![Alt text](/images/docs/Section/Page/image.png)
+  ![Create Wallet form with the wallet name, currency and credit type](/images/docs/Section/Page/image.png)
 </Frame>
 ```
+
+Alt text says what the screenshot shows (the screen and its key fields or values), never empty and never a bare label like "Wallet Form".
 
 Only include `<Frame>` blocks when actual screenshots exist in the repo at the referenced path. **Do not include placeholder image references** — broken image links will fail the `mint broken-links` check.
 
@@ -383,6 +387,7 @@ The `.claude/launch.json` in this repo is configured to use this exact path. Use
 - [ ] Every renamed, moved or deleted page file has a redirect in `redirect.json`
 - [ ] No em dashes: `grep -n "—" docs/path/to/page.mdx` returns nothing
 - [ ] No `<Frame>` blocks reference images that don't exist in the repo
+- [ ] Every image has descriptive alt text and every code fence declares a language
 - [ ] `mint broken-links` passes with no new errors
 - [ ] `mint validate` passes (the pre-existing `Callout.tsx` warning is acceptable)
 - [ ] Dev server renders the page correctly (check heading hierarchy, code block syntax, table alignment)
