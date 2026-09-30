@@ -23,7 +23,7 @@ Expressions are written in **CEL** (Common Expression Language). They are valida
 
 For each event, Flexprice reads the top-level properties in `event.properties`, evaluates your expression against them, and treats the result as that event's quantity. The chosen aggregation (SUM / AVG / MAX / LATEST) then runs over those per-event quantities.
 
-```
+```text
 per_event_quantity = evaluate(expression, event.properties)
 feature_value      = aggregate(per_event_quantity across events)
 ```

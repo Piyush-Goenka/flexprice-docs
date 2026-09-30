@@ -147,7 +147,7 @@ When **Group By** is also set (a single property name string), within **each tim
 ```
 
 ### Bucketed MAX Formula
-```
+```text
 total_result = MAX(bucket_1) + MAX(bucket_2) + ... + MAX(bucket_n)
 ```
 Where each bucket represents a time window defined by `bucket_size`.
@@ -225,7 +225,7 @@ Where each bucket represents a time window defined by `bucket_size`.
 ```
 
 #### Bucketed MAX with group_by Formula
-```
+```text
 total_result = sum over buckets of ( MAX(group_1 in bucket) + MAX(group_2 in bucket) + ... + MAX(group_n in bucket) )
 ```
 Within each time bucket, events are grouped by the `group_by` property; each group’s maximum is taken, then summed. Those per-bucket sums are then added together.

@@ -68,13 +68,13 @@ Each threshold consists of two components:
 The system enforces proper ordering of thresholds based on the condition:
 
 **For "below" condition** (monitoring real-time ongoing-balance depletion):
-```
+```text
 Critical < Warning < Info
 ```
 Example: Critical: \$0, Warning: \$10, Info: \$20
 
 **For "above" condition** (monitoring usage/spending):
-```
+```text
 Critical > Warning > Info
 ```
 Example: Critical: \$1000, Warning: \$500, Info: \$100
@@ -263,7 +263,7 @@ State transitions are unidirectional based on threshold crossings. The system ne
 
 When an alert threshold is breached, the system sends a webhook with the following event type:
 
-```
+```text
 feature.wallet_balance.alert
 ```
 

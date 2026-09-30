@@ -9,7 +9,7 @@ Deep dive into the Bento Collector's internals and optimization.
 
 The collector pipeline has three components:
 
-```
+```text
 Input (Kafka) → Processors (Transform) → Output (Flexprice)
 ```
 
@@ -26,7 +26,7 @@ Events accumulate until either condition is met:
 
 **Example timeline:**
 
-```
+```text
 Time:  0s    0.5s    1s    1.5s    2s
 Event: 1─────2──────3─────4──────5
                                   └─▶ Batch sent (5 events, 2s elapsed)

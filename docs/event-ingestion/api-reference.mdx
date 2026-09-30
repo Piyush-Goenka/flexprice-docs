@@ -7,7 +7,7 @@ This document provides the complete API reference for sending events to Flexpric
 
 ## Base URL
 
-```
+```text
 https://api.cloud.flexprice.io/v1
 ```
 
@@ -15,7 +15,7 @@ https://api.cloud.flexprice.io/v1
 
 All requests require authentication using an API key in the request header:
 
-```
+```http
 x-api-key: <your_api_key>
 ```
 
@@ -31,7 +31,7 @@ Send a single event to Flexprice.
 
 **Headers**:
 
-```
+```http
 Content-Type: application/json
 x-api-key: <your_api_key>
 ```
@@ -71,7 +71,7 @@ Send multiple events in a single request for better performance.
 
 **Headers**:
 
-```
+```http
 Content-Type: application/json
 x-api-key: <your_api_key>
 ```
@@ -462,7 +462,7 @@ function sendEvent() {
 
 When approaching rate limits, responses include headers:
 
-```
+```http
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 50
 X-RateLimit-Reset: 1640995200

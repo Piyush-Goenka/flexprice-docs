@@ -84,7 +84,7 @@ An AI platform sells inference compute at **$2 / vCPU-hour**. They want customer
   </Step>
 
   <Step title="Scenario 1 — Usage exceeds commitment (700 vCPU-hours)">
-    ```
+    ```text
     Overage qty:    700 − 500 = 200 vCPU-hours
     Commitment:     500 vCPU-hours × $2          = $1,000
     Overage:        200 vCPU-hours × ($2 × 1.5)  = $600
@@ -95,7 +95,7 @@ An AI platform sells inference compute at **$2 / vCPU-hour**. They want customer
   <Step title="Scenario 2 — Usage below commitment, true-up enabled (300 vCPU-hours)">
     True-up is enabled so the full commitment is enforced.
 
-    ```
+    ```text
     Shortfall qty:  500 − 300 = 200 vCPU-hours
     Usage cost:     300 vCPU-hours × $2  = $600
     True-up fee:    200 vCPU-hours × $2  = $400
@@ -106,7 +106,7 @@ An AI platform sells inference compute at **$2 / vCPU-hour**. They want customer
   <Step title="Scenario 3 — Usage below commitment, true-up disabled (300 vCPU-hours)">
     Same usage but with true-up turned off. The customer pays only for what they consumed.
 
-    ```
+    ```text
     Usage cost:     300 vCPU-hours × $2  = $600
     Total Invoice:                       = $600
     ```
@@ -160,7 +160,7 @@ A cloud infrastructure company sells GPU compute at **$2 / GPU-hour**. Instead o
   </Step>
 
   <Step title="Hour 1 — Usage exceeds commitment (15 GPU-hours)">
-    ```
+    ```text
     Overage qty:    15 − 10 = 5 GPU-hours
     Commitment:     10 GPU-hours × $2          = $20
     Overage:        5 GPU-hours × ($2 × 1.5)   = $15
@@ -169,7 +169,7 @@ A cloud infrastructure company sells GPU compute at **$2 / GPU-hour**. Instead o
   </Step>
 
   <Step title="Hour 2 — Usage below commitment, true-up kicks in (6 GPU-hours)">
-    ```
+    ```text
     Shortfall qty:  10 − 6 = 4 GPU-hours
     Usage cost:     6 GPU-hours × $2  = $12
     True-up fee:    4 GPU-hours × $2  = $8
@@ -178,14 +178,14 @@ A cloud infrastructure company sells GPU compute at **$2 / GPU-hour**. Instead o
   </Step>
 
   <Step title="Hour 3 — Usage matches commitment exactly (10 GPU-hours)">
-    ```
+    ```text
     Usage cost:     10 GPU-hours × $2 = $20
     Hour 3 charge:                    = $20
     ```
   </Step>
 
   <Step title="Billing period total">
-    ```
+    ```text
     Total:  $35 + $20 + $20 = $75
     ```
   </Step>

@@ -18,7 +18,7 @@ Each line item on a subscription:
 
 Use this when you want to add a charge that wasn't part of the original subscription — for example, an add-on price or a usage meter you've just enabled.
 
-```
+```http
 POST /subscriptions/{id}/line-items
 ```
 
@@ -37,7 +37,7 @@ If the price is usage-based, `quantity` is automatically set to `0` — usage is
 
 Use this to change the pricing or quantity of an existing line item.
 
-```
+```http
 PATCH /subscriptions/{id}/line-items/{line_item_id}
 ```
 
@@ -53,7 +53,7 @@ When you only change metadata or commitment fields, the line item is updated in-
 
 Use this to stop billing for a specific charge.
 
-```
+```http
 DELETE /subscriptions/{id}/line-items/{line_item_id}
 ```
 
@@ -94,7 +94,7 @@ Finds plan prices that do not have a corresponding line item on each active subs
 ### Recommended Sequence for Plan Pricing Changes
 
 **Step 1 — Update plan prices**
-```
+```http
 POST /plans/{id}/prices       ← add new price
 PUT  /plans/{id}/prices/{id}  ← update existing price
 ```
@@ -111,7 +111,7 @@ POST /workflows/search
 If `pagination.total > 0`, a sync is already running. Wait for it before triggering a new one.
 
 **Step 3 — Trigger sync**
-```
+```http
 POST /plans/{id}/sync/subscriptions
 ```
 Response:
@@ -124,7 +124,7 @@ Response:
 ```
 
 **Step 4 — Poll until complete**
-```
+```http
 GET /workflows/{workflow_id}/{run_id}
 ```
 Poll every 30 seconds. Check `status` in the response.
@@ -149,7 +149,7 @@ On `Failed`, call `GET /workflows/{workflow_id}/{run_id}` to review the error co
 
 ### Line Item Start Date
 
-```
+```text
 line_item.start_date = max(
     subscription.start_date,
     price.start_date        (if set),
@@ -161,7 +161,7 @@ The latest of the three applies. Timestamps are stored in UTC, truncated to mill
 
 ### Line Item End Date
 
-```
+```text
 line_item.end_date = request.end_date              (if provided)
                    = subscription.end_date          (if subscription has one)
                    = nil                            (open-ended)

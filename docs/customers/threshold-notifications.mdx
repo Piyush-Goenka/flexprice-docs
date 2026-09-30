@@ -41,12 +41,12 @@ Each threshold is paired with a **condition** that controls which direction trig
 ### Threshold Ordering Rules
 
 **For `below` conditions** (monitoring depletion):
-```
+```text
 Critical < Warning < Info
 ```
 
 **For `above` conditions** (monitoring accumulation):
-```
+```text
 Critical > Warning > Info
 ```
 
@@ -58,7 +58,7 @@ A Warning threshold requires a Critical threshold. You cannot configure Warning 
 
 Alerts transition automatically as values change. Webhooks fire on **every state change** — including recovery back to `ok`.
 
-```
+```text
 ok ──► info ──► warning ──► in_alarm
  ◄──────────────────────────────────
               (recovery)

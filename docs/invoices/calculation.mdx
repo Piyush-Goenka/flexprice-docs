@@ -7,7 +7,7 @@ Every invoice flexprice generates follows the same deterministic sequence. Getti
 
 ## The sequence
 
-```
+```text
 1. Subtotal
    = sum of all line item amounts (usage charges + flat fees)
 
@@ -61,7 +61,7 @@ Wallet credits reduce the amount owed but do **not** reduce the taxable base. Ta
 
 Multiple subscription-level coupons apply sequentially. Each coupon sees the amount remaining after the previous one, not the original subtotal.
 
-```
+```text
 Subtotal:        $100.00
 Coupon A (10%):  - $10.00  -->  running total: $90.00
 Coupon B (10%):  -  $9.00  -->  running total: $81.00
@@ -83,7 +83,7 @@ A subscription-level coupon sees a subtotal that has already been reduced by any
 
 When multiple tax associations apply to the same invoice, each rate is applied to the same taxable amount independently. They do not compound.
 
-```
+```text
 Taxable amount:   $100.00
 State tax (6%):   +  $6.00
 Federal tax (2%): +  $2.00
@@ -94,7 +94,7 @@ Total tax:           $8.00   (not $8.12 from compounding)
 
 If coupons collectively exceed the subtotal, the taxable amount is clamped to zero. Excess discount is not carried forward to the next invoice period.
 
-```
+```text
 Subtotal:      $50.00
 Coupon A:     -$30.00
 Coupon B:     -$30.00

@@ -7,7 +7,7 @@ Updating a plan price changes how it is charged going forward. Depending on what
 
 ## The Update Price API
 
-```
+```http
 PUT /prices/{id}
 ```
 
@@ -122,7 +122,7 @@ POST /workflows/search
 
 **Step 3 — Trigger sync**
 
-```
+```http
 POST /plans/{plan_id}/sync/subscriptions
 ```
 
@@ -137,7 +137,7 @@ Response:
 
 **Step 4 — Poll until complete**
 
-```
+```http
 GET /workflows/{workflow_id}/{run_id}
 ```
 
