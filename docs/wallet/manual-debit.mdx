@@ -65,47 +65,36 @@ The wallet will have 30 credits remaining from the third transaction, plus the u
 
 ## Making a Manual Debit via Dashboard
 
-You can easily debit credits from a customer's wallet through the Flexprice dashboard:
+You can debit credits from a customer's wallet through the Flexprice dashboard:
 
-### Step 1: Navigate to the Wallet
+<Steps>
+  <Step title="Navigate to the wallet">
+    Go to **Customers**, open the customer whose wallet you want to debit, and select the **Wallet** tab.
+  </Step>
 
-- Go to **Billing** in the main navigation
-- Select **Customers** from the billing section
-- Select the customer whose wallet you want to debit
-- Navigate to the **Wallet** tab
+  <Step title="Open Debit wallet">
+    Click **Debit wallet** next to **Top up wallet**.
+    <Frame>
+      ![Wallet tab with the Debit wallet button](/images/docs/wallet/manual-debit/go-to-manual-debit.png)
+    </Frame>
+  </Step>
 
-### Step 2: Access Manual Debit
+  <Step title="Enter the debit details">
+    - **Credits**: the number of credits to remove from the wallet
+    - **Note** (optional): why the credits are being removed
 
-- Click the **three-dot menu (⋮)** in the top right corner of the wallet section
-- Select **Manual Debit** from the dropdown menu
+    Click **Debit** to process the debit.
+    <Frame>
+      ![Debit wallet dialog with the credits to remove and a note](/images/docs/wallet/manual-debit/debit.png)
+    </Frame>
+  </Step>
 
-<Frame>
-  ![Manual Debit Menu](/images/docs/wallet/manual-debit/go-to-manual-debit.png)
-</Frame>
+  <Step title="Verify the transaction">
+    The wallet balance updates, and the debit appears in the **Transactions** table as a negative row.
+  </Step>
+</Steps>
 
-### Step 3: Enter Debit Details
-
-A "Manual Debit" dialog will appear with the following fields:
-
-<Frame>
-  ![Manual Debit Form](/images/docs/wallet/manual-debit/debit.png)
-</Frame>
-
-- **Credits to Deduct**: Enter the number of credits you want to debit from the wallet
-  - The system will show a preview: "$X will be debited from the wallet"
-  
-- **Reference ID (Optional)**: Enter a unique reference ID for this transaction
-  - This serves as the idempotency key to prevent duplicate debits
-  - Useful for linking to invoices, tickets, or other reference systems
-
-- Click **Submit** to process the debit
-
-### Step 4: Verify the Transaction
-
-After submitting:
-- The wallet balance will be updated immediately
-- The debit transaction will appear in the Transactions list
-- You'll see "-X credits" in the transaction history
+The dashboard doesn't ask for an idempotency key. To guard against duplicate debits from your own systems, use the API and send an `idempotency_key`.
 
 ## Making a Manual Debit via API
 

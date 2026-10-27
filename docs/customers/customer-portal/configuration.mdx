@@ -7,31 +7,30 @@ The Customer Portal is configured per tenant and environment. You choose which s
 
 Anything you leave unset falls back to a default, so a tenant that has never touched the configuration still gets a complete portal.
 
-## Settings toggles
+## Dashboard settings
 
-The dashboard exposes the five section-level switches most tenants need. Go to **Settings** and open the **Customer Portal** tab.
+Click your email address at the bottom of the left navigation, select **Settings**, then go to **Customer experience** → **Portal**. The panel edits the same `customer_portal_config` setting that the API writes:
 
-| Toggle | Controls |
-| ------ | -------- |
-| **Show invoices** | The Invoices section, including PDF download and Pay now |
-| **Show wallet balance** | The Credits section, including transaction history and auto top-up |
-| **Show usage** | The Usage section, including charts, breakdown and metric cards. Turning it on also offers **Group and filter usage by properties**. See [Usage by Properties](/docs/customers/customer-portal/usage-properties) |
-| **Show subscriptions** | The subscriptions widget on Overview |
-| **Show payment methods** | Saved card management |
+| Setting | Controls |
+| ------- | -------- |
+| **Sections and tabs** | Every section and its tabs, in portal order. Drag a row to reorder it, and use the eye icon to show or hide it. Hiding a section hides all its tabs, and a tab is only reachable if its section is on |
+| **Cards** | For each tab, which metric cards appear: **Cost**, **Custom** and **Revenue** |
+| **Theme** | The portal's **Primary**, **Secondary** and **Tertiary colour**, as hex codes |
+| **Reset to defaults** | Loads the server's standard layout |
 
-Changes apply to every portal session opened in that environment from the next page load.
+The top of the panel lists what is **Visible to customers**. Click **Save changes** to apply. Changes apply to every portal session opened in that environment from the next page load.
 
-<Frame>![Settings, Customer Portal tab, showing the five portal visibility toggles](/images/docs/customers/customer-portal/customer-portal-settings.png)</Frame>
+The panel doesn't include the options described in [Usage by Properties](/docs/customers/customer-portal/usage-properties).
 
 <Warning>
 **Saving the configuration requires Super Admin**
 
-The portal configuration is stored through the settings API, whose writes are restricted to Super Admin regardless of the `portal:write` permission. A user without it sees the toggles but cannot save.
+The portal configuration is stored through the settings API, whose writes are restricted to Super Admin regardless of the `portal:write` permission. A user without it sees the panel but cannot save.
 </Warning>
 
 ## Configuration schema
 
-For anything beyond the five toggles, write the configuration directly through the settings API under the key `customer_portal_config`.
+For anything the panel doesn't cover, write the configuration directly through the settings API under the key `customer_portal_config`.
 
 ```json
 {

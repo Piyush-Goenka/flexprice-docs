@@ -8,28 +8,28 @@ Line item spend alerts monitor the **usage-based spend of a single line item** o
 ## Configuring via the Dashboard
 
 <Steps>
-  <Step title="Open the subscription for editing">
-    Go to **Billing** → **Subscriptions**, open the subscription, and go to **Edit Subscription**.
+  <Step title="Open the contract's charges">
+    In the dashboard, subscriptions are called **contracts** and their line items are **charges**. Open the contract and go to the **Charges** tab.
   </Step>
 
-  <Step title="Open the line item's menu">
-    Find the line item to monitor, click its **three-dot menu (⋮)**, and select **Alert Settings**. It appears alongside **Edit** and **Terminate** for that line item.
+  <Step title="Open the charge's details">
+    Find the usage charge to monitor, click its **⋯** menu, and select **View details**.
     <Frame>
-      ![Open Alert Settings](/images/docs/subscriptions/spend/three-dot-line-items-settings.png)
+      ![Charge menu with View details](/images/docs/subscriptions/spend/charge-view-details-menu.png)
     </Frame>
   </Step>
 
-  <Step title="Enable alerts">
-    Turn **Enable Alerts** on.
+  <Step title="Add alerts">
+    In the **Alerts** section of the charge's details, click **Add alerts**. The section appears on usage charges.
     <Frame>
-      ![Enable Alerts](/images/docs/subscriptions/spend/enable-line-item-alert-settings.png)
+      ![Charge details with the Alerts section and the Add alerts button](/images/docs/subscriptions/spend/charge-alerts-section.png)
     </Frame>
   </Step>
 
   <Step title="Configure thresholds">
-    Set **Threshold Value** for the levels you want (Critical, Warning, Info). Condition is fixed to **Above**. Use **Remove** to drop a level you don't need, then click **Save Changes**.
+    Keep **Alerts on** turned on and choose whether thresholds are measured as **Absolute** amounts or a **Percentage**. Turn on each level you want (**Info**, **Warning**, **Critical**), choose **Rises above** or **Falls below**, and enter the threshold, then click **Add alerts**. At least one level must be set while alerts are on, and a percentage can't exceed 100.
     <Frame>
-      ![Configure thresholds](/images/docs/subscriptions/spend/configure-line-item-alert-settings.png)
+      ![Add alerts dialog with warning and critical thresholds](/images/docs/subscriptions/spend/charge-add-alerts.png)
     </Frame>
   </Step>
 </Steps>
