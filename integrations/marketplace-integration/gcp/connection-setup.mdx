@@ -122,10 +122,10 @@ Flexprice reports usage by authenticating into your GCP project through Workload
 
 ### Using Flexprice Dashboard
 
-You can create a GCP Marketplace connection directly from the Flexprice dashboard under **Integrations → GCP Marketplace**. The dashboard walks you through the same setup script and credentials JSON paste described above, with your Flexprice AWS account ID and role name pre-filled.
+In the left sidebar, click **Integrations**, then click **Connect** on the **GCP Marketplace** card. Enter a **Connection name**, paste the full contents of `flexprice-gcp-creds.json` into **Workload identity credentials**, and click **Connect GCP Marketplace**. Run the setup script from Step 2 first: the sheet only takes the resulting file.
 
 <Frame>
-  ![Connect to GCP Marketplace from the Flexprice dashboard](/images/docs/marketplace/gcp/gcp-connection-setup.png)
+  ![Connect GCP Marketplace sheet with the connection name and the workload identity credentials JSON](/images/docs/marketplace/gcp/connect-gcp-marketplace.png)
 </Frame>
 
 ### API Request

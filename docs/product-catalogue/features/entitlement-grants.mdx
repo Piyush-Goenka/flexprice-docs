@@ -28,10 +28,10 @@ Entitlements are supported at the plan and addon level, with the same fields on 
 
 <Steps>
   <Step title="Open the plan's entitlements">
-    Go to **Product Catalog** and open the plan, then the **Entitlements** section. Click **Add**.
+    Go to **Product catalog** → **Plans** and open the plan. In the **Entitlements** card, click **Add entitlement**.
 
     <Frame>
-      ![Add an entitlement to a plan](/images/docs/product-catalogue/features/entitlement-grants/select-feature.png)
+      ![Add entitlement dialog with the feature list open](/images/docs/product-catalogue/features/entitlement-grants/select-feature.png)
     </Frame>
   </Step>
 
@@ -52,7 +52,7 @@ Entitlements are supported at the plan and addon level, with the same fields on 
     </Note>
 
     <Frame>
-      ![Configure an entitlement grant](/images/docs/product-catalogue/features/entitlement-grants/add-entitlement.png)
+      ![Add entitlement dialog with 100,000 tokens each hour and Advanced open on Window starts and Stacking](/images/docs/product-catalogue/features/entitlement-grants/grant-allowance.png)
     </Frame>
   </Step>
 
@@ -65,7 +65,7 @@ Entitlements are supported at the plan and addon level, with the same fields on 
   </Step>
 
   <Step title="Save">
-    Click **Add**, then save the plan. The value applies to every customer on the plan, now and on every later subscription.
+    Click **Create entitlement**. The value applies to every customer on the plan, now and on every later subscription.
   </Step>
 </Steps>
 
@@ -143,34 +143,23 @@ Usage is measured against the window's own time range, not accumulated as events
 
 ## Viewing Usage and Windows
 
-A customer's **Entitlements** table lists what they hold and how much of it they have spent.
+The **Entitlements** card on a customer's page lists what they hold and how much of it they have spent.
 
 <Frame>
-  ![Entitlements on a customer, with values, stacking and usage](/images/docs/product-catalogue/features/entitlement-grants/entitlements-table.png)
+  ![Entitlements on a customer, with source, value, reset date and usage](/images/docs/product-catalogue/features/entitlement-grants/entitlements-table.png)
 </Frame>
 
 | Column | Shows |
 |---|---|
-| Feature | The metered feature the allowance is on |
+| Feature | The feature the allowance is on |
 | Source | Where the allowance comes from: the plan, an addon, or the subscription itself when it was edited there |
-| Value | The allowance and its cadence, such as `100,000 / hour` or `50 / billing period`, or `Unlimited` |
-| Mode | `Additive` or `Parallel` |
-| Measure | `Quantity` or `Amount` |
-| Usage | Consumption against the live allowance |
+| Value | The allowance and its cadence, such as `500 / monthly`, marked `(soft)` for a soft limit, or `Unlimited` |
+| Resets | When the allowance next resets |
+| Usage | Consumption against the allowance, labelled **Soft limit** or **Unlimited** where they apply |
 
-A parallel feature gets one row per budget, since no single pair of numbers describes them together. In the example above, Image Generations carries 500 per day from the Pro plan and 5,000 per week from the Token Booster addon, each metering the same usage on its own clock.
+A parallel feature gets one row per budget, since no single pair of numbers describes them together. For example, a feature with 500 per day from a plan and 5,000 per week from an addon shows two rows, each metering the same usage on its own clock.
 
-Selecting a row opens **Grants**, the ledger of windows behind that number.
-
-<Frame>
-  ![The grants ledger for a feature, one row per window](/images/docs/product-catalogue/features/entitlement-grants/grants-ledger.png)
-</Frame>
-
-| Status | Meaning |
-|---|---|
-| Active | Open now, with quota left |
-| Exhausted | The value was fully used before the window ended (hover the status to see when it was crossed) |
-| Closed | The window ended without the quota being reached |
+The dashboard doesn't list a feature's individual windows. Read them over the API, as described below.
 
 ### Reading Windows Over the API
 

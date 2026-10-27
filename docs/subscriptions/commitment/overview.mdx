@@ -19,13 +19,25 @@ When a commitment is configured on a subscription line item:
 
 ## Steps to Add a Commitment
 
-1. Click **Add Subscription**.
-2. Scroll to the **Commitment & Overage** section.
-3. Set the commitment amount and overage factor.
+In the dashboard, subscriptions are called **contracts**.
 
-<Frame>
-   ![Defining Commitment](/images/docs/subscriptions/commitment/commitment.png)
-</Frame>
+<Steps>
+  <Step title="Start a new contract">
+    Go to **Contracts** and click **New contract**. Choose the customer and plan, then click **Next** until you reach the **Commitments & benefits** step.
+  </Step>
+
+  <Step title="Set the commitment">
+    In the **Contract commitment** card, enter the **Commitment amount** and the **Overage factor**. **Commitment period** defaults to the billing period. A commitment on a single charge is set on that charge instead, in the **Charges & add-ons** step.
+
+    <Frame>
+      ![Contract commitment card with a commitment amount and overage factor](/images/docs/subscriptions/commitment/contract-commitment.png)
+    </Frame>
+  </Step>
+
+  <Step title="Create the contract">
+    Click **Next** through the **Billing** step, review the contract, and click **Create contract**.
+  </Step>
+</Steps>
 
 ## Understanding True-Up
 
@@ -40,14 +52,19 @@ True-up ensures the customer pays the full commitment even when actual usage fal
 
 ### Steps to Add True-Up
 
-1. Click **Add Subscription**.
-2. Scroll to the **Commitment & Overage** section.
-3. Set the commitment amount and overage factor.
-4. Enable true-up using the toggle.
+<Steps>
+  <Step title="Set the commitment">
+    Follow the [steps above](#steps-to-add-a-commitment) to reach the **Contract commitment** card, and set the **Commitment amount** and **Overage factor**.
+  </Step>
 
-<Frame>
-   ![Enabling True-Up](/images/docs/subscriptions/commitment/true-up-enabled.png)
-</Frame>
+  <Step title="Turn on true-up">
+    Turn on **True-up**, then finish creating the contract.
+
+    <Frame>
+      ![Contract commitment card with true-up turned on](/images/docs/subscriptions/commitment/contract-commitment-true-up.png)
+    </Frame>
+  </Step>
+</Steps>
 
 ## Time-of-Day Commitment Buckets
 
