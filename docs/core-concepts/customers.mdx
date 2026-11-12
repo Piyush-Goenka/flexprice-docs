@@ -1,5 +1,5 @@
 ---
-title: "Provision a Customer"
+title: "How to Provision a Customer"
 sidebarTitle: "Customers"
 description: "Create Flexprice customers whose External IDs match your usage events, keep signup independent of Flexprice, and set the fields billing depends on"
 ---
@@ -7,7 +7,7 @@ description: "Create Flexprice customers whose External IDs match your usage eve
 A customer is the account Flexprice bills. Its External ID is the value your usage events carry in `external_customer_id`, and a subscription to one of your plans turns the customer's usage into invoices. If the External ID differs from the value in your events, even only in letter case, that usage never reaches the customer's invoices. Creating customers inside your signup request also puts Flexprice in your signup path.
 
 <Info>
-  Create customers with the [Create customer](/api-reference/customers/create-customer) endpoint or from **Customers** under **Billing** in the dashboard, and look one up with [Get customer by external ID](/api-reference/customers/get-customer-by-external-id). For a dashboard walk-through, see [Creating a customer](/docs/customers/create).
+  Create customers with the [Create customer](/api-reference/customers/create-customer) endpoint or from **Customers** under **Billing** in the dashboard, and look one up with [Get customer by external ID](/api-reference/customers/get-customer-by-external-id). For a dashboard walk-through, see [Create a Customer](/docs/customers/create).
 </Info>
 
 ## Choosing an External ID for each customer
@@ -46,7 +46,7 @@ These fields decide which usage reaches the customer, what its invoices show, ho
 Set these before you subscribe the customer:
 
 - **Timezone.** A subscription copies the customer's `timezone` at creation and ignores any `timezone` in the subscription request. Changing the customer's timezone later affects only new subscriptions. With calendar billing, periods start at local midnight, so a customer in India left on `UTC` gets periods that start at 05:30 local time.
-- **Tax.** Unless you send `tax_rate_overrides`, a new customer gets your tenant's auto-applied tax rates, and each new subscription gets the customer's. A rate added to your tenant later doesn't reach existing customers. `tax_treatment` is read for every invoice, and `exempt` zeroes the tax. See [Tax exempt customers](/docs/product-catalogue/taxes/overview#tax-exempt-customers).
+- **Tax.** Unless you send `tax_rate_overrides`, a new customer gets your tenant's auto-applied tax rates, and each new subscription gets the customer's. A rate added to your tenant later doesn't reach existing customers. `tax_treatment` is read for every invoice, and `exempt` zeroes the tax. See [Tax exempt customers](/docs/taxes/overview#tax-exempt-customers).
 - **Billing currency.** Leave `billing_currency` empty to invoice in the subscription's currency. When it's set, each invoice is converted at finalization, and an invoice whose currency pair has no exchange rate stays in draft. Setting it later needs an exchange rate for each active, trialing, or paused subscription and each active wallet in another currency.
 
 ## Creating customers without blocking signup
@@ -122,7 +122,7 @@ Customers have no parent field. Create each child account as its own customer, a
 - On the parent's subscription, `external_customer_ids_to_inherit_subscription` lists the children whose usage rolls up into the parent's subscription and invoice.
 - On a customer's own subscription, `invoicing_customer_external_id` sends its invoices to another customer, the payer.
 
-The parent's subscription is rejected unless each child already exists, sits under no other parent, and has no active, trialing, or draft subscription of its own. See [Customer Hierarchy](/docs/subscriptions/customer-hierarchy).
+The parent's subscription is rejected unless each child already exists, sits under no other parent, and has no active, trialing, or draft subscription of its own. See [Customer Hierarchy](/docs/customers/customer-hierarchy).
 
 ## Deleting a customer that has subscriptions or wallets
 
@@ -139,10 +139,10 @@ The parent's subscription is rejected unless each child already exists, sits und
   <Card title="Customers" icon="users" href="/docs/customers/overview">
     What a customer represents in Flexprice.
   </Card>
-  <Card title="Creating a Customer" icon="user-plus" href="/docs/customers/create">
+  <Card title="Create a Customer" icon="user-plus" href="/docs/customers/create">
     Add a customer and its billing details from the dashboard.
   </Card>
-  <Card title="Customer Hierarchy" icon="sitemap" href="/docs/subscriptions/customer-hierarchy">
+  <Card title="Customer Hierarchy" icon="sitemap" href="/docs/customers/customer-hierarchy">
     Roll child usage up to a parent, or bill a separate payer.
   </Card>
   <Card title="Customer Timezones" icon="globe" href="/docs/customers/timezone-aware-billing">

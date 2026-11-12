@@ -1,5 +1,6 @@
 ---
-title: "AI Cost Tracking"
+title: "What Is AI Cost Tracking?"
+sidebarTitle: "AI Cost Tracking"
 description: "Turn fragmented AI spend across gateways, clouds, and SaaS into one metered, priced, and governed view — internal cost by team, user, and application, plus customer-level cost and margin."
 ---
 
@@ -31,10 +32,10 @@ Flexprice acts as a single point of AI usage ingestion. Once usage flows in, eve
 - **Start from base model pricing** — Flexprice maintains a **public model pricing repository, refreshed daily**, so cost is computed out of the box for popular providers and models with no manual price setup.
 - **Or customise costing for negotiated pricing** — override the base catalog with your committed or BYOK rates per provider, model, or customer, and apply markup when you resell.
 - **Set spend alerts and limits, and optionally fund wallets with preloaded credits** — configure `info` → `warning` → `critical` thresholds on balances and usage, and give teams or customers a prepaid credit balance to draw down. See [Alerts and Notifications](/docs/customers/threshold-notifications).
-- **Model your full org hierarchy** — represent organizations, workspaces, teams, and users with both individual and consolidated limits and rollups, sharing wallets where you need to. See [Customer Hierarchy](/docs/subscriptions/customer-hierarchy).
+- **Model your full org hierarchy**: represent organizations, workspaces, teams, and users with both individual and consolidated limits and rollups, sharing wallets where you need to. See [Customer Hierarchy](/docs/customers/customer-hierarchy).
 
 <Note>
-AI Cost Tracking builds directly on Flexprice's core metering primitives. Usage arrives through the same [event ingestion](/docs/core-concepts/send-usage-events) pipeline, is measured with [features and aggregations](/docs/product-catalogue/features/overview), and is governed with [wallets](/docs/wallet/prepaid-and-promotional) and [alerts](/docs/customers/threshold-notifications). There is nothing new to learn if you already use Flexprice.
+AI Cost Tracking builds directly on Flexprice's core metering primitives. Usage arrives through the same [event ingestion](/docs/core-concepts/send-usage-events) pipeline, is measured with [features and aggregations](/docs/features/overview), and is governed with [wallets](/docs/wallet/prepaid-and-promotional) and [alerts](/docs/customers/threshold-notifications). There is nothing new to learn if you already use Flexprice.
 </Note>
 
 ## Architecture
@@ -50,7 +51,7 @@ Two ingestion paths cover every source:
 - **Flexprice Collector** — a lightweight, [Bento](/docs/collectors/overview)-based collector you can run in your own infrastructure. Best for **real-time push** sources (such as LiteLLM webhooks) and for data that must stay inside your network.
 - **Managed pull** — Flexprice runs scheduled, credential-based pulls for sources reachable by API, SQL, or object storage (such as Langfuse, Databricks, Snowflake, and Bedrock logs). You paste credentials; there is **nothing to deploy**.
 
-Either way, every source is normalised to the same standardised AI usage event, so metering, pricing, alerts, and analytics work identically regardless of where usage originated. The next page, [Ingesting AI Usage](/docs/ai-cost-tracking/ingesting-ai-usage), covers this in depth.
+Either way, every source is normalised to the same standardised AI usage event, so metering, pricing, alerts, and analytics work identically regardless of where usage originated. The next page, [Ingest AI Usage](/docs/ai-cost-tracking/ingesting-ai-usage), covers this in depth.
 
 ### Communication back to your systems
 
@@ -67,13 +68,13 @@ Start with **soft** alerting (webhooks and notifications) to build confidence, t
 </Tip>
 
 <CardGroup cols={2}>
-  <Card title="Ingesting AI Usage" icon="plug" href="/docs/ai-cost-tracking/ingesting-ai-usage">
+  <Card title="Ingest AI Usage" icon="plug" href="/docs/ai-cost-tracking/ingesting-ai-usage">
     The standardised event, connector types, and per-source mechanics.
   </Card>
   <Card title="Alerts and Notifications" icon="bell" href="/docs/customers/threshold-notifications">
     Configure spend thresholds and webhook delivery.
   </Card>
-  <Card title="Customer Hierarchy" icon="sitemap" href="/docs/subscriptions/customer-hierarchy">
+  <Card title="Customer Hierarchy" icon="sitemap" href="/docs/customers/customer-hierarchy">
     Model orgs, teams, and users with shared and consolidated limits.
   </Card>
   <Card title="Wallets and Credits" icon="wallet" href="/docs/wallet/prepaid-and-promotional">

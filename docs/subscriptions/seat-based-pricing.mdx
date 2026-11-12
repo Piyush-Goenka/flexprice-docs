@@ -1,5 +1,6 @@
 ---
-title: "Seat-Based Pricing"
+title: "How to Set Up Seat-Based Pricing"
+sidebarTitle: "Seat-Based Pricing"
 description: "Bill customers per user, seat, or license. Set quantity at subscription creation and adjust it at any time with optional future-dating."
 ---
 
@@ -461,9 +462,9 @@ You can manage seat counts in the Flexprice dashboard without touching the API. 
 | Decrease seats at the end of the current period | `POST /subscriptions/{id}/modify/execute` with `effective_date` = start of next period |
 | Preview billing impact before changing seats | `POST /subscriptions/{id}/modify/preview` |
 | Require payment before the seat increase applies | `POST /subscriptions/{id}/modify/execute` with a `checkout` object - see [Pay-First Checkout](/docs/checkout/pay-first-checkout) |
-| Change seats and also change the plan tier | Use [Upgrade & Downgrade](/docs/subscriptions/upgrade-and-downgrade) |
-| Give one customer a different per-seat rate | Use [Plan Price Overrides](/docs/subscriptions/plan-price-overrides) with an `amount` override |
-| Track seat usage via events (identity-linked) | Use a metered feature with `COUNT_UNIQUE` aggregation - see [Features](/docs/product-catalogue/features/overview) |
+| Change seats and also change the plan tier | Use [Upgrade and Downgrade](/docs/subscriptions/upgrade-and-downgrade) |
+| Give one customer a different per-seat rate | Use [Plan Price Overrides](/docs/product-catalogue/price-overrides/plan-price-overrides) with an `amount` override |
+| Track seat usage via events (identity-linked) | Use a metered feature with `COUNT_UNIQUE` aggregation - see [Features](/docs/features/overview) |
 
 
 ## Edge Cases & Gotchas
@@ -493,9 +494,9 @@ Targeting a line item before it starts or after it ends returns a validation err
 ## Related Topics
 
 - [Creating Subscriptions](/docs/subscriptions/customers-create-subscription)
-- [Plan Price Overrides](/docs/subscriptions/plan-price-overrides)
-- [Subscription Line Item Overrides](/docs/subscriptions/subscription-line-item-overrides)
-- [Understanding Proration](/docs/subscriptions/understanding-proration)
-- [Upgrade & Downgrade](/docs/subscriptions/upgrade-and-downgrade)
+- [Plan Price Overrides](/docs/product-catalogue/price-overrides/plan-price-overrides)
+- [Subscription Line Item Overrides](/docs/product-catalogue/change-pricing/subscription-line-item-overrides)
+- [Proration](/docs/subscriptions/understanding-proration)
+- [Upgrade and Downgrade](/docs/subscriptions/upgrade-and-downgrade)
 - [Pay-First Checkout](/docs/checkout/pay-first-checkout)
 - [Plan Pricing Models](/docs/product-catalogue/plans/pricing)

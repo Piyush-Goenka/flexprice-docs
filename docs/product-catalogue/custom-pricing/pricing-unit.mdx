@@ -1,69 +1,51 @@
 ---
-title: "Pricing unit"
-description: "This feature allows you to create and use your own currency in Flexprice. With create Price Units, add them to plans and wallets in custom currency."
+title: "What Is a Pricing Unit?"
+sidebarTitle: "Pricing Unit"
+description: "Create a price unit such as credits, price plan charges and wallets in it, and let Flexprice convert the amounts to the unit's base currency"
 ---
 
-**Custom pricing** allows you to price features using your own unit (such as credits) instead of only standard currencies like USD or EUR.
+A pricing unit lets you price a charge in a unit of your own, such as credits or tokens, instead of a standard currency like USD or EUR. You set and show the price in the unit, for example 10 credits a month, and Flexprice converts the amount to the unit's base currency for billing. Accounting stays in one currency even though the charge reads in credits.
 
+<Note>
+  A pricing unit is not a [custom currency](/docs/product-catalogue/custom-pricing/custom-currency). A pricing unit applies to the single price or wallet that names it, and the price converts when it is created. A custom currency is defined once for the environment, and amounts stay in it until the invoice. To choose between them, see [Custom Pricing Use Cases](/docs/product-catalogue/custom-pricing/use-cases).
+</Note>
 
-### What is custom currency?
+## How conversion works
 
-**Custom currency** is pricing in your own unit (such as credits) instead of a standard money currency like USD or EUR. You set and show prices in that unit-for example, "10 credits per month"-and **Flexprice converts those amounts to your base currency (e.g. USD) for billing**, This ensures a consistent currency for accounting, even though the feature is shown in credits.
-
----
-
-## How it works internally
-
-All billing calculations are performed using the pricing unit’s base currency (for example, USD). Amounts are defined and displayed in the **pricing unit** (e.g. credits), Conversion happens only at price or wallet creation; Flexprice uses the base currency for all calculations. In other words: input and display use the pricing unit; computation, persistence, and invoicing use base currency.
-
-
-Conversion uses the formula **amount in your unit × conversion_rate = amount in base currency**. Rounding and precision (e.g. two decimals for USD, zero for JPY) are applied only when **invoice charges are computed**, not at conversion or when creating prices or price units.
-
-
-Wallet balance is always shown in **base currency and credits**, whether the wallet was created with fiat or a custom price unit. Flexprice **stores and bills** everything in the base currency (e.g. USD).
-
----
-
-## Using custom currency
-
-1. **Create** a Price Unit (dashboard or API, below).
-2. **Use in plans** — add charges or create prices in your unit; see [Use cases](/docs/product-catalogue/custom-pricing/use-cases#use-custom-currency-in-plans-and-prices).
-3. **Use in wallets** — create a wallet in your unit; see [Use cases](/docs/product-catalogue/custom-pricing/use-cases).
-
----
-
-## Use cases
-
-- **Credits or tokens** - Sell in credits or tokens; show balance and charges in that unit while billing and storing in base currency (e.g. USD).
-- **Multi-currency display, single-currency billing** - Present prices in a custom unit per region or product while retaining one base currency for accounting and payouts.
-
----
-
-## Concepts and terminology
-
-**Custom currency / Price Unit** - Your own pricing unit (e.g. credits) used instead of fiat currency. Defined once as a Price Unit and reused across plans, prices, and wallets, with automatic conversion to the base currency for billing.
-
-| Field | Description |
-|-------|-------------|
-| **code** | **3-character** identifier (e.g. `CRD`, `TOK`, `fpc`) used when referencing the unit in a price or wallet. Must be unique per environment when Active. |
-| **symbol** | Display symbol shown in the UI and on invoices (e.g. ¢, ==). |
-| **base_currency** | The standard currency the unit is pegged to (e.g. `usd`). All billing and storage use this currency. |
-| **conversion_rate** | Multiplier from the custom unit to base currency. |
-
-**Conversion formula**
+All billing calculations use the pricing unit's base currency, for example USD. You enter and see amounts in the pricing unit; Flexprice computes, stores, and invoices in the base currency. A price converts once, when it is created:
 
 ```text
 amount in your unit × conversion_rate = amount in base currency
 ```
 
-**Example:** If 1 credit = 0.01 USD, set `conversion_rate = "0.01"`. Then 100 credits = 1.00 USD.
+Rounding to the currency's precision (two decimals for USD, zero for JPY) is applied only when invoice charges are computed, not when a price or price unit is created.
 
-**Price unit types: FIAT vs CUSTOM**
+A wallet created with a price unit takes the unit's base currency and conversion rate. Its balance shows in the base currency and in credits, like any other wallet.
 
-- **FIAT** - Amounts are in a standard currency (USD, EUR, etc.). No conversion is applied.
-- **CUSTOM** - Amounts are in a Price Unit. Flexprice converts to base currency for billing; you configure and display values in the custom unit.
+## Use cases
 
----
+- **Credits or tokens:** sell in credits or tokens, and show charges in that unit while billing in the base currency.
+- **One unit across regions, one billing currency:** present prices in a unit of your own while keeping one base currency for accounting and payouts.
+
+For step-by-step examples in the dashboard and the API, see [Pricing unit use cases](/docs/product-catalogue/custom-pricing/use-cases#pricing-unit-use-cases).
+
+## Price unit fields
+
+| Field | Description |
+|-------|-------------|
+| **code** | Three-character identifier, such as `CRD` or `TOK`, used when a price or wallet references the unit. Codes are case-sensitive and must be unique per environment while the unit is active. |
+| **symbol** | Display symbol shown in the UI and on invoices, such as ¢. |
+| **base_currency** | The standard currency the unit is pegged to, such as `usd`. All billing and storage use this currency. |
+| **conversion_rate** | What one unit is worth in the base currency. |
+
+**Example:** if 1 credit is worth 0.01 USD, set `conversion_rate` to `"0.01"`. Then 100 credits are 1.00 USD.
+
+**Price unit types: FIAT and CUSTOM**
+
+Every price sets `price_unit_type`:
+
+- **FIAT:** amounts are in the price's `currency`, with no conversion. Prices in a custom currency also use `FIAT`.
+- **CUSTOM:** amounts are in a price unit, set in `price_unit_config`. Flexprice converts them to the unit's base currency.
 
 ## Create a Price Unit (dashboard)
 
@@ -73,32 +55,17 @@ amount in your unit × conversion_rate = amount in base currency
   </Step>
 
   <Step title="Fill in the details">
-    Enter **Name**, **Code** (three characters, such as CRD), **Symbol**, **Base currency**, and **Conversion rate**, then click **Create price unit**.
-    Example: 100 units = 1 USD → use conversion rate **0.01**.
+    Enter **Name**, **Code** (three characters, such as CRD), **Symbol**, **Base currency**, and **Conversion rate**, then click **Create price unit**. For 100 units to 1 USD, use a conversion rate of **0.01**.
   </Step>
-
 </Steps>
 
 <Frame>
   ![Create price unit form with a name, code, symbol, USD base currency, and a 0.01 conversion rate](/images/docs/product-catalogue/custom-pricing/create-custom-pricing.png)
 </Frame>
 
----
-
 ## Create a Price Unit (API)
 
-<Steps>
-  <Step title="Call the create endpoint">
-    Send `POST /v1/prices/units` with a JSON body (you can see example below).
-  </Step>
-
-  <Step title="Send the required fields">
-    Include **name**, **code**, **symbol**, **base_currency**, and **conversion_rate**. Optionally **metadata**.
-  </Step>
-
-</Steps>
-
-**Example request**
+Send `POST /v1/prices/units` with **name**, **code**, **symbol**, **base_currency**, and **conversion_rate**, and optionally **metadata**:
 
 ```json
 {
@@ -111,72 +78,8 @@ amount in your unit × conversion_rate = amount in base currency
 }
 ```
 
-Conversion, 100 CRD = 1.00 USD. Base URL options: `https://us.api.flexprice.io/v1` (US), `https://api.cloud.flexprice.io/v1` (India), `https://canada.api.flexprice.io/v1` (Canada), or `https://eu.api.flexprice.io/v1` (EU) (check out the [Create a price unit](/api-reference/price-units/create-price-unit)).
+With this unit, 100 CRD are 1.00 USD. Send the request to your region's base URL: `https://us.api.flexprice.io/v1` (US), `https://api.cloud.flexprice.io/v1` (India), `https://canada.api.flexprice.io/v1` (Canada), or `https://eu.api.flexprice.io/v1` (EU). See [Create a price unit](/api-reference/price-units/create-price-unit) in the API Reference.
 
----
+## Use the unit in plans and wallets
 
-## Use custom currency in plans and prices
-
-You can add charges or create prices in your custom unit from the **dashboard** or via the **API**. In both cases you choose your Price Unit and enter amounts in that unit; Flexprice converts to base currency for billing.
-
-### Dashboard
-
-<Steps>
-  <Step title="Open the plan">
-    Go to **Product catalog** → **Plans** → open the plan you want to edit.
-  </Step>
-
-  <Step title="Add charges in custom currency">
-    In the **Charges** card, click **Add charge**, choose **Fixed** or **Usage**, and click **Continue**. In **Price unit**, select your price unit; **Currency** then follows the unit's base currency. Enter amounts in your unit (e.g. 15 credits/month) and click **Create charge**.
-  </Step>
-</Steps>
-
-For more detail and screenshots, see [Use cases: add charges and wallet](/docs/product-catalogue/custom-pricing/use-cases).
-
-### API
-
-<Steps>
-  <Step title="Set the price to use your unit">
-    In the create-price request (`POST /v1/prices`), set **price_unit_type** to **CUSTOM** and include **price_unit_config**.
-  </Step>
-
-  <Step title="Set price_unit and amount or tiers">
-    In **price_unit_config** set **price_unit** (your unit’s code, e.g. `CRD`). For a fixed amount use **amount**; for tiered pricing use **price_unit_tiers** only (not the top-level **tiers** field).
-  </Step>
-</Steps>
-
-**Example: fixed monthly price in credits**
-
-The request must also include **type** (e.g. `FIXED`), **billing_cadence** (e.g. `RECURRING`), and **invoice_cadence** (e.g. `ADVANCE` or `ARREAR`). Below shows the custom-pricing–relevant fields:
-
-```json
-{
-  "currency": "usd",
-  "price_unit_type": "CUSTOM",
-  "type": "FIXED",
-  "billing_model": "FLAT_FEE",
-  "billing_period": "MONTHLY",
-  "billing_cadence": "RECURRING",
-  "invoice_cadence": "ADVANCE",
-  "entity_type": "PLAN",
-  "entity_id": "your-plan-id",
-  "price_unit_config": {
-    "price_unit": "CRD",
-    "amount": "100.00"
-  }
-}
-```
-
-With `conversion_rate = "0.01"`, 100 CRD = 1.00 USD. Flexprice stores both the custom amount and the base-currency amount and uses base currency for billing.
-
-**Billing models**
-
-| Model | In price_unit_config | Notes |
-|-------|----------------------|--------|
-| FLAT_FEE | **price_unit**, **amount** | Fixed price in your unit. |
-| PACKAGE | **price_unit**, **amount** | **transform_quantity** is required; for usage add **meter_id**. |
-| TIERED | **price_unit**, **price_unit_tiers** | Use **price_unit_tiers** only, not top-level **tiers**. For usage add **meter_id**. |
-
----
-
-Refer to the API Reference and Price Unit documentation. check out the [API Reference](/api-reference/introduction) and the [Price Unit](/api-reference/price-units/list-price-units).
+Once the unit is active, price plan charges in it from the dashboard or with `POST /v1/prices`, and create wallets valued in it with `POST /v1/wallets`. [Pricing unit use cases](/docs/product-catalogue/custom-pricing/use-cases#pricing-unit-use-cases) walks through each one, including the fields every billing model needs. For every price unit endpoint, see [Price Units](/api-reference/price-units/list-price-units) in the API Reference.

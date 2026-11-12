@@ -1,5 +1,5 @@
 ---
-title: "Troubleshooting hub"
+title: "Troubleshooting Hub"
 description: "Start here when a Flexprice integration misbehaves: the symptom-to-cause table, the diagnostic tools, and where each deep-dive lives"
 ---
 
@@ -13,19 +13,19 @@ Most integration problems fall into a handful of shapes, and each has a fast che
 | `403 Forbidden` on some requests | The key's role lacks the permission | [API key roles](/docs/rbac/manage-api#getting-403-forbidden-errors) |
 | `404` on every request | Base URL is missing `/v1` or has a trailing slash | Compare against `https://us.api.flexprice.io/v1` |
 | `404` on one object | Wrong ID, or the object lives in another environment | Keys are bound to one environment; sandbox IDs are invisible to a production key |
-| `400` with a validation message | A required field is missing or an enum value is wrong | Read `error.message`; it names the field. [Error responses](/api-reference/error-responses) |
+| `400` with a validation message | A required field is missing or an enum value is wrong | Read `error.message`; it names the field. [Error Responses](/api-reference/error-responses) |
 | `409 Conflict` | Two writes raced, or the object already exists | Retry the read, or look the object up. Safe to retry |
 | `429 Too Many Requests` | Rate limit | Back off with jitter; batch events with `POST /events/bulk` |
 | Event returns `202` but never shows up | `event_name` does not match a feature exactly, or `external_customer_id` matches no customer | [Usage events not showing up](/docs/event-ingestion/troubleshooting#1-events-not-appearing-in-dashboard), and subscribe to `event.rejected` |
 | Usage number is wrong | Aggregation field name or type mismatch | [Wrong aggregation values](/docs/event-ingestion/troubleshooting#2-wrong-aggregation-values) |
 | Usage shows but the invoice has no charge | Feature is not priced in the plan, or the customer has no subscription | [No charges in billing](/docs/event-ingestion/troubleshooting#3-no-charges-in-billing) |
-| Webhook never arrives | Endpoint not subscribed to that event, or registered in the other environment | Dashboard **Webhooks > Logs**; [Set up an endpoint](/developers/webhooks/set-up-an-endpoint) |
-| Webhook arrives, signature check fails | Handler verifies a re-serialized body instead of the raw bytes | [Signature verification](/developers/webhooks/signature-verification) |
-| Webhook delivered more than once | At-least-once delivery | Dedupe on `svix-id`; [Retries and ordering](/developers/webhooks/retries-and-ordering) |
+| Webhook never arrives | Endpoint not subscribed to that event, or registered in the other environment | Dashboard **Webhooks > Logs**; [Set Up an Endpoint](/developers/webhooks/set-up-an-endpoint) |
+| Webhook arrives, signature check fails | Handler verifies a re-serialized body instead of the raw bytes | [Signature Verification](/developers/webhooks/signature-verification) |
+| Webhook delivered more than once | At-least-once delivery | Dedupe on `svix-id`; [Retries and Ordering](/developers/webhooks/retries-and-ordering) |
 | CLI says `command not found` | Install directory not on `PATH` | [CLI install](/docs/cli/overview#installing-the-flexprice-cli) |
 | CLI exits `3` | Authentication failure | `flexprice whoami`; [CLI authentication](/docs/cli/authentication) |
 | MCP server does not appear or will not log in | Config not saved, client not restarted, or the MCP URL is for the other region | [MCP troubleshooting](/docs/connect/mcp-server#troubleshooting-the-mcp-server) |
-| UI component renders unstyled | Stylesheet not imported, or theme variables set on an ancestor | [Install the UI kit](/developers/frontend/install) |
+| UI component renders unstyled | Stylesheet not imported, or theme variables set on an ancestor | [Install the UI Kit](/developers/frontend/install) |
 
 The auth check, with your key in `$KEY`:
 
@@ -89,11 +89,11 @@ A `200` with an `items` array means the key and region match. If you get `401`, 
 ## Deeper troubleshooting guides
 
 - [Usage events troubleshooting](/docs/event-ingestion/troubleshooting): the long version of every metering problem
-- [Validating events](/docs/event-ingestion/validating-events): what the ingest endpoint checks and what it does not
-- [Error responses](/api-reference/error-responses): every status code and the error body shape
+- [Validate Events](/docs/event-ingestion/validating-events): what the ingest endpoint checks and what it does not
+- [Error Responses](/api-reference/error-responses): every status code and the error body shape
 - [API key troubleshooting](/docs/rbac/manage-api#troubleshooting): keys that stopped working, lost keys, and role errors
 - [MCP server troubleshooting](/docs/connect/mcp-server#troubleshooting-the-mcp-server): connection, login, region, and URL problems
-- [Self-hosting troubleshooting](/docs/getting-started/self-hosting-guide#troubleshooting): containers, migrations, and Kafka
+- [Self-hosting troubleshooting](/docs/self-hosting/overview#troubleshooting): containers, migrations, and Kafka
 
 ## Still stuck?
 

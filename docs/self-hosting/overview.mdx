@@ -1,0 +1,350 @@
+---
+title: "How to Self-Host Flexprice"
+sidebarTitle: 'Self-Hosting Flexprice'
+description: 'Learn how to set up and run Flexprice on your own infrastructure'
+---
+
+You can run Flexprice on your own infrastructure in several ways. We organize self-hosting by **provider** so you can pick the option that fits your environment and add more providers over time.
+
+## Self-hosting options
+
+<CardGroup cols={2}>
+  <Card title="Docker Compose" icon="docker" href="/docs/self-hosting/overview#docker-compose">
+    Run Flexprice locally or on a single server with Docker Compose. Best for development and small deployments.
+  </Card>
+  <Card title="AWS" icon="aws" href="/docs/self-hosting/self-hosting-aws">
+    Deploy Flexprice on AWS with ECS, RDS, MSK, and EKS. Production-ready, scalable setup.
+  </Card>
+</CardGroup>
+
+<Note>
+  This guide covers the backend (API and infrastructure). To run the dashboard UI, see [Self-Hosting the Frontend](/docs/self-hosting/frontend).
+</Note>
+
+---
+
+<span id="docker-compose"></span>
+
+## Docker Compose
+
+The fastest way to run Flexprice on your own machine or a single server is with Docker Compose.
+
+### Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+<Check>
+  [Golang](https://go.dev/) 1.23+
+</Check>
+<Check>
+  [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) (Docker Desktop, OrbStack, or Podman Desktop all work)
+</Check>
+<Check>
+  `make` (pre-installed on macOS/Linux; on Windows use WSL or install via [chocolatey](https://chocolatey.org/packages/make))
+</Check>
+<Check>
+  One of these supported platforms:
+  - Linux-based environment
+  - macOS (Darwin)
+  - WSL under Windows
+</Check>
+
+<Note>
+  You do **not** need `psql`, `kafka-cli`, or any other database client installed locally.
+  All database operations run inside Docker containers via `docker compose exec`.
+</Note>
+
+## Quick Setup with Docker Compose
+
+The easiest way to get started is using our automated setup command:
+
+```bash
+# Clone the repository
+git clone https://github.com/flexprice/flexprice
+cd flexprice
+
+# Set up the complete development environment
+make dev-setup
+```
+
+<Tip>
+  This single command takes care of everything you need to get started:
+  1. Starting all required infrastructure (PostgreSQL, Kafka, ClickHouse, Temporal)
+  2. Building the Flexprice application image
+  3. Running database migrations (PostgreSQL via Ent ORM + ClickHouse) and initializing Kafka topics
+  4. Seeding default tenant and environment data
+  5. Starting all Flexprice services (API, Consumer, Worker)
+</Tip>
+
+### Default API Key
+
+After setup, use the following key to authenticate local API requests:
+
+```
+sk_local_flexprice_test_key
+```
+
+Pass it in the `x-api-key` request header:
+
+```bash
+curl -H "x-api-key: sk_local_flexprice_test_key" http://localhost:8080/v1/customers
+```
+
+<Note>
+  The key is pre-configured in `internal/config/config.yaml`. Entity tables are created
+  entirely by the Ent ORM layer — the Postgres migration files only bootstrap schemas,
+  extensions, and stored functions.
+</Note>
+
+## Accessing Services
+
+Once setup is complete, you can access:
+
+<CardGroup cols={2}>
+  <Card title="Flexprice API" icon="server">
+    http://localhost:8080
+  </Card>
+  <Card title="Temporal UI" icon="clock">
+    http://localhost:8088
+  </Card>
+  <Card title="Kafka UI" icon="message-dots">
+    http://localhost:8084 (requires `--profile dev`)
+  </Card>
+  <Card title="ClickHouse HTTP" icon="database">
+    http://localhost:8123
+  </Card>
+</CardGroup>
+
+<Note>
+  The Kafka UI requires the `dev` profile:
+  ```bash
+  docker compose --profile dev up -d kafka-ui
+  ```
+</Note>
+
+## Useful Commands
+
+Here are some common commands you might need during development:
+
+<Accordion title="Restart Flexprice Services (keep infrastructure running)">
+```bash
+make restart-flexprice
+```
+</Accordion>
+
+<Accordion title="Stop All Services">
+```bash
+make down
+```
+</Accordion>
+
+<Accordion title="Full Clean Start (destroys all data volumes)">
+```bash
+make clean-start
+```
+</Accordion>
+
+<Accordion title="Rebuild and Restart Only Flexprice Services">
+```bash
+make build-image && make restart-flexprice
+```
+</Accordion>
+
+<Accordion title="Re-run Seed Data (idempotent)">
+```bash
+make seed-db
+```
+</Accordion>
+
+## Running Without Docker (API only)
+
+If you prefer to run the application binary directly while keeping infrastructure in Docker:
+
+```bash
+# Start required infrastructure
+docker compose up -d postgres kafka clickhouse temporal temporal-ui
+
+# Run migrations
+make migrate-postgres migrate-clickhouse migrate-ent seed-db init-kafka
+
+# Run the application locally
+go run cmd/server/main.go
+```
+
+## Connection Details
+
+Use these credentials to connect to the various services:
+
+<Accordion title="PostgreSQL">
+  - **Host**: localhost
+  - **Port**: 5432
+  - **Database**: flexprice
+  - **Username**: flexprice
+  - **Password**: flexprice123
+</Accordion>
+
+<Accordion title="ClickHouse">
+  - **Host**: localhost
+  - **Port**: 9000 (native) / 8123 (HTTP)
+  - **Database**: flexprice
+  - **Username**: flexprice
+  - **Password**: flexprice123
+</Accordion>
+
+<Accordion title="Kafka">
+  - **Bootstrap Server**: localhost:29092
+  - **UI**: http://localhost:8084 (requires `--profile dev`)
+</Accordion>
+
+## API Documentation
+
+Flexprice provides comprehensive API documentation in OpenAPI 3.0 format.
+
+### Setting up Postman
+
+1. Open Postman
+2. Click on **Import** in the top left
+3. Select **Import File**
+4. Choose `docs/swagger/swagger-3-0.json`
+5. Click **Import**
+6. Create a new environment for local development:
+   | Variable | Value |
+   |----------|-------|
+   | `baseUrl` | `http://localhost:8080/v1` |
+   | `apiKey` | `sk_local_flexprice_test_key` |
+
+Configure the collection to send `x-api-key: {{apiKey}}` as a header on every request.
+
+## Troubleshooting
+
+If you encounter issues during setup or operation, try these troubleshooting steps:
+
+<Accordion title="Port 8080 already in use">
+  Another process (e.g. a previously running local Flexprice binary) may be bound to port 8080
+  and intercepting requests before Docker's port mapping.
+
+  ```bash
+  # Find and kill the conflicting process
+  lsof -ti :8080 | xargs kill -9
+  ```
+
+  Then restart the API container:
+  ```bash
+  docker compose restart flexprice-api
+  ```
+</Accordion>
+
+<Accordion title="401 Unauthorized on all API calls">
+  The API key in your request does not match the configured key. For local development use:
+
+  ```bash
+  curl -H "x-api-key: sk_local_flexprice_test_key" http://localhost:8080/v1/customers
+  ```
+
+  If you changed the key in `config.yaml`, remember the config stores the **SHA-256 hash** of the
+  raw key, not the key itself. The middleware hashes the incoming key before lookup.
+</Accordion>
+
+<Accordion title="Redis connection refused (log warning)">
+  You may see log lines like:
+
+  ```
+  Failed to create Redis client: dial tcp [::1]:6379: connect: connection refused
+  ```
+
+  This is **non-fatal** for local development. Redis is optional — it powers response caching,
+  which falls back gracefully when unavailable. The API continues to work normally.
+</Accordion>
+
+<Accordion title="Database schema errors on fresh start">
+  All entity tables (`customers`, `plans`, `subscriptions`, etc.) are managed exclusively by the
+  **Ent ORM** migration layer. The Postgres migration files (`migrations/postgres/`) only create:
+
+  - Schemas and the `uuid-ossp` extension (`V0__init.sql`)
+  - Stored functions for invoice/billing sequences (`V2_invoice_sequences.up.sql`)
+
+  If you see `relation does not exist` errors, ensure you ran `make migrate-ent` after starting
+  Postgres:
+
+  ```bash
+  make migrate-ent
+  make seed-db
+  ```
+</Accordion>
+
+<Accordion title="Docker Issues">
+  1. Ensure Docker is running properly:
+  ```bash
+  docker info
+  ```
+
+  2. Check the status of all containers:
+  ```bash
+  docker compose ps
+  ```
+
+  3. View logs for a specific service:
+  ```bash
+  docker compose logs -f flexprice-api
+  docker compose logs -f flexprice-consumer
+  ```
+
+  4. If containers are in a bad state, do a full clean restart:
+  ```bash
+  docker compose down -v
+  make dev-setup
+  ```
+</Accordion>
+
+<Accordion title="Kafka Issues">
+  1. Verify Kafka is running:
+  ```bash
+  docker compose logs kafka
+  ```
+
+  2. Check that all required topics exist:
+  ```bash
+  docker compose exec kafka kafka-topics --bootstrap-server kafka:9092 --list
+  ```
+
+  3. Re-initialize topics if any are missing:
+  ```bash
+  make init-kafka
+  ```
+</Accordion>
+
+<Accordion title="ClickHouse migration errors">
+  ClickHouse migrations use standard `MergeTree` engine for local/single-node compatibility.
+  If you see engine-related errors, ensure you are running the open-source ClickHouse image
+  (not ClickHouse Cloud) as specified in `docker-compose.yml`.
+
+  To re-run ClickHouse migrations:
+  ```bash
+  make migrate-clickhouse
+  ```
+</Accordion>
+
+## Need Help?
+
+If you're still experiencing issues after trying the troubleshooting steps, please:
+
+- Check our [GitHub Issues](https://github.com/flexprice/flexprice/issues) for similar problems
+- Join our [Slack community](https://join.slack.com/t/flexpricecommunity/shared_invite/zt-39uat51l0-n8JmSikHZP~bHJNXladeaQ) for real-time support
+- Contact us at support@flexprice.io
+
+## Additional Resources
+
+<CardGroup cols={2}>
+  <Card title="Contribution Guidelines" icon="code-branch" href="https://github.com/flexprice/flexprice/blob/main/CONTRIBUTING.md">
+    Learn how to contribute to Flexprice
+  </Card>
+  <Card title="API Documentation" icon="book" href="https://docs.flexprice.io/">
+    Explore our API documentation
+  </Card>
+  <Card title="Code of Conduct" icon="heart" href="https://github.com/flexprice/flexprice/blob/main/CODE_OF_CONDUCT.md">
+    Our community guidelines
+  </Card>
+  <Card title="Flexprice Website" icon="globe" href="https://flexprice.io">
+    Visit our official website
+  </Card>
+</CardGroup>

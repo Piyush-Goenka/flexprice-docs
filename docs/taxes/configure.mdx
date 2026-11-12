@@ -1,0 +1,106 @@
+---
+title: "How to Configure Tax Rates"
+sidebarTitle: "Configure Tax Rates"
+description: "Create and manage reusable tax rate definitions in flexprice."
+---
+
+A tax rate is a reusable definition of a percentage you collect. You create it once and reference it by `code` wherever you apply it.
+
+## Create a tax rate
+
+```bash
+curl -X POST https://us.api.flexprice.io/v1/taxes/rates \
+  -H "x-api-key: <API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "US Sales Tax",
+    "code": "TAX_US_CA",
+    "tax_rate_type": "percentage",
+    "percentage_value": "8.25",
+    "description": "California state sales tax"
+  }'
+```
+
+**Response**
+
+```json
+{
+  "id": "txr_01abc123",
+  "name": "US Sales Tax",
+  "code": "TAX_US_CA",
+  "tax_rate_type": "percentage",
+  "percentage_value": "8.25",
+  "tax_rate_status": "active",
+  "description": "California state sales tax",
+  "created_at": "2025-01-15T10:00:00Z"
+}
+```
+
+Required properties:
+
+- The `name` appears on your customer's invoice. Use a short label for the kind of tax, such as `Sales Tax`, `VAT`, or `GST`.
+- The `code` is your unique identifier for the rate. You pass this `code`, not the ID, whenever you link the rate to a customer or subscription.
+- The `percentage_value` is the percentage to collect, between `0` and `100`. Pass it as a string, for example `"8.25"` for 8.25%.
+- The `tax_rate_type` is always `percentage`.
+
+Optional properties:
+
+- The `description` stores notes for your own reference. Your customers do not see it.
+- The `metadata` object stores your own key-value pairs on the rate.
+
+<Warning>
+  The `code` field is immutable. Choose it carefully since it is the key used in
+  all association requests. To rename a code, create a new tax rate and migrate
+  your associations to it.
+</Warning>
+
+A rate on its own collects nothing. It starts applying once you [associate it with a customer or subscription](/docs/taxes/apply), which is also where you decide whether it is inclusive or exclusive.
+
+## List tax rates
+
+```bash
+curl https://us.api.flexprice.io/v1/taxes/rates \
+  -H "x-api-key: <API_KEY>"
+```
+
+## Get a tax rate
+
+```bash
+curl https://us.api.flexprice.io/v1/taxes/rates/<tax_rate_id> \
+  -H "x-api-key: <API_KEY>"
+```
+
+## Update a tax rate
+
+You can update `name`, `description`, and `metadata`. The `code` and `tax_rate_type` fields are immutable.
+
+```bash
+curl -X PUT https://us.api.flexprice.io/v1/taxes/rates/<tax_rate_id> \
+  -H "x-api-key: <API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Updated for 2025 rate change"
+  }'
+```
+
+## Delete a tax rate
+
+A tax rate can only be deleted if it has no active associations and no applied records on existing invoices. To stop applying a tax without losing audit history, delete the association instead of the rate.
+
+```bash
+curl -X DELETE https://us.api.flexprice.io/v1/taxes/rates/<tax_rate_id> \
+  -H "x-api-key: <API_KEY>"
+```
+
+**Error: rate has active associations**
+
+```json
+{
+  "error": "tax_rate_in_use",
+  "message": "Cannot delete a tax rate with active associations. Delete associations first."
+}
+```
+
+## Next step
+
+<Card icon="book-open" horizontal={true} href="/docs/taxes/apply" title="Apply Tax to Customers and Subscriptions" />

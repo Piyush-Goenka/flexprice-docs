@@ -54,7 +54,7 @@ The [pricing glossary](https://exa.ai/docs/reference/pricing) defines one reques
 
 | Exa's pricing uses | Flexprice setup |
 | --- | --- |
-| **Auto Search request count** | A [metered feature](/docs/product-catalogue/features/create) with SUM aggregation on `search_requests` |
+| **Auto Search request count** | A [metered feature](/docs/features/create) with SUM aggregation on `search_requests` |
 | **Additional results above ten per request** | A second SUM meter on upstream-normalized `additional_results` |
 | **Different rates for different units** | Two [flat-fee usage prices](/docs/product-catalogue/plans/billing-models/flat-fee), $0.007 per request and $0.001 per additional result |
 | **Auto Search only** | The same `search_type=auto` filter on both meters |
@@ -152,7 +152,7 @@ Add a second usage-based flat-fee charge to the same plan:
 }
 ```
 
-`FLAT_FEE` here means a constant usage rate, not a fixed subscription fee. Do not add package rounding, a minimum charge, or a monthly allowance of ten results. Add an unlimited [metered entitlement](/docs/product-catalogue/features/linking-to-plans) for **each** feature, then create a customer and a [subscription](/docs/subscriptions/customers-create-subscription) to this plan with quantity **1**. Unlimited access does not make the usage free. No recurring fixed charge or credit grant belongs in this gross-cost example.
+`FLAT_FEE` here means a constant usage rate, not a fixed subscription fee. Do not add package rounding, a minimum charge, or a monthly allowance of ten results. Add an unlimited [metered entitlement](/docs/entitlements/linking-to-plans) for **each** feature, then create a customer and a [subscription](/docs/subscriptions/customers-create-subscription) to this plan with quantity **1**. Unlimited access does not make the usage free. No recurring fixed charge or credit grant belongs in this gross-cost example.
 
 ## Normalize and send usage
 

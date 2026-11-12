@@ -55,7 +55,7 @@ The Pay as You Go card's **Unlimited** bandwidth and command rows do not mean al
 
 | Upstash's pricing uses | Flexprice setup |
 | --- | --- |
-| **Billable Redis commands** | A [metered feature](/docs/product-catalogue/features/create) with SUM aggregation on `billable_commands` |
+| **Billable Redis commands** | A [metered feature](/docs/features/create) with SUM aggregation on `billable_commands` |
 | **$0.20 per 100,000 commands** | A [flat-fee usage charge](/docs/product-catalogue/plans/billing-models/flat-fee) with amount `"0.000002"` per raw command |
 | **One selected paid database and product** | Explicit offering and database filters; route other resources away from this meter |
 | **No free command allowance on paid databases** | Price every recorded billable command, without a free tier, package transform or credit grant |
@@ -124,7 +124,7 @@ Attach the feature as a usage-based flat-fee charge. Substitute the plan ID and 
 
 Here `FLAT_FEE` means one constant **usage rate**, not a fixed monthly subscription fee. Omit package transforms, tiers and minimum quantities. Keep the amount as a decimal string with all six decimal places; rounding it to cents before applying usage would erase the charge.
 
-Add an unlimited [metered entitlement](/docs/product-catalogue/features/linking-to-plans) for this feature, then create a customer and a [subscription](/docs/subscriptions/customers-create-subscription) to the example plan with quantity **1**. The entitlement's billing-period reset is not a recurring free-command grant. Do not add the Free plan's 500K allowance or a separate recurring charge.
+Add an unlimited [metered entitlement](/docs/entitlements/linking-to-plans) for this feature, then create a customer and a [subscription](/docs/subscriptions/customers-create-subscription) to the example plan with quantity **1**. The entitlement's billing-period reset is not a recurring free-command grant. Do not add the Free plan's 500K allowance or a separate recurring charge.
 
 ## Send normalized billable commands
 

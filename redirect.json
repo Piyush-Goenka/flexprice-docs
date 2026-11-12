@@ -233,12 +233,8 @@
     "destination": "/integrations/hubspot/connection-setup"
   },
   {
-    "source": "/docs/customers/customer-hierarchy",
-    "destination": "/docs/subscriptions/customer-hierarchy"
-  },
-  {
     "source": "/docs/subscriptions/commitment",
-    "destination": "/docs/subscriptions/commitment/overview"
+    "destination": "/docs/commitment/overview"
   },
   {
     "source": "/docs/Invoices/Overview",
@@ -378,7 +374,7 @@
   },
   {
     "source": "/docs/Event Ingestion/Creating a metered feature",
-    "destination": "/docs/event-ingestion/creating-a-metered-feature"
+    "destination": "/docs/features/creating-a-metered-feature"
   },
   {
     "source": "/docs/Event Ingestion/Overview",
@@ -402,11 +398,11 @@
   },
   {
     "source": "/docs/Getting started/configuration",
-    "destination": "/docs/getting-started/configuration"
+    "destination": "/docs/self-hosting/configuration"
   },
   {
     "source": "/docs/Getting started/guide",
-    "destination": "/docs/getting-started/self-hosting-guide"
+    "destination": "/docs/self-hosting/overview"
   },
   {
     "source": "/docs/Integrations/Stripe/stripe-card-payment",
@@ -454,55 +450,55 @@
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/AVERAGE",
-    "destination": "/docs/product-catalogue/features/aggregation/average"
+    "destination": "/docs/features/aggregation/average"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/COUNT",
-    "destination": "/docs/product-catalogue/features/aggregation/count"
+    "destination": "/docs/features/aggregation/count"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/COUNT UNIQUE",
-    "destination": "/docs/product-catalogue/features/aggregation/count-unique"
+    "destination": "/docs/features/aggregation/count-unique"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/LATEST",
-    "destination": "/docs/product-catalogue/features/aggregation/latest"
+    "destination": "/docs/features/aggregation/latest"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/MAX",
-    "destination": "/docs/product-catalogue/features/aggregation/max"
+    "destination": "/docs/features/aggregation/max"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/Overview",
-    "destination": "/docs/product-catalogue/features/aggregation/overview"
+    "destination": "/docs/features/aggregation/overview"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/SUM",
-    "destination": "/docs/product-catalogue/features/aggregation/sum"
+    "destination": "/docs/features/aggregation/sum"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/SUM WITH MULTIPLIER",
-    "destination": "/docs/product-catalogue/features/aggregation/sum-with-multiplier"
+    "destination": "/docs/features/aggregation/sum-with-multiplier"
   },
   {
     "source": "/docs/Product catalogue/Features/Aggregation/WEIGHTED SUM",
-    "destination": "/docs/product-catalogue/features/aggregation/weighted-sum"
+    "destination": "/docs/features/aggregation/weighted-sum"
   },
   {
     "source": "/docs/Product catalogue/Features/Creating a feature",
-    "destination": "/docs/product-catalogue/features/create"
+    "destination": "/docs/features/create"
   },
   {
     "source": "/docs/Product catalogue/Features/Link features to plans",
-    "destination": "/docs/product-catalogue/features/linking-to-plans"
+    "destination": "/docs/entitlements/linking-to-plans"
   },
   {
     "source": "/docs/Product catalogue/Features/Overview",
-    "destination": "/docs/product-catalogue/features/overview"
+    "destination": "/docs/features/overview"
   },
   {
     "source": "/docs/Product catalogue/Features/Use cases",
-    "destination": "/docs/product-catalogue/features/use-cases"
+    "destination": "/docs/features/use-cases"
   },
   {
     "source": "/docs/Product catalogue/Plans/Archiving a plan",
@@ -542,7 +538,7 @@
   },
   {
     "source": "/docs/Product catalogue/Plans/Price Overrides",
-    "destination": "/docs/product-catalogue/plans/price-overrides"
+    "destination": "/docs/product-catalogue/price-overrides/overview"
   },
   {
     "source": "/docs/Product catalogue/Plans/Use cases/Clone Cursor pricing",
@@ -570,7 +566,7 @@
   },
   {
     "source": "/docs/Subscriptions/payments_in_subscription",
-    "destination": "/docs/subscriptions/record-payment"
+    "destination": "/docs/payments/record-payment"
   },
   {
     "source": "/docs/Wallet/Creating a wallet",
@@ -602,7 +598,7 @@
   },
   {
     "source": "/guides/subscription/subscription-override-line-items",
-    "destination": "/docs/subscriptions/override-line-items"
+    "destination": "/docs/product-catalogue/price-overrides/override-line-items"
   },
   {
     "source": "/integrations/Integrations",
@@ -898,19 +894,19 @@
   },
   {
     "source": "/billable-metrics",
-    "destination": "/docs/product-catalogue/features/overview"
+    "destination": "/docs/features/overview"
   },
   {
     "source": "/billable-metrics-archive",
-    "destination": "/docs/product-catalogue/features/overview"
+    "destination": "/docs/features/overview"
   },
   {
     "source": "/billable-metrics-create",
-    "destination": "/docs/product-catalogue/features/create"
+    "destination": "/docs/features/create"
   },
   {
     "source": "/billable-metrics-edit",
-    "destination": "/docs/product-catalogue/features/create"
+    "destination": "/docs/features/create"
   },
   {
     "source": "/chargebee-connection-setup",
@@ -974,7 +970,7 @@
   },
   {
     "source": "/docs/Product catalogue/Features",
-    "destination": "/docs/product-catalogue/features/overview"
+    "destination": "/docs/features/overview"
   },
   {
     "source": "/docs/Product catalogue/Plans",
@@ -986,11 +982,11 @@
   },
   {
     "source": "/docs/Product catalogue/Plans/Commitment discounts",
-    "destination": "/docs/subscriptions/reservation-discount"
+    "destination": "/docs/product-catalogue/discounts/reservation-discount"
   },
   {
     "source": "/docs/Product catalogue/Plans/Overage discounts",
-    "destination": "/docs/subscriptions/reservation-discount"
+    "destination": "/docs/product-catalogue/discounts/reservation-discount"
   },
   {
     "source": "/docs/Product catalogue/Plans/Use cases",
@@ -998,7 +994,7 @@
   },
   {
     "source": "/docs/Product catalogue/Plans/Versioned plan changes",
-    "destination": "/docs/product-catalogue/plans/update-price"
+    "destination": "/docs/product-catalogue/change-pricing/update-price"
   },
   {
     "source": "/docs/Product catalogue/Pricing widget",
@@ -1038,11 +1034,11 @@
   },
   {
     "source": "/docs/customers/Customer Hierarchy/customer-hierarchy",
-    "destination": "/docs/subscriptions/customer-hierarchy"
+    "destination": "/docs/customers/customer-hierarchy"
   },
   {
     "source": "/docs/customers/CustomerHierarchy/customer-hierarchy",
-    "destination": "/docs/subscriptions/customer-hierarchy"
+    "destination": "/docs/customers/customer-hierarchy"
   },
   {
     "source": "/docs/exportable-ui/pricing-widget/pricing-widget",
@@ -1074,19 +1070,19 @@
   },
   {
     "source": "/guides/billable-metric/billable-metrics",
-    "destination": "/docs/product-catalogue/features/overview"
+    "destination": "/docs/features/overview"
   },
   {
     "source": "/guides/billable-metric/billable-metrics-archive",
-    "destination": "/docs/product-catalogue/features/overview"
+    "destination": "/docs/features/overview"
   },
   {
     "source": "/guides/billable-metric/billable-metrics-create",
-    "destination": "/docs/product-catalogue/features/create"
+    "destination": "/docs/features/create"
   },
   {
     "source": "/guides/billable-metric/billable-metrics-edit",
-    "destination": "/docs/product-catalogue/features/create"
+    "destination": "/docs/features/create"
   },
   {
     "source": "/guides/customer/customers",
@@ -1106,11 +1102,11 @@
   },
   {
     "source": "/guides/self-hosted/configuration",
-    "destination": "/docs/getting-started/configuration"
+    "destination": "/docs/self-hosting/configuration"
   },
   {
     "source": "/guides/self-hosted/guide",
-    "destination": "/docs/getting-started/self-hosting-guide"
+    "destination": "/docs/self-hosting/overview"
   },
   {
     "source": "/guides/wallet/customers-wallet",
@@ -1399,5 +1395,149 @@
   {
     "source": "/docs/subscriptions/workflows/pause",
     "destination": "/docs/subscriptions/workflows/pause-and-resume"
+  },
+  {
+    "source": "/docs/product-catalogue/features/overview",
+    "destination": "/docs/features/overview"
+  },
+  {
+    "source": "/docs/product-catalogue/features/create",
+    "destination": "/docs/features/create"
+  },
+  {
+    "source": "/docs/event-ingestion/creating-a-metered-feature",
+    "destination": "/docs/features/creating-a-metered-feature"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/overview",
+    "destination": "/docs/features/aggregation/overview"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/count",
+    "destination": "/docs/features/aggregation/count"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/sum",
+    "destination": "/docs/features/aggregation/sum"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/average",
+    "destination": "/docs/features/aggregation/average"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/count-unique",
+    "destination": "/docs/features/aggregation/count-unique"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/latest",
+    "destination": "/docs/features/aggregation/latest"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/sum-with-multiplier",
+    "destination": "/docs/features/aggregation/sum-with-multiplier"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/max",
+    "destination": "/docs/features/aggregation/max"
+  },
+  {
+    "source": "/docs/product-catalogue/features/aggregation/weighted-sum",
+    "destination": "/docs/features/aggregation/weighted-sum"
+  },
+  {
+    "source": "/docs/product-catalogue/features/custom-expression",
+    "destination": "/docs/features/custom-expression"
+  },
+  {
+    "source": "/docs/product-catalogue/features/use-cases",
+    "destination": "/docs/features/use-cases"
+  },
+  {
+    "source": "/docs/product-catalogue/features/linking-to-plans",
+    "destination": "/docs/entitlements/linking-to-plans"
+  },
+  {
+    "source": "/docs/product-catalogue/features/entitlement-grants",
+    "destination": "/docs/entitlements/entitlement-grants"
+  },
+  {
+    "source": "/docs/product-catalogue/plans/price-overrides",
+    "destination": "/docs/product-catalogue/price-overrides/overview"
+  },
+  {
+    "source": "/docs/subscriptions/plan-price-overrides",
+    "destination": "/docs/product-catalogue/price-overrides/plan-price-overrides"
+  },
+  {
+    "source": "/docs/subscriptions/override-line-items",
+    "destination": "/docs/product-catalogue/price-overrides/override-line-items"
+  },
+  {
+    "source": "/docs/subscriptions/reservation-discount",
+    "destination": "/docs/product-catalogue/discounts/reservation-discount"
+  },
+  {
+    "source": "/docs/product-catalogue/plans/update-price",
+    "destination": "/docs/product-catalogue/change-pricing/update-price"
+  },
+  {
+    "source": "/docs/subscriptions/subscription-line-item-overrides",
+    "destination": "/docs/product-catalogue/change-pricing/subscription-line-item-overrides"
+  },
+  {
+    "source": "/docs/subscriptions/customer-hierarchy",
+    "destination": "/docs/customers/customer-hierarchy"
+  },
+  {
+    "source": "/docs/subscriptions/commitment/overview",
+    "destination": "/docs/commitment/overview"
+  },
+  {
+    "source": "/docs/subscriptions/commitment/time-of-day-buckets",
+    "destination": "/docs/commitment/time-of-day-buckets"
+  },
+  {
+    "source": "/docs/subscriptions/commitment/subscription-commitments",
+    "destination": "/docs/commitment/subscription-commitments"
+  },
+  {
+    "source": "/docs/subscriptions/commitment/billing-terms",
+    "destination": "/docs/commitment/billing-terms"
+  },
+  {
+    "source": "/docs/product-catalogue/taxes/overview",
+    "destination": "/docs/taxes/overview"
+  },
+  {
+    "source": "/docs/product-catalogue/taxes/configure",
+    "destination": "/docs/taxes/configure"
+  },
+  {
+    "source": "/docs/product-catalogue/taxes/apply",
+    "destination": "/docs/taxes/apply"
+  },
+  {
+    "source": "/docs/subscriptions/record-payment",
+    "destination": "/docs/payments/record-payment"
+  },
+  {
+    "source": "/docs/getting-started/self-hosting-guide",
+    "destination": "/docs/self-hosting/overview"
+  },
+  {
+    "source": "/docs/getting-started/self-hosting-aws",
+    "destination": "/docs/self-hosting/self-hosting-aws"
+  },
+  {
+    "source": "/docs/getting-started/self-hosting-frontend",
+    "destination": "/docs/self-hosting/frontend"
+  },
+  {
+    "source": "/docs/getting-started/configuration",
+    "destination": "/docs/self-hosting/configuration"
+  },
+  {
+    "source": "/docs/getting-started/telemetry",
+    "destination": "/docs/self-hosting/telemetry"
   }
 ]

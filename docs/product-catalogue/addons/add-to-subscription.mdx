@@ -1,5 +1,6 @@
 ---
-title: "Add Addons to a Subscription"
+title: "How to Add Addons to a Subscription"
+sidebarTitle: "Add Addons to a Subscription"
 description: "Attach addons at subscription creation, then add and remove them in batches through the subscription modification API, with cadence, quantity, and proration control"
 ---
 
@@ -123,8 +124,8 @@ Each entry in `adds` takes:
 | `proration_behavior` | string | No | `create_prorations` or `none`. Only `create_prorations` produces immediate charges or credits; omitting it behaves like `none`. |
 | `start_date` | timestamp | No | When the addon starts. Defaults to now. Mutually exclusive with `change_at`. |
 | `change_at` | string | No | `immediate`, or `end_of_period` for the current period end, as an alternative to an explicit `start_date` |
-| `override_line_items` | array | No | Per-charge overrides: each entry takes a `price_id` plus `quantity`, `amount`, `billing_model`, or tier changes, the same shape as [subscription override line items](/docs/subscriptions/override-line-items) |
-| `line_item_commitments` | object | No | Map keyed by `price_id` setting `commitment_amount` or `commitment_quantity`, `overage_factor`, and `enable_true_up` on the addon's usage charges. See [Commitment](/docs/subscriptions/commitment/overview). A subscription-level commitment and line-item commitments cannot be combined. |
+| `override_line_items` | array | No | Per-charge overrides: each entry takes a `price_id` plus `quantity`, `amount`, `billing_model`, or tier changes, the same shape as [subscription override line items](/docs/product-catalogue/price-overrides/override-line-items) |
+| `line_item_commitments` | object | No | Map keyed by `price_id` setting `commitment_amount` or `commitment_quantity`, `overage_factor`, and `enable_true_up` on the addon's usage charges. See [Commitment](/docs/commitment/overview). A subscription-level commitment and line-item commitments cannot be combined. |
 | `metadata` | object | No | Stored on the association |
 
 To gate a change behind a payment, add a `checkout` object at the top level of the modification request, next to `type` and `addon_bulk_params`; it is not a field of an attach entry. See [payment-gated addon changes](#payment-gated-addon-changes).
@@ -211,7 +212,7 @@ curl -X POST https://us.api.flexprice.io/v1/subscriptions/<subscription_id>/modi
 
 - A request holds between 1 and 20 entries across `adds` and `removes`.
 - The same addon may appear more than once in `adds`. An association may appear only once in `removes`; a repeat fails with `Each addon association can be removed at most once per request`.
-- Each entry keeps its own timing and proration setting, with one exception: two attaches that start within the current period and grant the same feature through [entitlement grants](/docs/product-catalogue/features/entitlement-grants) must use the same start date, or the request fails with `Send them as separate changes, or give both the same date`.
+- Each entry keeps its own timing and proration setting, with one exception: two attaches that start within the current period and grant the same feature through [entitlement grants](/docs/entitlements/entitlement-grants) must use the same start date, or the request fails with `Send them as separate changes, or give both the same date`.
 - Everything runs in a single transaction: removals first, then attaches. If any entry fails, nothing is applied.
 - An addon removed here no longer blocks a replacement that measures the same metered feature over a different reset period, as long as the removal takes effect no later than the attach. See [Before you start](#before-you-start).
 - All charges and credits from the request are netted into one settlement document, described below.
@@ -290,7 +291,7 @@ In the dashboard, subscriptions are called **contracts** and addons are **add-on
 On the **Charges & add-ons** step of a new contract, the **Add-ons** card collects the addons to attach:
 
 1. Pick an addon under **Add-on**. A dialog opens listing the addon's charges in the contract's currency and billing period, including one-time charges.
-2. Optionally, use a charge's **⋯** menu to change how it bills on this contract: **Override price** sets a new billing model and price, and **Add commitment** (usage charges only) sets a [commitment](/docs/subscriptions/commitment/overview). **Reset to add-on price** undoes both.
+2. Optionally, use a charge's **⋯** menu to change how it bills on this contract: **Override price** sets a new billing model and price, and **Add commitment** (usage charges only) sets a [commitment](/docs/commitment/overview). **Reset to add-on price** undoes both.
 3. Click **Add add-on**. The addon joins the card's table, which lists each charge's price and marks a changed one **(changed)**.
 4. To attach more, pick them under **Add another**. Until the contract is created, each addon's **⋯** menu offers **Edit**, which reopens its dialog, and **Remove add-on**.
 

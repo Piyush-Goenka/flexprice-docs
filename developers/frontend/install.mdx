@@ -1,9 +1,10 @@
 ---
-title: "Install the UI kit"
+title: "How to Install the UI Kit"
+sidebarTitle: "Install the UI Kit"
 description: "Add @flexprice/ui to a React, Next.js, Remix, Astro, or Vite app, load it from a script tag in plain HTML, and what to do for Vue"
 ---
 
-`@flexprice/ui` is the Flexprice UI kit: the React components the Flexprice dashboard itself renders, published from [flexprice-front](https://github.com/flexprice/flexprice-front/tree/main/packages/flexprice-ui) as one package with pricing, usage, and credits widgets. Every component is presentational. It takes props and renders; you decide where the data comes from. This page covers installation per framework. [Fetch entitlements and usage on the client](/developers/frontend/fetch-entitlements-and-usage) covers the data.
+`@flexprice/ui` is the Flexprice UI kit: the React components the Flexprice dashboard itself renders, published from [flexprice-front](https://github.com/flexprice/flexprice-front/tree/main/packages/flexprice-ui) as one package with pricing, usage, and credits widgets. Every component is presentational. It takes props and renders; you decide where the data comes from. This page covers installation per framework. [Fetch Entitlements and Usage on the Client](/developers/frontend/fetch-entitlements-and-usage) covers the data.
 
 ## What the UI kit package ships
 
@@ -139,7 +140,7 @@ Pin versions in production instead of loading the latest tag, and serve the file
 There is no Vue or web-component build of the kit. Two options work now:
 
 - **Mount a React island.** Render the component into a container with `react-dom`. The island is self-contained, so it works inside a Vue or Svelte page.
-- **Use the data, not the components.** Fetch entitlements and usage as described in [Fetch entitlements and usage on the client](/developers/frontend/fetch-entitlements-and-usage) and render them with your own markup.
+- **Use the data, not the components.** Fetch entitlements and usage as described in [Fetch Entitlements and Usage on the Client](/developers/frontend/fetch-entitlements-and-usage) and render them with your own markup.
 
 A React island bundled once and dropped into any page:
 

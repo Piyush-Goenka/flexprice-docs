@@ -1,5 +1,5 @@
 ---
-title: "Subscribe a Customer to a Plan"
+title: "How to Subscribe a Customer to a Plan"
 sidebarTitle: "Subscriptions"
 description: "How a Flexprice subscription picks up a plan's prices, which usage it bills, and how to change or cancel it without losing or double-billing revenue"
 ---
@@ -89,8 +89,8 @@ Put a customer's negotiated terms on the create request instead of in a copy of 
 
 | Field | What it sets | Details |
 | ----- | ------------ | ------- |
-| `override_line_items` | This subscription's own `amount`, `tiers`, or `quantity` for a plan price, without changing the plan | [Plan Price Overrides](/docs/subscriptions/plan-price-overrides) |
-| `commitment_amount`, `line_item_commitments` | A minimum spend for the subscription, or a minimum spend or quantity per price | [Commitment](/docs/subscriptions/commitment/overview) |
+| `override_line_items` | This subscription's own `amount`, `tiers`, or `quantity` for a plan price, without changing the plan | [Plan Price Overrides](/docs/product-catalogue/price-overrides/plan-price-overrides) |
+| `commitment_amount`, `line_item_commitments` | A minimum spend for the subscription, or a minimum spend or quantity per price | [Commitment](/docs/commitment/overview) |
 | `addons` | Addons, attached from `start_date` unless you give one its own date | [Add Addons to a Subscription](/docs/product-catalogue/addons/add-to-subscription#at-subscription-creation) |
 | `subscription_coupons` | Coupons by `coupon_code`, for the whole subscription or for one plan price (`price_id`) | [Apply a Discount on a Subscription](/docs/product-catalogue/coupons/apply-discount-on-subscription) |
 
@@ -161,7 +161,7 @@ When a cancellation takes effect, the subscription's line items, addons, and fut
   <Card title="Upgrade and Downgrade" icon="arrow-right-arrow-left" href="/docs/subscriptions/upgrade-and-downgrade">
     Preview and execute a plan change, with or without proration.
   </Card>
-  <Card title="Plan Price Overrides" icon="tags" href="/docs/subscriptions/plan-price-overrides">
+  <Card title="Plan Price Overrides" icon="tags" href="/docs/product-catalogue/price-overrides/plan-price-overrides">
     Give one customer custom rates without changing the plan for everyone else.
   </Card>
 </CardGroup>

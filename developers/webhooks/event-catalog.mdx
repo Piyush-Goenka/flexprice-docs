@@ -1,5 +1,5 @@
 ---
-title: "Event catalog"
+title: "Event Catalog"
 description: "Every webhook event Flexprice can send, grouped by resource, with a link to the payload schema for each"
 mode: "wide"
 ---
@@ -105,16 +105,16 @@ The SDKs export the event names as an enum and a typed model per payload. See [P
 | [`entitlement.created`](/api-reference/webhook-events/entitlementcreated) | A new entitlement is created |
 | [`entitlement.updated`](/api-reference/webhook-events/entitlementupdated) | An entitlement is updated |
 | [`entitlement.deleted`](/api-reference/webhook-events/entitlementdeleted) | An entitlement is deleted |
-| [`entitlement.grant.exhausted`](/docs/product-catalogue/features/entitlement-grants) | An entitlement grant window's quota is used up |
+| [`entitlement.grant.exhausted`](/docs/entitlements/entitlement-grants) | An entitlement grant window's quota is used up |
 
 ## Commitment and billing terms events
 
 | Event | Fires when |
 | --- | --- |
-| [`commitment.created`](/api-reference/webhook-events/commitmentcreated) | A [subscription commitment](/docs/subscriptions/commitment/subscription-commitments) is created |
+| [`commitment.created`](/api-reference/webhook-events/commitmentcreated) | A [subscription commitment](/docs/commitment/subscription-commitments) is created |
 | [`commitment.updated`](/api-reference/webhook-events/commitmentupdated) | A commitment's name, invoice label, invoice description or metadata changes |
 | [`commitment.terminated`](/api-reference/webhook-events/commitmentterminated) | A commitment is terminated |
-| [`billing_terms.created`](/api-reference/webhook-events/billing_termscreated) | [Billing terms](/docs/subscriptions/commitment/billing-terms) are saved with a new commitment |
+| [`billing_terms.created`](/api-reference/webhook-events/billing_termscreated) | [Billing terms](/docs/commitment/billing-terms) are saved with a new commitment |
 | [`billing_terms.updated`](/api-reference/webhook-events/billing_termsupdated) | An edit replaces a commitment's billing terms |
 | [`billing_instalment.created`](/api-reference/webhook-events/billing_instalmentcreated) | An instalment is scheduled, on create, on an edit, or as a termination settlement |
 | [`billing_instalment.updated`](/api-reference/webhook-events/billing_instalmentupdated) | A trigger moves an instalment's bill date, or a voided invoice puts it back on schedule |
@@ -153,6 +153,6 @@ Threshold events come in pairs. A `threshold_reached` or `dropped` event fires w
 | Catch metering mistakes early | `event.rejected` |
 
 <CardGroup cols={2}>
-  <Card icon="/images/developers/icons/plug.svg" title="Set up an endpoint" href="/developers/webhooks/set-up-an-endpoint" />
+  <Card icon="/images/developers/icons/plug.svg" title="Set Up an Endpoint" href="/developers/webhooks/set-up-an-endpoint" />
   <Card icon="/images/developers/icons/api-reference.svg" title="Webhook Events in the API reference" href="/api-reference/webhook-events/invoiceupdatefinalized" />
 </CardGroup>

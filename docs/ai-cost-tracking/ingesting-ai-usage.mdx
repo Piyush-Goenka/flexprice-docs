@@ -1,5 +1,6 @@
 ---
-title: "Ingesting AI Usage"
+title: "How to Ingest AI Usage"
+sidebarTitle: "Ingest AI Usage"
 description: "A technical look at how Flexprice normalises usage from any AI gateway or provider into a single standardised event, attaches cost, and auto-provisions metering — across real-time push, managed pull, and aggregate sources."
 ---
 
@@ -249,7 +250,7 @@ Provider and model breakdowns come from filters and `group_by` on the `provider`
 Each connector maps source identifiers to a Flexprice billing entity and, optionally, builds the hierarchy:
 
 - A primary field (for example `raw_team`) resolves to the [customer](/docs/customers/overview) being metered.
-- Additional fields (`raw_user`, `agent_id`) create child entities under it, using [Customer Hierarchy](/docs/subscriptions/customer-hierarchy) for individual visibility with consolidated rollups and shared wallets.
+- Additional fields (`raw_user`, `agent_id`) create child entities under it, using [Customer Hierarchy](/docs/customers/customer-hierarchy) for individual visibility with consolidated rollups and shared wallets.
 - Unrecognised identifiers can auto-create entities or map to an existing `external_id`.
 
 This is what lets one wallet span an entire team while you still see each user's and agent's usage separately — and what powers per-agent ROI.

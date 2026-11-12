@@ -1,5 +1,5 @@
 ---
-title: "Send Usage Events"
+title: "How to Send Usage Events"
 sidebarTitle: "Usage Events"
 description: "What to put in a Flexprice usage event, and how to deliver events so each one is counted exactly once: durable queues, safe retries, and idempotent IDs"
 ---
@@ -46,7 +46,7 @@ A usage event is a JSON object:
 
 - **`properties`**
 
-  Key-value pairs that features aggregate (Sum, Max, Latest, and the other [aggregation types](/docs/product-catalogue/features/aggregation/overview)) and filter on. Send numeric values as JSON numbers or numeric strings. A missing or non-numeric value counts as `0`, and so does a negative value. Send more properties than your pricing uses today, such as region or model: a feature added later can only filter on properties that the events already carry.
+  Key-value pairs that features aggregate (Sum, Max, Latest, and the other [aggregation types](/docs/features/aggregation/overview)) and filter on. Send numeric values as JSON numbers or numeric strings. A missing or non-numeric value counts as `0`, and so does a negative value. Send more properties than your pricing uses today, such as region or model: a feature added later can only filter on properties that the events already carry.
 
 - **`source`**
 

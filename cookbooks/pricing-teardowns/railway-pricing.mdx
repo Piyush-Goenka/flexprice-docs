@@ -58,7 +58,7 @@ For example, $3 of usage costs $5 in total; $8 of usage costs $8, not $13. Railw
 
 | Railway's pricing uses | Flexprice setup |
 | --- | --- |
-| **Resource consumption over time** | Separate [metered features](/docs/product-catalogue/features/create) with SUM aggregation over GB-seconds, vCPU-seconds and egress GB |
+| **Resource consumption over time** | Separate [metered features](/docs/features/create) with SUM aggregation over GB-seconds, vCPU-seconds and egress GB |
 | **Per-second service rates** | One [flat-fee usage charge](/docs/product-catalogue/plans/billing-models/flat-fee) per feature, priced per raw unit without package rounding |
 | **$5 subscription in advance** | A monthly fixed charge for `5.00` USD |
 | **$5 shared included usage** | One recurring credit grant of 5 credits at 1 USD per credit, available only for usage charges |
@@ -113,7 +113,7 @@ Leave `reporting_unit` unset for this setup. If you later display GB-hours or vC
     }
     ```
 
-    See [wallet credits](/docs/wallet/prepaid-and-promotional) and [wallet payment restrictions](/docs/subscriptions/record-payment) for how credits offset eligible charges. Disable auto top-up for this example. Do not load another $5 manually on top of the recurring grant.
+    See [wallet credits](/docs/wallet/prepaid-and-promotional) and [wallet payment restrictions](/docs/payments/record-payment) for how credits offset eligible charges. Disable auto top-up for this example. Do not load another $5 manually on top of the recurring grant.
   </Step>
   <Step title="Create one recurring grant on the plan">
     Use `POST /v1/creditgrants` with the actual plan ID in place of `plan_example`:

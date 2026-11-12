@@ -28,7 +28,7 @@ Cache writes are not cache reads. A newly cached token uses the write rate for i
 
 | Anthropic's pricing uses | Flexprice setup |
 | --- | --- |
-| **Different prices for each model** | A model property on the usage event and a model filter on each [metered feature](/docs/product-catalogue/features/create) |
+| **Different prices for each model** | A model property on the usage event and a model filter on each [metered feature](/docs/features/create) |
 | **Separate uncached input and output charges** | Two SUM meters over independent numeric token properties |
 | **Cache writes priced by lifetime** | Separate SUM meters for 5-minute and 1-hour cache writes |
 | **Discounted cache hits** | A SUM meter for cache-read tokens with its own usage charge |

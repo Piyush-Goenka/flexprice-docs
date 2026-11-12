@@ -1,12 +1,13 @@
 ---
-title: "Pause and Resume"
+title: "How to Pause and Resume a Subscription"
+sidebarTitle: "Pause and Resume"
 description: "Pause a subscription to stop billing without cancelling it, and resume it with or without proration"
 ---
 
 Pausing a subscription stops billing without cancelling it. Flexprice invoices the current billing period up to the pause, bills nothing while the subscription is paused, and bills the subscription again from the moment you resume it.
 
 <Info>
-  Pause and resume take effect at the moment of the request. Pause with [Pause subscription](/api-reference/subscriptions/pause-subscription) and resume with [Resume subscription](/api-reference/subscriptions/resume-subscription). For how prorated amounts are calculated, see [Understanding Proration](/docs/subscriptions/understanding-proration).
+  Pause and resume take effect at the moment of the request. Pause with [Pause subscription](/api-reference/subscriptions/pause-subscription) and resume with [Resume subscription](/api-reference/subscriptions/resume-subscription). For how prorated amounts are calculated, see [Proration](/docs/subscriptions/understanding-proration).
 </Info>
 
 ## Pausing a subscription
@@ -152,7 +153,7 @@ The resume request's `proration_behavior` decides how much of each fixed charge 
 | [`subscription.updated`](/api-reference/webhook-events/subscriptionupdated) | A subscription is paused or resumed, sent alongside the two events above |
 
 <CardGroup cols={3}>
-  <Card title="Understanding Proration" icon="book-open" href="/docs/subscriptions/understanding-proration">
+  <Card title="Proration" icon="book-open" href="/docs/subscriptions/understanding-proration">
     How prorated amounts are calculated.
   </Card>
   <Card title="Pause subscription" icon="pause" href="/api-reference/subscriptions/pause-subscription">

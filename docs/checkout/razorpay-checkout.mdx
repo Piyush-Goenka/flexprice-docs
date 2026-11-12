@@ -1,5 +1,6 @@
 ---
-title: "Razorpay Checkout Setup"
+title: "How to Set Up Razorpay Checkout"
+sidebarTitle: "Razorpay Checkout Setup"
 description: "Configure Razorpay to work with Flexprice Checkout Sessions, including the exact webhook events required."
 ---
 
@@ -27,7 +28,7 @@ Go to your Razorpay Dashboard: **Settings → Webhooks → [your Flexprice endpo
 </Warning>
 
 <Note>
-  `token.confirmed` is only needed if you use [Autopay & Mandates](/docs/checkout/autopay-mandates). Without it, mandate registrations never complete and the session stays `pending`. It is harmless to enable for payment-link-only setups.
+  `token.confirmed` is only needed if you use [Autopay and Mandates](/docs/checkout/autopay-mandates). Without it, mandate registrations never complete and the session stays `pending`. It is harmless to enable for payment-link-only setups.
 </Note>
 
 ### Webhook URL

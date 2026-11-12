@@ -1,5 +1,6 @@
 ---
-title: "Slack app security and privacy"
+title: "How Does the Slack App Protect Your Data?"
+sidebarTitle: "Slack App Security and Privacy"
 description: "How Flexprice for Slack limits access to each person's own login, what it can't reach, the Slack permissions it asks for, what the AI model sees, and what it stores"
 ---
 
@@ -17,7 +18,7 @@ Flexprice for Slack is built so that a Slack workspace never becomes a shortcut 
 The agent works from a fixed catalog of API endpoints, built from Flexprice's published OpenAPI spec. A call to anything outside the catalog is refused before it reaches Flexprice.
 
 - **Admin areas are left out entirely:** API keys and secrets, users, roles and permissions, tenants, environments, integrations, marketplaces, webhooks, and import and export tasks.
-- **Writes are left out, except two:** changing when a trial ends, and recording an offline payment on an invoice. Each is fixed to that one kind of change. See [Confirm changes from Slack](/developers/ai/slack/confirm-changes).
+- **Writes are left out, except two:** changing when a trial ends, and recording an offline payment on an invoice. Each is fixed to that one kind of change. See [Confirm Changes from Slack](/developers/ai/slack/confirm-changes).
 - **IDs must be plain IDs.** A value placed in an API path can contain only letters, digits, and `_ - : .`, so it can't turn one endpoint into another.
 
 ## Slack permissions Flexprice requests

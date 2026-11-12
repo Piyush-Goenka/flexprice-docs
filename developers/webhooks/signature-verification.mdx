@@ -1,5 +1,6 @@
 ---
-title: "Signature verification"
+title: "How to Verify Webhook Signatures"
+sidebarTitle: "Signature Verification"
 description: "Verify that a webhook came from Flexprice and was not altered, using the Svix signature headers or a manual HMAC check"
 ---
 
@@ -102,9 +103,9 @@ Rotate from the endpoint's page in the dashboard. For a grace period, deliveries
 
 ## Signature verification on self-hosted deployments
 
-Flexprice Cloud always delivers through Svix. A self-hosted instance uses Svix only if you enable it in configuration; otherwise it uses native delivery, which sends the JSON body with the headers configured for the tenant and no signature. To authenticate native deliveries, configure a static secret header on the tenant's webhook settings and check it in your handler, or enable Svix. See [Configuration](/docs/getting-started/configuration#webhook-configuration).
+Flexprice Cloud always delivers through Svix. A self-hosted instance uses Svix only if you enable it in configuration; otherwise it uses native delivery, which sends the JSON body with the headers configured for the tenant and no signature. To authenticate native deliveries, configure a static secret header on the tenant's webhook settings and check it in your handler, or enable Svix. See [Configuration](/docs/self-hosting/configuration#webhook-configuration).
 
 <CardGroup cols={2}>
-  <Card icon="/images/developers/icons/rotate.svg" title="Retries and ordering" href="/developers/webhooks/retries-and-ordering" />
+  <Card icon="/images/developers/icons/rotate.svg" title="Retries and Ordering" href="/developers/webhooks/retries-and-ordering" />
   <Card icon="/images/developers/icons/api-reference.svg" title="Svix verification reference" href="https://docs.svix.com/receiving/verifying-payloads/how" />
 </CardGroup>

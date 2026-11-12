@@ -1,5 +1,5 @@
 ---
-title: "Build Hybrid Pricing like Resend"
+title: "How to Build Hybrid Pricing like Resend"
 sidebarTitle: "Hybrid Pricing"
 description: "**Hybrid pricing** combines fixed **subscription** fees (recurring base charge) with usage-based metering (pay-per-use overages), plus **entitlements** that gate features and set limits per plan."
 ---
@@ -61,7 +61,7 @@ Plan tiers (Free, Pro, Scale, Enterprise) control both **volume/price** and **wh
 | Analytics (Mktg) | No     | Yes     | Yes           | Yes          |
 | Dedicated IP     | —      | Add-on  | Add-on        | Included (Mktg) |
 
-In Flexprice you control this by **linking features to plans** (entitlements): set included quantity, usage reset, and soft or hard limits for metered features; grant or restrict boolean/static features per plan. For more, see [Linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+In Flexprice you control this by **linking features to plans** (entitlements): set included quantity, usage reset, and soft or hard limits for metered features; grant or restrict boolean/static features per plan. For more, see [Linking features to plans](/docs/entitlements/linking-to-plans).
 
 ---
 
@@ -69,7 +69,7 @@ In Flexprice you control this by **linking features to plans** (entitlements): s
 
 Resend does **not** automatically charge for excess usage. When you exceed your monthly quota, you are notified and prompted to upgrade; if you repeatedly exceed limits without upgrading, Resend may temporarily pause sending.
 
-In Flexprice, usage above an entitlement's value bills at the plan's usage price, and Flexprice never blocks it. The entitlement's limit type (`is_soft_limit`) tells your application what to do at the value: with a **soft limit**, let the customer continue and bill the overage; with a **hard limit**, stop them and prompt an upgrade, as Resend does. Configure limits and overage per plan when [linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+In Flexprice, usage above an entitlement's value bills at the plan's usage price, and Flexprice never blocks it. The entitlement's limit type (`is_soft_limit`) tells your application what to do at the value: with a **soft limit**, let the customer continue and bill the overage; with a **hard limit**, stop them and prompt an upgrade, as Resend does. Configure limits and overage per plan when [linking features to plans](/docs/entitlements/linking-to-plans).
 
 ---
 
@@ -82,7 +82,7 @@ In Flexprice, usage above an entitlement's value bills at the plan's usage price
 **Entitlements are free.**
 
 
-For more detail, check-out [Linking features to plans](/docs/product-catalogue/features/linking-to-plans) and [Plans overview](/docs/product-catalogue/plans/overview).
+For more detail, check-out [Linking features to plans](/docs/entitlements/linking-to-plans) and [Plans overview](/docs/product-catalogue/plans/overview).
 
 ## Complete Flow Summary
 
@@ -145,7 +145,7 @@ To implement Resend-style hybrid pricing in Flexprice (Transactional track), fol
 
     For a second track (Marketing), add a feature such as **Contacts Stored** with its own event name and aggregation. This guide uses one metered feature: **Emails Sent**.
 
-    For more, check-out [Creating a feature](/docs/product-catalogue/features/create).
+    For more, check-out [Create a Feature](/docs/features/create).
 
   </Step>
 
@@ -173,7 +173,7 @@ To implement Resend-style hybrid pricing in Flexprice (Transactional track), fol
 
     To keep the allowance in the price instead, choose **Tiered** for this charge and skip the Emails Sent entitlement in Step 3. Change **Tier mode** from its default, **Volume**, to **Slab: each band at its own rate**. Volume prices every email at the rate of the tier the total reaches, so 62,000 emails would all bill at the paid rate. Then add two tiers: up to 50,000 at a price of 0, and the rest at 0.0002 per email (\$0.20 per 1,000).
 
-    For more, check-out [Creating a Plan](/docs/product-catalogue/plans/create) and [Plans pricing](/docs/product-catalogue/plans/pricing) (recurring and hybrid charges).
+    For more, check-out [Create a Plan](/docs/product-catalogue/plans/create) and [Plans pricing](/docs/product-catalogue/plans/pricing) (recurring and hybrid charges).
 
   </Step>
 
@@ -193,7 +193,7 @@ To implement Resend-style hybrid pricing in Flexprice (Transactional track), fol
 
     The dashboard saves the entitlement as a hard limit (`is_soft_limit: false`). Flexprice doesn't block usage either way, but your application reads the flag from [Get customer entitlements](/api-reference/customers/get-customer-entitlements), and an app that enforces hard limits stops customers at 50,000 emails. Because this plan bills the overage, mark the limit soft: send `"is_soft_limit": true` to [Update entitlement](/api-reference/entitlements/update-entitlement), or set it when you create the entitlement with [Create entitlement](/api-reference/entitlements/create-entitlement).
 
-    For more, check-out [Linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+    For more, check-out [Linking features to plans](/docs/entitlements/linking-to-plans).
 
   </Step>
 
@@ -236,7 +236,7 @@ To implement Resend-style hybrid pricing in Flexprice (Transactional track), fol
      <Frame>
       ![November 1 invoice for 22.40 USD: the 20 USD Pro plan fixed charge for November and 12000 billable Emails Sent for October, 2.40 USD](/images/docs/subscription-flow/subscription-invoice.png)
     </Frame>
-    For more, check-out [Connecting to Billing](/docs/core-concepts/usage-events/connecting-to-billing) and your API reference for sending usage events.
+    For more, check-out [Connect Events to Billing](/docs/core-concepts/usage-events/connecting-to-billing) and your API reference for sending usage events.
 
   </Step>
 </Steps>
@@ -244,7 +244,7 @@ To implement Resend-style hybrid pricing in Flexprice (Transactional track), fol
 ## Next Steps
 
 - **Map your app to Flexprice:** Emit usage events that match the metered feature event names (e.g. `emails.sent`) and associate them with the customer (e.g. via External ID).
-- **Configure overage and limits:** Use [Linking features to plans](/docs/product-catalogue/features/linking-to-plans) to set soft vs hard limits and overage pricing per plan.
+- **Configure overage and limits:** Use [Linking features to plans](/docs/entitlements/linking-to-plans) to set soft vs hard limits and overage pricing per plan.
 - **Add more plans:** Create Free, Scale, and Enterprise plans with different recurring fees, usage tiers, and entitlements (e.g. analytics, retention) to mirror Resend’s tiers.
 
-For event ingestion and billing flow, check-out [Connecting to Billing](/docs/core-concepts/usage-events/connecting-to-billing). For plan and charge configuration, check-out [Creating a Plan](/docs/product-catalogue/plans/create) and [Linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+For event ingestion and billing flow, check-out [Connect Events to Billing](/docs/core-concepts/usage-events/connecting-to-billing). For plan and charge configuration, check-out [Create a Plan](/docs/product-catalogue/plans/create) and [Linking features to plans](/docs/entitlements/linking-to-plans).

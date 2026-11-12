@@ -1,12 +1,13 @@
 ---
-title: "Using the SDKs"
+title: "How to Use the Flexprice SDKs"
+sidebarTitle: "Use the SDKs"
 description: "Client setup, usage events, idempotency, errors, retries, pagination, and webhook parsing in the Flexprice Go, Python, and TypeScript SDKs"
 ---
 
 Every example on this page has a Go, Python, and TypeScript tab. Pick a language once and every code block on the page switches to it. For what the SDKs share and which one to pick, see the [SDK overview](/developers/sdks/overview).
 
 <Warning>
-  The SDKs authenticate with an API key that can read and write your whole environment. Call them from server code only, even though the TypeScript SDK also runs in browsers. See [Harden client-side access](/developers/frontend/harden-client-access).
+  The SDKs authenticate with an API key that can read and write your whole environment. Call them from server code only, even though the TypeScript SDK also runs in browsers. See [Harden Client-Side Access](/developers/frontend/harden-client-access).
 </Warning>
 
 ## Installing the Flexprice SDK
@@ -428,7 +429,7 @@ while (true) {
 
 ## Parsing webhook payloads with the SDK
 
-Every SDK ships a typed model for each webhook payload. Read `event_type`, then parse the body into the matching model. Verify the signature before parsing: see [Signature verification](/developers/webhooks/signature-verification).
+Every SDK ships a typed model for each webhook payload. Read `event_type`, then parse the body into the matching model. Verify the signature before parsing: see [Signature Verification](/developers/webhooks/signature-verification).
 
 <CodeGroup>
 ```go Go

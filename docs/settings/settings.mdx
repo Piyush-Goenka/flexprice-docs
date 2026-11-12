@@ -266,7 +266,7 @@ When creating a new setting via API, defaults are:
 - **Manual override skips resolution** — If the top-up request sets `bonus_credits_to_add` directly, slab resolution does not run for that top-up.
 - **Bonus is a separate transaction** — The bonus is recorded as its own wallet transaction with `transaction_reason: PURCHASED_CREDIT_BONUS`, linked to the purchase transaction via `parent_transaction_id`. It shares the purchase transaction's status and completes with it.
 
-See [Top-Up Wallet](/docs/wallet/top-up#bonus-credits-on-top-up) for how slabs resolve against a purchase, the manual override, and how the bonus transaction is recorded. See the [Top-Up Wallet API Reference](/api-reference/wallets/top-up-wallet) for the `bonus_credits_to_add` and `bonus_credits_expiry_date_utc` request fields.
+See [Top Up a Wallet](/docs/wallet/top-up#bonus-credits-on-top-up) for how slabs resolve against a purchase, the manual override, and how the bonus transaction is recorded. See the [Top-Up Wallet API Reference](/api-reference/wallets/top-up-wallet) for the `bonus_credits_to_add` and `bonus_credits_expiry_date_utc` request fields.
 
 ### Validation
 
@@ -346,7 +346,7 @@ When creating a new setting via API, defaults are:
 
 **Key:** `tax_config`
 
-Defines which tax engine calculates tax on invoices and credit notes for an environment. By default Flexprice uses its own tax engine, which applies the percentage [tax rates](/docs/product-catalogue/taxes/overview) you configure and link to customers and subscriptions. Naming an external engine replaces that: the engine determines the tax from the configuration you hold in the engine itself, and your Flexprice tax rates are no longer applied.
+Defines which tax engine calculates tax on invoices and credit notes for an environment. By default Flexprice uses its own tax engine, which applies the percentage [tax rates](/docs/taxes/overview) you configure and link to customers and subscriptions. Naming an external engine replaces that: the engine determines the tax from the configuration you hold in the engine itself, and your Flexprice tax rates are no longer applied.
 
 ### Schema
 
@@ -566,6 +566,6 @@ DELETE /v1/settings/:key
 ## Related Documentation
 
 - [Wallet Sentinel Alerts](/docs/wallet/low-balance-alert) — Configure per-wallet balance alerts
-- [Top-Up Wallet](/docs/wallet/top-up#bonus-credits-on-top-up) — Slab-based and manual bonus credits on purchased wallet top-ups
+- [Top Up a Wallet](/docs/wallet/top-up#bonus-credits-on-top-up): Slab-based and manual bonus credits on purchased wallet top-ups
 - [Subscriptions](/docs/subscriptions/customers-create-subscription) — Manage customer subscriptions
 - [Invoices](/docs/invoices/overview) — Invoice lifecycle and payment tracking

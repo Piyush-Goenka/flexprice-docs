@@ -1,0 +1,96 @@
+---
+title: "How Does Tax Work in Flexprice?"
+sidebarTitle: "Taxes"
+description: "Collect tax on invoices with percentage tax rates applied to customers and subscriptions"
+---
+
+Flexprice charges tax by applying a tax rate to your tenant, a customer, or a subscription. Every invoice then picks up that rate automatically, either adding it to the price or treating it as already included, depending on how you set it up.
+
+## Tax associations
+
+You can create a tax association at three levels. Each level is copied down to the next when the child is created, so setting rates on a customer is usually enough.
+
+| Create an association on | It is copied to | Unless |
+|---------------------------|------------------|--------|
+| Your tenant | Every new customer | The customer is created with `tax_rate_overrides` |
+| A customer | Every new subscription for them | The subscription is created with `tax_rate_overrides` |
+| A subscription | Nothing, this is what invoices read | |
+
+Copying happens once, at creation time. A tax association added to your tenant today does not reach customers who already exist; create it on those customers directly.
+
+## Inclusive versus exclusive tax
+
+A tax association is either exclusive or inclusive. An *exclusive* tax is added to the price. An *inclusive* tax is already part of the price.
+
+| Tax | Subtotal | Tax due | Total |
+|-----|----------|---------|-------|
+| 10% exclusive | \$100.00 | \$10.00 | **\$110.00** |
+| 10% inclusive | \$100.00 | \$9.09, already included | **\$100.00** |
+
+Inclusive tax never changes what the customer pays, only how much of that payment counts as tax. Pick exclusive when you list pre-tax prices and add tax at checkout, the norm in the US and Canada. Pick inclusive when your listed price is the final price, the norm for VAT and GST.
+
+Set this with `tax_behavior` on the association. Leave it out and Flexprice decides from the subscription's currency, once, at creation time:
+
+| Currency | Default `tax_behavior` |
+|----------|--------------------------|
+| `USD`, `CAD` | `exclusive` |
+| Anything else | `inclusive` |
+
+## Tax exempt customers
+
+Set a customer's `tax_treatment` to `exempt` and no tax is collected from them, regardless of what tax associations exist.
+
+<Check>
+  Mark a customer exempt when you create them, before subscribing them to a plan. Flexprice never creates a tax association for an exempt customer's subscriptions, so there is nothing to charge and back out later. This is the recommended way to onboard a tax-exempt customer.
+</Check>
+
+If a customer becomes exempt after they already have a taxed subscription, their existing associations stay in place but stop collecting. For an inclusive tax, the customer then pays the price minus the tax that would have been included:
+
+| Tax | Amount | Tax due | Total |
+|-----|--------|---------|-------|
+| 10% inclusive | \$100.00 | \$0.00 | **\$90.91**, the \$9.09 of tax is subtracted |
+| 10% exclusive | \$100.00 | \$0.00 | **\$100.00** |
+
+<Note>
+  A `tax_treatment` change applies from the next invoice onward. It never rewrites an invoice already issued.
+</Note>
+
+If no tax was charged, the invoice records why: `tax_summary.exemption.reason_code` reads `customer_exempt` for an exempt customer, or `no_tax_configured` when no tax association was set up at all.
+
+## Multiple tax rates
+
+You can create more than one tax association on the same entity. Rates never compound: each is calculated on the same base, not on top of the others.
+
+| Invoice | Tax rate | Tax |
+|---------|----------|-----|
+| \$100.00 subtotal | | |
+| State tax | 6% excl. | \$6.00 |
+| City tax | 2% excl. | \$2.00 |
+| **Total** | | **\$108.00** |
+
+The city tax is calculated on \$100.00, not \$106.00. Inclusive rates work differently: they cannot each be pulled out of the price independently, so Flexprice adds them together, takes the combined tax out once, and splits it in proportion to each rate. A \$108.00 price with 6% and 2% inclusive holds \$8.00 of tax, split \$6.00 and \$2.00. To set up several rates, see [Multiple tax rates on the same entity](/docs/taxes/apply#multiple-tax-rates-on-the-same-entity).
+
+## Calculating tax with an external engine
+
+Tax rates work when you already know the rate. Indirect taxes, which are VAT, GST and sales tax, depend on more than that, so you can hand the calculation to an external tax engine instead of maintaining rates yourself. An engine takes some or all of the following into account:
+
+- The location of the seller
+- The location of the customer
+- The location where the activity is performed
+- The type of the product sold
+- Whether the transaction involves a reverse charge
+- The status of the customer, for example whether they are a VAT-registered business, a private person, or an exempt organisation
+
+Set the [`tax_config` setting](/docs/settings/settings#tax-configuration) to enable an engine on an environment. Your business address, your tax registrations, your customers' tax identification numbers, and the tax treatment of what you sell are then all configured in the engine rather than in Flexprice. Flexprice sends the taxable amount and the customer, the engine returns the tax, and Flexprice records it on the invoice.
+
+<Info>
+  While an external tax engine is enabled, Flexprice tax rates and tax associations are not applied to any invoice, and creating a new tax association is rejected. Your existing ones are left untouched and apply again if you disable the engine.
+</Info>
+
+<Card icon="receipt" horizontal={true} href="/integrations/tax/stripe-tax" title="Stripe Tax" />
+
+## Quick start
+
+1. [Create a tax rate](/docs/taxes/configure) with a unique `code` and a percentage.
+2. [Create a tax association](/docs/taxes/apply) linking that rate to a customer or subscription, choosing `inclusive` or `exclusive`.
+3. Generate an invoice. Flexprice applies the subscription's tax associations and returns the breakdown in `tax_summary`.

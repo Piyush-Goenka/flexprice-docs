@@ -1,5 +1,6 @@
 ---
-title: "Swagger UI"
+title: "How to Try the API in Swagger UI"
+sidebarTitle: "Swagger UI"
 description: "Explore the Flexprice API interactively: the built-in playground on this site, or a local Swagger UI against the spec or a self-hosted instance"
 ---
 
@@ -35,7 +36,7 @@ docker run --rm -p 8081:8080 \
   swaggerapi/swagger-ui
 ```
 
-Then in the UI, replace the server with `http://localhost:8080/v1` (or your host) using the **Servers** dropdown's editable field. If the browser blocks the request, the backend's CORS setting needs to include the Swagger UI origin. See [Configuration](/docs/getting-started/configuration).
+Then in the UI, replace the server with `http://localhost:8080/v1` (or your host) using the **Servers** dropdown's editable field. If the browser blocks the request, the backend's CORS setting needs to include the Swagger UI origin. See [Configuration](/docs/self-hosting/configuration).
 
 ## Swagger UI, Postman, or the API reference?
 
@@ -47,6 +48,6 @@ Then in the UI, replace the server with `http://localhost:8080/v1` (or your host
 | [CLI](/docs/cli/overview) | Scripting and anything you want to repeat |
 
 <CardGroup cols={2}>
-  <Card icon="/images/developers/icons/openapi.svg" title="OpenAPI spec" href="/developers/api-tooling/openapi-spec" />
-  <Card icon="/images/developers/icons/server.svg" title="Self-hosting guide" href="/docs/getting-started/self-hosting-guide" />
+  <Card icon="/images/developers/icons/openapi.svg" title="OpenAPI Spec" href="/developers/api-tooling/openapi-spec" />
+  <Card icon="/images/developers/icons/server.svg" title="Self-hosting guide" href="/docs/self-hosting/overview" />
 </CardGroup>

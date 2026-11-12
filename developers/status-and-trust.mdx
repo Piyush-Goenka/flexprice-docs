@@ -1,5 +1,5 @@
 ---
-title: "Status page and trust centre"
+title: "Status Page and Trust Centre"
 description: "Where to see Flexprice Cloud uptime and incidents, what the compliance posture is, and how to report a security issue"
 ---
 
@@ -47,7 +47,7 @@ Flexprice Cloud runs in four regions, and a tenant's data stays in the region it
 | Canada | `https://canada.api.flexprice.io/v1` |
 | EU | `https://eu.api.flexprice.io/v1` |
 
-For deployments that must keep data inside your own network, the community edition can be [self-hosted](/docs/getting-started/self-hosting-guide).
+For deployments that must keep data inside your own network, the community edition can be [self-hosted](/docs/self-hosting/overview).
 
 ## Reporting a security issue
 
@@ -61,7 +61,7 @@ If an API key or webhook secret is exposed:
 
 1. Delete the key in the dashboard under **Developers**, or with [`DELETE /secrets/api/keys/{id}`](/api-reference/secrets/delete-an-api-key). It stops working immediately.
 2. Create a replacement and deploy it.
-3. Rotate the webhook signing secret from the endpoint's page; deliveries carry both signatures during the grace period. See [Signature verification](/developers/webhooks/signature-verification#rotating-a-webhook-signing-secret).
+3. Rotate the webhook signing secret from the endpoint's page; deliveries carry both signatures during the grace period. See [Signature Verification](/developers/webhooks/signature-verification#rotating-a-webhook-signing-secret).
 
 <CardGroup cols={2}>
   <Card icon="/images/developers/icons/status.svg" title="status.flexprice.io" href="https://status.flexprice.io" />

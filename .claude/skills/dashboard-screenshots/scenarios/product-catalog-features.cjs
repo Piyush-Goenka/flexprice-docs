@@ -1,6 +1,6 @@
 // Worked example: a list page plus a full-page create form. Shows the Features list with one
 // feature of each basic type, then the Create Feature page filled in with the metered example
-// from docs/product-catalogue/features (event tokens_total, SUM of tokens).
+// from docs/features (event tokens_total, SUM of tokens).
 // Produces features-list and create-feature.
 module.exports = {
 	routes: ({ listResponse, example }) => {

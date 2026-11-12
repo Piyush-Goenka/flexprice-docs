@@ -1,5 +1,6 @@
 ---
-title: "Create an Addon"
+title: "How to Create an Addon"
+sidebarTitle: "Create an Addon"
 description: "Create an addon, then attach charges, entitlements, and credit grants to it via API or dashboard"
 ---
 
@@ -116,7 +117,7 @@ curl -X POST https://us.api.flexprice.io/v1/entitlements \
   }'
 ```
 
-`aggregation_mode` controls stacking when the customer also holds a plan allowance on the same feature: `additive` merges both into one pool, `parallel` keeps a separate window per source. `parallel` works only for grant-based allowances; on a legacy allowance it fails with `Parallel buckets only exist for grant-based entitlements; legacy entitlements always aggregate additively`. [Entitlement grants](/docs/product-catalogue/features/entitlement-grants) covers stacking, grant quotas, and the other fields in detail.
+`aggregation_mode` controls stacking when the customer also holds a plan allowance on the same feature: `additive` merges both into one pool, `parallel` keeps a separate window per source. `parallel` works only for grant-based allowances; on a legacy allowance it fails with `Parallel buckets only exist for grant-based entitlements; legacy entitlements always aggregate additively`. [Entitlement grants](/docs/entitlements/entitlement-grants) covers stacking, grant quotas, and the other fields in detail.
 
 <Note>
 Every attachment adds its own copy of the addon's entitlements. A subscription holding the same addon twice gets twice the allowance.

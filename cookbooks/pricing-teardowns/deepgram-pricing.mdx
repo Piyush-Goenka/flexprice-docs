@@ -59,7 +59,7 @@ This URL assumes mono, raw 16-bit PCM audio at 16 kHz. It is not the `/v1/listen
 
 | Deepgram's pricing uses | Flexprice setup |
 | --- | --- |
-| **A rate specific to the model and streaming mode** | A [metered feature](/docs/product-catalogue/features/create) filtered to `model = flux-general-multi`, `mode = streaming` and the selected mono base-rate scope |
+| **A rate specific to the model and streaming mode** | A [metered feature](/docs/features/create) filtered to `model = flux-general-multi`, `mode = streaming` and the selected mono base-rate scope |
 | **Processed audio seconds** | A SUM meter over the normalized `billable_seconds` property, not COUNT of requests or transcript turns |
 | **A displayed per-minute rate without minute blocks** | A [flat-fee usage charge](/docs/product-catalogue/plans/billing-models/flat-fee) of `0.00013` USD per raw second, without a package transform |
 | **No duration minimum** | No minimum quantity or minimum-spend commitment on this charge |
@@ -121,7 +121,7 @@ Create a [plan](/docs/product-catalogue/plans/create) named **Flux Multilingual 
 
 When using the prices API, set `entity_type` to `PLAN`, `entity_id` to the created plan's ID and `meter_id` to the returned meter ID. Use `billing_period`, not a differently named interval field. Preserve the decimal amount rather than rounding the per-second rate to cents.
 
-In the plan's **Entitlements** tab, [add the feature](/docs/product-catalogue/features/linking-to-plans) with unlimited metered access (**Set to Infinite**). This permits access without a usage cap; it does not make usage free. Do not add a free-usage tier, recurring credit grant or minimum-spend commitment to this scoped example.
+In the plan's **Entitlements** tab, [add the feature](/docs/entitlements/linking-to-plans) with unlimited metered access (**Set to Infinite**). This permits access without a usage cap; it does not make usage free. Do not add a free-usage tier, recurring credit grant or minimum-spend commitment to this scoped example.
 
 ## Send usage and verify the arithmetic
 

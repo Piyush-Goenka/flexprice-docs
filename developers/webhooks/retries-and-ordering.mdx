@@ -1,5 +1,6 @@
 ---
-title: "Retries and ordering"
+title: "How Do Webhook Retries and Ordering Work?"
+sidebarTitle: "Retries and Ordering"
 description: "How Flexprice retries failed webhook deliveries, what that means for duplicates, and why handlers must not depend on order"
 ---
 
@@ -35,7 +36,7 @@ An endpoint that keeps failing for several days is disabled automatically and sh
 
 ## Retries on self-hosted native delivery
 
-Without Svix enabled, a self-hosted instance retries with exponential backoff and gives up after a short window. The defaults are 3 retries, a 1 second initial interval, a 10 second cap, a 2.0 multiplier, and 2 minutes of total elapsed time. All five are configurable; see [Configuration](/docs/getting-started/configuration#webhook-configuration). Because the window is short, put native deliveries on a queue as soon as they arrive.
+Without Svix enabled, a self-hosted instance retries with exponential backoff and gives up after a short window. The defaults are 3 retries, a 1 second initial interval, a 10 second cap, a 2.0 multiplier, and 2 minutes of total elapsed time. All five are configurable; see [Configuration](/docs/self-hosting/configuration#webhook-configuration). Because the window is short, put native deliveries on a queue as soon as they arrive.
 
 ## Replaying a failed webhook delivery
 
@@ -95,6 +96,6 @@ Three properties do the work here, and all three are lost if you split the steps
 The endpoint page shows the error rate and every attempt. Alert on a rising error rate rather than on a single failure; one failure is normal, a trend means your handler or infrastructure is unhealthy.
 
 <CardGroup cols={2}>
-  <Card icon="/images/developers/icons/signature.svg" title="Signature verification" href="/developers/webhooks/signature-verification" />
-  <Card icon="/images/developers/icons/flask.svg" title="Test webhooks locally" href="/developers/webhooks/test-locally" />
+  <Card icon="/images/developers/icons/signature.svg" title="Signature Verification" href="/developers/webhooks/signature-verification" />
+  <Card icon="/images/developers/icons/flask.svg" title="Test Webhooks Locally" href="/developers/webhooks/test-locally" />
 </CardGroup>

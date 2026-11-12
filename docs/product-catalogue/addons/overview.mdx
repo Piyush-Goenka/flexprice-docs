@@ -1,5 +1,6 @@
 ---
-title: "Addons"
+title: "What Are Addons?"
+sidebarTitle: "Addons"
 description: "Sell optional charges, entitlements, and credit grants on top of a subscription with addons"
 ---
 
@@ -65,7 +66,7 @@ The addon's `status` and each association's `addon_status` are separate.
 
 - **Subscription line items** carry `entity_type: "addon"` and the association ID. In the dashboard, the charges table shows an **Addon** chip in its **Source** column when a subscription mixes plan and addon charges.
 - **Invoices** bill addon line items like any other line item.
-- **Entitlements** from addons merge into the subscription's totals, listed with an `addon` source. Stacking (additive or parallel) controls how they combine with the plan's allowances; see [Entitlement grants](/docs/product-catalogue/features/entitlement-grants).
+- **Entitlements** from addons merge into the subscription's totals, listed with an `addon` source. Stacking (additive or parallel) controls how they combine with the plan's allowances; see [Entitlement grants](/docs/entitlements/entitlement-grants).
 - **Webhooks**: addon changes fire `subscription.updated`. There are no separate `addon.*` events.
 
 ## Quick start

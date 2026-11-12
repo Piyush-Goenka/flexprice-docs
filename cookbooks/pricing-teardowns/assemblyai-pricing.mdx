@@ -56,7 +56,7 @@ The million-character denominator is a rate presentation, not a requirement to p
 
 | AssemblyAI's pricing uses | Flexprice setup |
 | --- | --- |
-| **Input characters sent for AssemblyAI-TTS-1** | A [metered feature](/docs/product-catalogue/features/create) with a SUM aggregation on normalized `billable_characters` and a model filter |
+| **Input characters sent for AssemblyAI-TTS-1** | A [metered feature](/docs/features/create) with a SUM aggregation on normalized `billable_characters` and a model filter |
 | **$15 per million characters** | A [flat-fee usage charge](/docs/product-catalogue/plans/billing-models/flat-fee) with decimal amount `"0.000015"` per character |
 | **No pay-as-you-go minimum** | No package transform, recurring fee or minimum-spend commitment |
 | **The same price across voice types and US/EU processing** | One meter and price; no duplicate charges for those attributes |
@@ -111,7 +111,7 @@ Create a [plan](/docs/product-catalogue/plans/create) named **AssemblyAI TTS PAY
 
 When using the prices API, set `entity_type` to `PLAN`, `entity_id` to the created plan's ID and `meter_id` to the returned meter ID. Use `billing_period`, not `billing_cycle`, and keep `billing_period_count` at `1`. Pass the unit amount as a decimal string without rounding it to two decimal places.
 
-Add an unlimited [metered entitlement](/docs/product-catalogue/features/linking-to-plans) for this feature. It permits access; it is not a free usage allowance. Create a customer and [subscription](/docs/subscriptions/customers-create-subscription) to the example plan with subscription quantity **1**. Do not add another recurring charge just to enable metering.
+Add an unlimited [metered entitlement](/docs/entitlements/linking-to-plans) for this feature. It permits access; it is not a free usage allowance. Create a customer and [subscription](/docs/subscriptions/customers-create-subscription) to the example plan with subscription quantity **1**. Do not add another recurring charge just to enable metering.
 
 ## Send charged usage
 

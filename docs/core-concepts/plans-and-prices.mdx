@@ -1,5 +1,5 @@
 ---
-title: "Create Plans and Prices"
+title: "How to Create Plans and Prices"
 sidebarTitle: "Plans and Prices"
 description: "How a plan carries prices, entitlements, and credit grants to subscriptions, and how to set up and change prices so each subscription bills correctly"
 ---
@@ -7,7 +7,7 @@ description: "How a plan carries prices, entitlements, and credit grants to subs
 A plan is the template you create subscriptions from. Its prices charge for the metered features you defined and for fixed fees, and a new subscription copies the plan's matching prices into its own line items. A price set up wrong bills nothing, blocks subscription creation, or leaves existing subscribers on an old rate.
 
 <Info>
-  Create a plan with [Create plan](/api-reference/plans/create-plan), then add prices with [Create price](/api-reference/prices/create-price) or [Create prices in bulk](/api-reference/prices/create-prices-in-bulk), with `entity_type` set to `PLAN` and `entity_id` set to the plan's ID. Add entitlements with [Create entitlement](/api-reference/entitlements/create-entitlement). For step-by-step setup, see [Creating a plan](/docs/product-catalogue/plans/create) and [Updating a Plan Price](/docs/product-catalogue/plans/update-price).
+  Create a plan with [Create plan](/api-reference/plans/create-plan), then add prices with [Create price](/api-reference/prices/create-price) or [Create prices in bulk](/api-reference/prices/create-prices-in-bulk), with `entity_type` set to `PLAN` and `entity_id` set to the plan's ID. Add entitlements with [Create entitlement](/api-reference/entitlements/create-entitlement). For step-by-step setup, see [Create a Plan](/docs/product-catalogue/plans/create) and [Update a Plan Price](/docs/product-catalogue/change-pricing/update-price).
 </Info>
 
 ## Packaging prices, entitlements, and credit grants in a plan
@@ -175,7 +175,7 @@ You can run the sync as soon as you schedule a change: the old line item then en
   <Card title="Advance vs Arrear" icon="clock" href="/docs/product-catalogue/plans/charges/advance-vs-arrear">
     When a charge is billed relative to the period it covers.
   </Card>
-  <Card title="Updating a Plan Price" icon="refresh" href="/docs/product-catalogue/plans/update-price">
+  <Card title="Update a Plan Price" icon="refresh" href="/docs/product-catalogue/change-pricing/update-price">
     Change a plan price and sync the change to existing subscriptions.
   </Card>
 </CardGroup>

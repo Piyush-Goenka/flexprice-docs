@@ -53,7 +53,7 @@ Cohere's [billing guide](https://docs.cohere.com/docs/how-does-cohere-pricing-wo
 
 | Cohere's pricing uses | Flexprice setup |
 | --- | --- |
-| **A named model with its own rate card** | A `model` property and a `command-r-08-2024` filter on both [metered features](/docs/product-catalogue/features/create) |
+| **A named model with its own rate card** | A `model` property and a `command-r-08-2024` filter on both [metered features](/docs/features/create) |
 | **Production-key usage, not free trial calls** | A normalized `key_type = production` filter on both meters |
 | **Billed input and output tokens** | Separate SUM meters over `billed_input_tokens` and `billed_output_tokens` |
 | **Two constant per-token rates** | Two [flat-fee usage charges](/docs/product-catalogue/plans/billing-models/flat-fee), each linked to its own meter |
@@ -159,7 +159,7 @@ Add the output price to the same plan with its own meter:
 }
 ```
 
-`FLAT_FEE` here means a constant usage rate, not a fixed monthly subscription charge. Do not use a package that rounds usage up to a million tokens. Add an unlimited [metered entitlement](/docs/product-catalogue/features/linking-to-plans) for **each** feature, then create a customer and a [subscription](/docs/subscriptions/customers-create-subscription) to this plan with quantity **1**. Unlimited access does not make usage free.
+`FLAT_FEE` here means a constant usage rate, not a fixed monthly subscription charge. Do not use a package that rounds usage up to a million tokens. Add an unlimited [metered entitlement](/docs/entitlements/linking-to-plans) for **each** feature, then create a customer and a [subscription](/docs/subscriptions/customers-create-subscription) to this plan with quantity **1**. Unlimited access does not make usage free.
 
 ## Normalize and send usage
 

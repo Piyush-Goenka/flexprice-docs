@@ -1,0 +1,384 @@
+---
+title: "How Does Max Aggregation Work?"
+sidebarTitle: "Max"
+description: "Get the maximum value of a property with optional bucketed or group-by calculations."
+---
+
+Follow these steps to set up a MAX-based metered feature in the dashboard:
+
+<Steps>
+  <Step title="Navigate to Features">
+    Go to **Product catalog → Features** and click **New feature**.
+  </Step>
+
+  <Step title="Basic information">
+    - **Name**: descriptive name (e.g. `Peak Resource Usage`)
+    - **Type**: Select **Metered**
+    - **Unit (singular)** and **Unit (plural)**: e.g. `GB`
+  </Step>
+
+  <Step title="Event configuration">
+    - **Event name**: `resource.usage` (must match your event data)
+    - **Aggregation**: **Max**
+    - **Event field**: `data` (the property to find the maximum of)
+    - **Group by** (optional): a single event property name (e.g. `resource_id`). It only takes effect when the charge has a usage window (see the last step). Leave it empty for a plain MAX.
+
+    <Frame>
+      ![Aggregation card with Max, the data event field, and resource_id in Group by](/images/docs/product-catalogue/features/aggregations/max-group-by.png)
+    </Frame>
+  </Step>
+
+  <Step title="Save the feature">
+    Click **Create feature**. The aggregation, event field and group by can't be changed after the feature is created.
+  </Step>
+
+  <Step title="Set a usage window (optional)">
+    For bucketed MAX, the window is set on the charge, not on the feature. Open the feature, click **Add charge** and choose the plan (or add a usage charge for the feature on the plan). In **Usage window**, pick the bucket size, such as **Hourly**. Leave it at **No window: the whole period** for standard MAX.
+
+    <Frame>
+      ![Add a charge dialog for Peak Resource Usage with the Usage window set to Hourly](/images/docs/product-catalogue/features/aggregations/max-usage-window.png)
+    </Frame>
+  </Step>
+</Steps>
+
+## MAX - Modes
+
+MAX aggregation can operate in two modes depending on whether `bucket_size` is specified. **`group_by` is only applied when using bucketed MAX** (i.e. when `bucket_size` is set).
+
+<Note>
+`bucket_size` is set on the price: **Usage window** on a usage charge in the dashboard, or `bucket_size` when you create the price through the API. A `bucket_size` on the feature's meter is deprecated. Meters that have one keep billing with it, and a price on such a meter can't set its own.
+</Note>
+
+### Mode 1: Standard MAX (Non-Bucketed)
+**When:** `bucket_size` is NOT specified (group_by is not used)  
+**Returns:** Overall maximum value across all events  
+**Use for:** Simple peak detection
+
+### Mode 2: Bucketed MAX (Windowed)
+**When:** `bucket_size` IS specified  
+**Returns:** Sum of maximum values from each time bucket (see formula below)  
+**Use for:** Cumulative peak billing, tiered capacity models
+
+**Optional: Bucketed MAX with group_by**  
+When **Group By** is also set (a single property name string), within **each time bucket** events are grouped by that property. For each bucket: MAX is computed per group, then those group maximums are summed. The final result is the sum of these per-bucket totals. Use this for per-resource or per-entity peak billing within time windows (e.g. per resource, per project, per region). **group_by has no effect without bucket_size.**
+
+## Calculation Examples
+
+### Standard MAX Example
+
+#### Event Data
+```json
+[
+  {
+    "event_id": "evt_001",
+    "event_name": "concurrent.users",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T10:00:00Z",
+    "properties": {
+      "user_count": 25
+    }
+  },
+  {
+    "event_id": "evt_002",
+    "event_name": "concurrent.users",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T11:30:00Z",
+    "properties": {
+      "user_count": 40
+    }
+  },
+  {
+    "event_id": "evt_003",
+    "event_name": "concurrent.users",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T14:00:00Z",
+    "properties": {
+      "user_count": 35
+    }
+  }
+]
+```
+
+#### Standard MAX Calculation
+**Process:** Find the highest value across all events  
+**Result:** `40 users` (maximum from all events)
+
+---
+
+### Bucketed MAX Example
+
+#### Configuration
+- **Usage window:** Hourly (`bucket_size: HOUR`)
+- **Slab Pricing:**
+  - **0-5 GB:** 0 Rs (free tier)
+  - **5-10 GB:** 2 Rs per GB 
+  - **10+ GB:** 3 Rs per GB
+
+#### Event Data
+```json
+[
+  {
+    "event_id": "evt_001",
+    "event_name": "storage.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T07:30:00Z",
+    "properties": {
+      "gb_used": 8
+    }
+  },
+  {
+    "event_id": "evt_002",
+    "event_name": "storage.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T07:45:00Z",
+    "properties": {
+      "gb_used": 4
+    }
+  },
+  {
+    "event_id": "evt_003",
+    "event_name": "storage.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T08:15:00Z",
+    "properties": {
+      "gb_used": 10
+    }
+  },
+  {
+    "event_id": "evt_004",
+    "event_name": "storage.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T08:30:00Z",
+    "properties": {
+      "gb_used": 5
+    }
+  },
+  {
+    "event_id": "evt_005",
+    "event_name": "storage.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T08:45:00Z",
+    "properties": {
+      "gb_used": 9
+    }
+  }
+]
+```
+
+### Bucketed MAX Formula
+```
+total_result = MAX(bucket_1) + MAX(bucket_2) + ... + MAX(bucket_n)
+```
+Where each bucket represents a time window defined by `bucket_size`.
+
+#### Calculation Process
+
+**Hour 1 (7:00-8:00 UTC):**
+- Events: 8 GB, 4 GB
+- **Bucket Maximum:** 8 GB
+
+**Hour 2 (8:00-9:00 UTC):**
+- Events: 10 GB, 5 GB, 9 GB  
+- **Bucket Maximum:** 10 GB
+
+**Total Bucketed MAX:** 8 GB + 10 GB = **18 GB**
+
+#### Tiered Billing Calculation
+**Billing Calculation for 18 GB total:**
+- First 5 GB: 0 Rs
+- Next 5 GB (5-10): 5 × 2 = 10 Rs
+- Remaining 8 GB (10-18): 8 × 3 = 24 Rs
+- **Total: 34 Rs**
+
+---
+
+### Bucketed MAX with group_by Example
+
+**Group By** is only available with bucketed MAX. When set, within **each time bucket** events are grouped by the chosen property; MAX is computed per group in that bucket, then those group maximums are summed. The final result is the sum of these per-bucket totals. Useful for per-resource or per-entity peak billing within time windows.
+
+#### Configuration
+- **Event field:** `data`
+- **Group by:** `resource_id` (single property name; must exist on event properties)
+- **Usage window:** Hourly on the charge (`bucket_size: HOUR`, required for group_by to apply)
+
+This is the feature from the setup steps above.
+
+#### Event Data
+```json
+[
+  {
+    "event_id": "evt_A",
+    "event_name": "resource.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T10:00:00Z",
+    "properties": {
+      "data": 10,
+      "resource_id": "resource_a"
+    }
+  },
+  {
+    "event_id": "evt_B",
+    "event_name": "resource.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "properties": {
+      "data": 20,
+      "resource_id": "resource_b"
+    }
+  },
+  {
+    "event_id": "evt_C",
+    "event_name": "resource.usage",
+    "external_customer_id": "customer_123",
+    "timestamp": "2024-01-15T11:15:00Z",
+    "properties": {
+      "data": 15,
+      "resource_id": "resource_a"
+    }
+  }
+]
+```
+
+#### Bucketed MAX with group_by Formula
+```
+total_result = sum over buckets of ( MAX(group_1 in bucket) + MAX(group_2 in bucket) + ... + MAX(group_n in bucket) )
+```
+Within each time bucket, events are grouped by the `group_by` property; each group’s maximum is taken, then summed. Those per-bucket sums are then added together.
+
+#### Calculation Process
+
+**Hour 1 (10:00–11:00 UTC):**
+- **resource_a:** 10 → MAX = 10  
+- **resource_b:** 20 → MAX = 20  
+- **Bucket 1 total:** 10 + 20 = **30**
+
+**Hour 2 (11:00–12:00 UTC):**
+- **resource_a:** 15 → MAX = 15  
+- **Bucket 2 total:** **15**
+
+**Total (Bucketed MAX with group_by):** 30 + 15 = **45**
+
+Without `group_by`, bucketed MAX would give 20 + 15 = 35 (max per hour). With `group_by: "resource_id"`, within each hour we sum the max per resource, then sum across hours: **45**.
+
+## Use Cases
+
+### Standard MAX Use Cases
+
+#### Peak Concurrent Users
+**Perfect for**: Maximum simultaneous users, peak connections
+```json
+{
+  "event_name": "concurrent.users",
+  "external_customer_id": "acme_corp",
+  "properties": {
+    "active_users": 150
+  }
+}
+```
+
+#### Peak Resource Usage
+**Perfect for**: Maximum CPU, peak memory, highest bandwidth
+```json
+{
+  "event_name": "resource.peak",
+  "external_customer_id": "user_456",
+  "properties": {
+    "cpu_percent": 85
+  }
+}
+```
+
+### Bucketed MAX Use Cases
+
+#### Cumulative Peak Billing
+**Perfect for**: Pay-per-peak hour models, capacity-based pricing
+```json
+{
+  "event_name": "capacity.usage",
+  "external_customer_id": "merchant_789",
+  "properties": {
+    "gb_capacity": 50
+  }
+}
+```
+
+#### Infrastructure Peak Tracking
+**Perfect for**: Peak detection across time windows for billing
+```json
+{
+  "event_name": "server.load",
+  "external_customer_id": "customer_101",
+  "properties": {
+    "peak_instances": 12
+  }
+}
+```
+
+### Bucketed MAX with group_by Use Cases
+
+*Requires a usage window (`bucket_size`) on the price; group_by is only applied with bucketed MAX.*
+
+#### Per-Resource or Per-Entity Peak Billing
+**Perfect for**: Billing on the sum of peak usage per resource within each time window (e.g. per resource ID, per project ID, per region)
+```json
+{
+  "event_name": "resource.usage",
+  "external_customer_id": "customer_123",
+  "properties": {
+    "data": 50,
+    "resource_id": "res_abc"
+  }
+}
+```
+
+#### Multi-Tenant or Multi-Project Peak
+**Perfect for**: Sum of each tenant’s or project’s maximum usage
+```json
+{
+  "event_name": "capacity.usage",
+  "external_customer_id": "platform_customer",
+  "properties": {
+    "gb_used": 100,
+    "project_id": "proj_xyz"
+  }
+}
+```
+
+### When to Use Each Mode
+
+✅ **Use Standard MAX when:**
+- Need simple peak detection
+- Billing based on overall maximum
+- Single highest value matters
+
+✅ **Use Bucketed MAX when:**
+- Cumulative peak billing models
+- Time-series peak analysis
+- Tiered capacity pricing
+- Sum of peaks across time windows
+
+✅ **Use Bucketed MAX with group_by when:**
+- You already use bucketed MAX (a usage window is set) and want per-resource or per-entity breakdown
+- Billing per resource, per project, or per entity **within each time bucket**
+- `group_by` is a single property name string on your events  
+- **Note:** group_by is only applied when bucket_size is set
+
+### Key Differences
+
+| Aspect | Standard MAX | Bucketed MAX | Bucketed MAX + group_by |
+|--------|--------------|--------------|--------------------------|
+| **Configuration** | No bucket_size | Requires bucket_size on the price | Requires bucket_size on the price + group_by on the feature (single field) |
+| **Calculation** | Single maximum value | Sum of bucket maximums | Per bucket: sum of group maximums; then sum across buckets |
+| **Use Case** | Overall peak detection | Cumulative peak billing | Per-resource / per-entity peak within time windows |
+| **Result** | Simple max value | Sum of time-window peaks | Sum of (per-bucket sum of each group’s max) |
+
+### ⚠️ Critical Notes
+
+- **bucket_size can only be used with MAX or SUM aggregation** - The dashboard offers **Usage window** only for MAX and SUM features
+- **Bucketed MAX sums the maximums** - Does NOT return max of maximums
+- **group_by is only applied with bucketed MAX** - You must set a usage window (`bucket_size`) for group_by to take effect. Within each time bucket, events are grouped by the `group_by` property; MAX is computed per group, then those group maximums are summed (per bucket), and bucket results are summed
+
+## Next Steps
+
+- **[Create a Metered Feature](/docs/features/creating-a-metered-feature)** - Complete setup guide
+- **[Sending Events](/docs/core-concepts/usage-events/sending-events)** - How to transmit MAX events

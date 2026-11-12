@@ -1,0 +1,328 @@
+---
+title: "Entitlement Grants"
+description: "Configure time-boxed usage quotas on entitlements: rolling windows, parallel limits, and amount-based caps with exhaustion alerts and overage billing"
+---
+
+An [entitlement](/docs/entitlements/linking-to-plans) resets once a billing period. Entitlement grants let it reset on a shorter clock instead, so you can offer 1M tokens every 5 hours or $50 of compute a day. Flexprice opens a window when usage starts, tracks consumption against the quota, fires a webhook when the quota is exhausted, and bills anything beyond it as overage.
+
+**Benefits:**
+
+- **Rolling limits:** quotas measured in hours, days, or weeks instead of the billing period
+- **Parallel limits:** stack independent windows on one feature, such as an hourly limit and a weekly limit
+- **Amount-based quotas:** cap spend in currency, priced through your existing billing pipeline
+- **Exhaustion webhooks:** `entitlement.grant.exhausted` fires when a window's quota is used up
+- **Overage billing:** usage beyond the quota lands on the arrears invoice automatically
+
+## Concepts
+
+| Term | Meaning |
+|------|---------|
+| **Allowance** | The rule you configure on an entitlement: how much, how often, and how it stacks. |
+| **Window** | One concrete stretch of time instantiated from that rule, with its own quota and its own usage. A grant that resets hourly produces one window per hour of activity. |
+| **Value type** | What the quota counts: quantity (meter units) or amount (currency, priced through your existing meter prices). |
+| **Stacking** | How several allowances on the same feature combine: additive merges them into one pool, parallel keeps each on its own clock. |
+
+## Steps to set up a grant
+
+Entitlements are supported at the plan and addon level, with the same fields on both. The steps below configure a plan's entitlement.
+
+<Steps>
+  <Step title="Open the plan's entitlements">
+    Go to **Product catalog** → **Plans** and open the plan. In the **Entitlements** card, click **Add entitlement**.
+
+    <Frame>
+      ![Add entitlement dialog with the feature list open](/images/docs/product-catalogue/features/entitlement-grants/select-feature.png)
+    </Frame>
+  </Step>
+
+  <Step title="Pick the feature and set the value">
+    Select the metered feature you want to grant a recurring value for. The value fields appear once it is chosen.
+
+    **Value Type**
+
+    - **Quantity** counts meter units, such as tokens or images.
+    - **Amount** caps spend in currency, priced through the meter's existing prices.
+
+    **Value**
+
+    - The amount granted in each window.
+
+    <Note>
+      Switch on **Unlimited** to grant a value with no ceiling. Usage is still tracked and shown, but nothing is ever exhausted and no overage is billed.
+    </Note>
+
+    <Frame>
+      ![Add entitlement dialog with 100,000 tokens each hour and Advanced open on Window starts and Stacking](/images/docs/product-catalogue/features/entitlement-grants/grant-allowance.png)
+    </Frame>
+  </Step>
+
+  <Step title="Choose how often it resets">
+    **Usage resets** sets the cadence: **Hourly**, **Daily**, **Weekly**, or **Every billing period**. This is what makes the allowance recurring rather than a single limit for the cycle.
+  </Step>
+
+  <Step title="Set the advanced options if you need them">
+    Under **Advanced**, **Window starts** decides where each window begins and **Stacking** decides how this value combines with others on the same feature. See [Where a Window Starts](#where-a-window-starts) and [Stacking](#stacking).
+  </Step>
+
+  <Step title="Save">
+    Click **Create entitlement**. The value applies to every customer on the plan, now and on every later subscription.
+  </Step>
+</Steps>
+
+### API Fields
+
+Every setting above is a field on the [create entitlement](/api-reference/entitlements/create-entitlement) and [update entitlement](/api-reference/entitlements/update-entitlement) endpoints.
+
+| Dashboard | API field | Values |
+|---|---|---|
+| Value Type | `grant_measure` | `quantity` or `amount` |
+| Value | `grant_quota` | A decimal string |
+| Unlimited | `grant_unlimited` | `true` for no ceiling. Mutually exclusive with `grant_quota`. |
+| Usage resets | `grant_duration_unit` and `grant_duration_value` | `hour`, `day`, `week`, or `subscription_period` |
+| Window starts | `grant_allocation_behavior` | `first_usage` or `unit_start` |
+| Stacking | `aggregation_mode` | `additive` or `parallel` |
+
+### Validation Rules
+
+An allowance is checked when you save it, and refused if it breaks any of these.
+
+| Rule | Detail |
+|---|---|
+| The feature must be metered | Meters using `MAX` aggregation or bucketed aggregation are not supported |
+| One value type and one stacking per feature | Every allowance on the same feature must agree. Additive allowances must share the same cadence as well. |
+| Amount allowances need flat pricing | The meter must price per unit at a flat rate. Tiered prices are refused. |
+| Unlimited needs a cycle-length cadence | Available only with **Every billing period**. A recurring window needs a finite value. |
+| A window must last at least an hour | Applies to the hourly, daily and weekly cadences |
+
+### Unlimited Allowances
+
+Switch on **Unlimited** to give a customer an uncapped allowance for the billing cycle. Usage is still tracked and reported, and the window still appears in the API's `grant_state.allowances` with `unlimited: true`, but no quota is enforced, nothing is ever exhausted, and no overage is billed.
+
+This is how you remove a ceiling from a metered entitlement. Use it in place of the legacy `usage_limit` and `usage_reset_period` fields, which metered entitlements are moving off.
+
+### Where a Window Starts
+
+**Window starts** decides how each new window is anchored:
+
+- **On first use** (`first_usage`) starts the window at the customer's first event past the covered range. An event at 2:07 opens a window that runs 2:07 to 7:07 for a five-hour allowance, so each customer's windows follow their own activity.
+- **Calendar boundary** (`unit_start`) rounds the start down to the hour, day or week. That same event at 2:07 opens a window running 2:00 to 7:00. Use it when every customer should see the allowance reset on the clock.
+
+The setting applies only to fixed cadences. An allowance that resets every billing period always runs with the subscription cycle.
+
+### Changing an Allowance Mid-Cycle
+
+Editing an entitlement that customers are already using does not always take effect at once, because a window that is open has usage measured against it already.
+
+| Change | When it takes effect |
+|---|---|
+| Raising the value | Immediately, on the open window |
+| Lowering the value, still above what has been used | Immediately, on the open window |
+| Lowering the value below what has been used | Immediately: the open window has nothing left, so further usage bills as overage |
+| Changing the cadence, value type or stacking | When the current window ends |
+
+Usage already recorded in the open window still counts. A customer on a 1,000 unit hourly allowance who has spent 400 and is moved to 600 has 200 left, not 600. Moved to 300 instead, they have nothing left, and every unit they use for the rest of the window bills as overage. These timings are for additive stacking, the default. For a cadence, value type or stacking change, the dashboard shows when the new rule starts before you save.
+
+<Warning>
+This applies to an entitlement edited on a **subscription**. Editing the **plan's** entitlement changes the rule for future windows and for new subscribers; it does not re-cut windows already open on existing subscriptions.
+</Warning>
+
+## How Grant Windows Work
+
+Windows are usage-anchored. Flexprice does not open a window on a fixed schedule; it opens one when usage arrives:
+
+1. The first usage event past the covered range opens a window, anchored according to **Window starts**.
+2. The window runs for the configured cadence.
+3. When the window ends, nothing happens until the next usage event. Idle periods open no windows, so an inactive customer accumulates nothing.
+4. Windows never straddle billing cycles. A window that would end within an hour of the cycle boundary stretches to the boundary instead of leaving a short stub.
+
+A window is **active** while usage is below its quota and **exhausted** once usage reaches it. Expiry is not a state: a window is closed when its end has passed, regardless of how much was used.
+
+<Note>
+Usage is measured against the window's own time range, not accumulated as events arrive. An event that reaches Flexprice late counts against the window its timestamp falls in, so a backfill can change what a window that has already closed reports, and can exhaust it after the fact.
+</Note>
+
+## Viewing Usage and Windows
+
+The **Entitlements** card on a customer's page lists what they hold and how much of it they have spent.
+
+<Frame>
+  ![Entitlements card on a customer, with source, value, resets and usage for each feature](/images/docs/product-catalogue/features/entitlement-grants/entitlements-table.png)
+</Frame>
+
+| Column | Shows |
+|---|---|
+| Feature | The feature the allowance is on |
+| Source | Where the allowance comes from: the plan, an addon, or the subscription itself when it was edited there |
+| Value | The allowance, such as `250,000`, or `Unlimited`. A static feature shows its value. Marked `(soft)` when the entitlement's `is_soft_limit` was set through the API |
+| Resets | When the allowance next resets. Only entitlements that carry the older `usage_reset_period` field show a date. Those created in the dashboard show a dash, so read their window's end from `valid_to` over the API, as described below |
+| Usage | Consumption against the allowance, such as `148,320 of 250,000 calls` or `3,412 of unlimited users`, in red once it passes the allowance. Marked **Soft limit** when `is_soft_limit` is set |
+
+Each feature gets one row, however many plans or addons grant it: **Source** shows the first, with a **+N** badge for the rest. A parallel feature's budgets aren't shown separately. For example, a feature with 500 per day from a plan and 5,000 per week from an addon gets one row. While both windows are open, its value is 5,500, the two budgets added together, and its usage is the higher of the two windows' usage, so the row doesn't show how much of either budget is left.
+
+The dashboard doesn't list a feature's individual budgets or windows. Read them over the API, as described below.
+
+### Reading Windows Over the API
+
+[Get customer usage summary](/api-reference/customers/get-customer-usage-summary) returns the grant config for each feature plus a `grant_state.allowances` array, one entry per window:
+
+| Field | Description |
+|-------|-------------|
+| `quota`, `usage` | The window's ceiling and what has been spent against it |
+| `remaining` | What is left. Absent on an unlimited window, where there is no ceiling to measure against. |
+| `valid_from`, `valid_to` | The window boundaries |
+| `status` | `active` or `exhausted` |
+| `is_active` | Whether the window is open right now, decided by the server's clock rather than the caller's. |
+| `quota_crossed_at` | When a usage evaluation first found the window at or over its quota. This is the evaluation time, not the time of the usage event that crossed the quota, so it can trail the real crossing. Absent while the window still has room, and on an unlimited window. It only affects billing when windows overlap, as with parallel allowances on one feature: overage is then billed from this timestamp to `valid_to`, so usage between the real crossing and this timestamp is not billed as overage. Windows that do not overlap bill everything above the quota, whenever it arrived: a quota of 100 with 150 used bills 50. |
+| `unlimited` | `true` when the window has no ceiling |
+
+Only the current billing period is returned, capped at the three most recent windows per entitlement.
+
+A **parallel** feature also carries a `buckets` array, one entry per budget with its own quota, cadence and value type. Read those instead of `total_limit` when `buckets` is present.
+
+Allowances are listed per subscription rather than merged, so a customer holding one feature on two subscriptions sees two sets of windows. Tell them apart with `entitlement_id`. Inherited subscriptions carry none of their own; their usage belongs to the [parent](/docs/customers/customer-hierarchy).
+
+## Stacking
+
+When a customer holds more than one allowance on the same feature, such as a plan entitlement plus an addon entitlement, **Stacking** decides how they combine.
+
+### Additive
+
+All allowances merge into **one** window whose quota is their sum. Use this when an addon should top up the base allowance.
+
+**Example**: The Pro plan grants 100K tokens per day. A booster addon grants another 50K per day. The customer gets one daily window with a 150K quota.
+
+### Parallel
+
+Each allowance opens its **own** window on its own clock. All of them meter the same usage stream. A request is within limits only while every applicable window has quota left; exhausting any one window puts the feature into overage for the remainder of that window.
+
+**Example**: 1M tokens per 5 hours *and* 5M tokens per week, as two parallel allowances. Heavy use exhausts the 5-hour window first; sustained use over days exhausts the weekly window even though no single 5-hour burst did.
+
+## Use Cases
+
+### Rolling Rate Limits for an AI Product
+
+Cap token consumption in a rolling window that has nothing to do with the monthly invoice, the pattern used by AI assistants that advertise "resets every 5 hours".
+
+| Setting | Value |
+|---|---|
+| Value Type | Quantity |
+| Value | 1,000,000 |
+| Usage resets | Every 5 hours |
+| Window starts | Calendar boundary |
+| Stacking | Parallel |
+
+Create this allowance through the API with `grant_duration_unit: "hour"` and `grant_duration_value: 5`. The dashboard's **Hourly** option always creates a one-hour window, so it cannot set up a five-hour one.
+
+Add a second parallel allowance that resets weekly to layer a sustained ceiling on top of the burst limit.
+
+### Daily Spend Cap
+
+Cap what a customer's usage *costs* rather than how many units they consume. An amount allowance prices usage through your existing meter prices, so a mid-window price change is respected.
+
+| Setting | Value |
+|---|---|
+| Value Type | Amount |
+| Value | 50 |
+| Usage resets | Daily |
+| Stacking | Additive |
+
+The customer gets $50 of compute per day. Alert on exhaustion, or let usage continue and bill the excess as overage.
+
+### Plan Plus Booster Addon
+
+Sell top-ups without new plumbing. The plan carries an allowance; the addon carries another on the same feature with **Additive** stacking. Buying the addon raises the shared window's quota by the addon's amount. With **Parallel** instead, the addon grants a separate window, useful when its allowance runs on its own clock.
+
+### Soft Limits With Billed Overage
+
+Grants implement soft limits: usage is never blocked. When a window's quota is crossed, usage recorded after the crossing is billed as overage on the subscription's arrears invoice. Quantity overage is priced as billable units; amount overage lands directly as a charge. With parallel windows, overlapping overage periods are merged so a unit of usage is never billed twice.
+
+<Note>
+Overage folding skips line items with tiered prices, commitments, or true-up. Those price against the full cycle, so grant overage on them falls back to the standard billing calculation.
+</Note>
+
+## Exhaustion Alerts
+
+Usage is measured shortly after events arrive, within roughly five minutes. When a window's usage reaches its quota the window turns exhausted and a webhook fires, once per window. There is no recovery event: a fresh window with a fresh quota simply opens when the next one starts.
+
+### Webhook Payload
+
+**Event type:** `entitlement.grant.exhausted`
+
+```json
+{
+  "event_type": "entitlement.grant.exhausted",
+  "alert_type": "entitlement_grant_exhausted",
+  "alert_status": "in_alarm",
+  "usage_ratio": "1.15",
+  "triggered_at": "2026-07-25T20:20:23Z",
+  "subscription": {
+    "id": "subs_01KYARKSC3GVX64QEF4T4ABS9X",
+    "customer_id": "cust_01KYARB3TVZ0RZPDGC5P40NHHC",
+    "plan_id": "plan_pro",
+    "subscription_status": "active",
+    "currency": "usd",
+    "billing_period": "MONTHLY",
+    "current_period_start": "2026-07-24T19:11:06Z",
+    "current_period_end": "2026-08-24T19:11:06Z"
+  },
+  "customer": {
+    "id": "cust_01KYARB3TVZ0RZPDGC5P40NHHC",
+    "external_id": "cust-new",
+    "name": "Acme Corp",
+    "email": "billing@acme.com"
+  },
+  "entitlement": {
+    "id": "ent_01KYB5ESPNNB8DWFVQAFJN6KKZ",
+    "feature_id": "feat_tokens",
+    "feature_type": "metered",
+    "grant_measure": "quantity",
+    "grant_quota": "1000000",
+    "grant_duration_value": 5,
+    "grant_duration_unit": "hour",
+    "aggregation_mode": "parallel"
+  },
+  "entitlement_grant": {
+    "id": "eg_01KYDEZ86JA78AM7F7Y2SMTRWE",
+    "entitlement_config_id": "ent_01KYB5ESPNNB8DWFVQAFJN6KKZ",
+    "customer_id": "cust_01KYARB3TVZ0RZPDGC5P40NHHC",
+    "subscription_id": "subs_01KYARKSC3GVX64QEF4T4ABS9X",
+    "scope_entity_type": "feature",
+    "scope_entity_id": "feat_tokens",
+    "measure": "quantity",
+    "quota": "1000000",
+    "usage": "1150000",
+    "valid_from": "2026-07-25T15:20:00Z",
+    "valid_to": "2026-07-25T20:20:00Z",
+    "grant_status": "exhausted",
+    "quota_crossed_at": "2026-07-25T20:20:23Z"
+  }
+}
+```
+
+### Webhook Fields
+
+| Field | Description |
+|-------|-------------|
+| `alert_type` | Always `entitlement_grant_exhausted` |
+| `alert_status` | `in_alarm` when the quota is exhausted |
+| `usage_ratio` | `usage / quota` at evaluation time, `1` or more when exhausted |
+| `triggered_at` | When the exhaustion was detected |
+| `subscription` | The owning subscription, without line items or plan expansions |
+| `customer` | The customer the grant belongs to |
+| `entitlement` | The allowance the window was instantiated from |
+| `entitlement_grant` | The exhausted window, including `quota`, `usage`, and the window boundaries |
+
+<CardGroup cols={2}>
+  <Card icon="book-open" href="/docs/entitlements/linking-to-plans" title="Link Features to Plans">
+    Attach a feature to a plan or addon as an entitlement.
+  </Card>
+  <Card icon="webhook" href="/developers/webhooks/event-catalog#feature-and-entitlement-events" title="Webhooks">
+    Subscribe to `entitlement.grant.exhausted` and the rest of the event catalogue.
+  </Card>
+</CardGroup>
+
+**API References**
+- [Create an Entitlement](/api-reference/entitlements/create-entitlement)
+- [Update an Entitlement](/api-reference/entitlements/update-entitlement)
+- [Get Customer Usage Summary](/api-reference/customers/get-customer-usage-summary)
+- [Get Customer Entitlements](/api-reference/customers/get-customer-entitlements)

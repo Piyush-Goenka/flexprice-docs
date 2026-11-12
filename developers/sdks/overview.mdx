@@ -1,5 +1,6 @@
 ---
-title: "SDKs"
+title: "Which SDKs Does Flexprice Offer?"
+sidebarTitle: "SDKs"
 description: "Official Flexprice SDKs for Go, Python, and TypeScript: what they share, how to install them, and which to pick"
 ---
 
@@ -126,16 +127,16 @@ await flexprice.events.ingestEvent({
 
 ## Keep SDK keys on the server
 
-The SDKs authenticate with an API key that can read and write your whole environment. Use them from backend code only. For browser and mobile code, generate a customer-scoped [portal session](/docs/customers/customer-portal#generating-a-portal-session) or proxy through your backend. See [Harden client-side access](/developers/frontend/harden-client-access).
+The SDKs authenticate with an API key that can read and write your whole environment. Use them from backend code only. For browser and mobile code, generate a customer-scoped [portal session](/docs/customers/customer-portal#generating-a-portal-session) or proxy through your backend. See [Harden Client-Side Access](/developers/frontend/harden-client-access).
 
 ## SDK versioning and releases
 
 SDK releases are listed in the [changelog](/docs/changelog) and on each package registry. The SDKs are regenerated when the API changes, so an endpoint added to the API may appear in the reference before it appears in an SDK. Until it does, call it directly with the HTTP client of your choice; the SDK's key and base URL work unchanged.
 
-<Card icon="/images/developers/icons/sdks.svg" title="Using the SDKs" href="/developers/sdks/usage" horizontal={true}>
+<Card icon="/images/developers/icons/sdks.svg" title="Use the SDKs" href="/developers/sdks/usage" horizontal={true}>
   Every SDK task in Go, Python, and TypeScript on one page: events, idempotency, errors, retries, pagination, and webhooks.
 </Card>
 
-<Card icon="/images/developers/icons/react.svg" title="Example app" href="/developers/sdks/example-app" horizontal={true}>
+<Card icon="/images/developers/icons/react.svg" title="Example App" href="/developers/sdks/example-app" horizontal={true}>
   A React app that wires the TypeScript SDK end to end: client setup, usage events, and analytics.
 </Card>

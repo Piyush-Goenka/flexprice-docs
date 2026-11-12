@@ -1,5 +1,5 @@
 ---
-title: "Build Credit-based Pricing like Apollo.io"
+title: "How to Build Credit-Based Pricing like Apollo.io"
 sidebarTitle: "Credit-Based Pricing"
 description: "Credit-based pricing is a usage-based model where customers prepay for a set number of credits and spend them as they use features, with each action deducting a defined credit amount."
 ---
@@ -114,7 +114,7 @@ In this model, credits are deducted when the user does an action (e.g. unlock em
 
 <Steps>
   <Step title="Create Features">
-    Create **metered features** for each action that costs credits. Link each feature to plans via **entitlements**; there you set which features each plan gets and optional free usage (e.g. 50 free, then deduct from credits). See [Linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+    Create **metered features** for each action that costs credits. Link each feature to plans via **entitlements**; there you set which features each plan gets and optional free usage (e.g. 50 free, then deduct from credits). See [Linking features to plans](/docs/entitlements/linking-to-plans).
   </Step>
   <Step title="Create Plan">
     Create a **Plan** with credit packages or usage charges (e.g. annually billed with recurring credit grants per month).
@@ -144,7 +144,7 @@ To implement Apollo-style credit-based pricing in Flexprice, follow these steps 
 
     For each action that costs credits (e.g. Contact Export, Email Enrichment): click **New feature**, choose **Metered**, and set the **Event name** and **Aggregation**. Later you’ll link these to the plan and set entitlements (e.g. 50 free, then deduct from credits).
 
-    For more, see [Creating a feature](/docs/product-catalogue/features/create) and [Linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+    For more, see [Create a Feature](/docs/features/create) and [Linking features to plans](/docs/entitlements/linking-to-plans).
   </Step>
 
   <Step title="Step 2: Create Plan (with Credits or Recurring Grants)">
@@ -154,7 +154,7 @@ To implement Apollo-style credit-based pricing in Flexprice, follow these steps 
   ![Add credit grant dialog with a recurring grant of 1,000 credits every month](/images/docs/subscription-flow/add-credit-grant-with-plan.png)
   </Frame>
 
-    **Do this:** (1) Click **New plan**, enter the plan name (e.g. Basic), and add its charges; the billing period is set on each charge (e.g. annually). (2) To give credits, open the plan and click **Add grant** in the **Credit grants** card: choose **Recurring**, name the grant, set the **Credits** (e.g. 1,000) and **Refreshes every** (e.g. Monthly), then click **Create credit grant**. You can also link metered features with pricing. (3) In **Entitlements**, link features so subscribers get the right access and optional free usage. When a customer is assigned this plan, they receive the credit grants you configured (e.g. monthly). For more, see [Creating a Plan](/docs/product-catalogue/plans/create) and [Linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+    **Do this:** (1) Click **New plan**, enter the plan name (e.g. Basic), and add its charges; the billing period is set on each charge (e.g. annually). (2) To give credits, open the plan and click **Add grant** in the **Credit grants** card: choose **Recurring**, name the grant, set the **Credits** (e.g. 1,000) and **Refreshes every** (e.g. Monthly), then click **Create credit grant**. You can also link metered features with pricing. (3) In **Entitlements**, link features so subscribers get the right access and optional free usage. When a customer is assigned this plan, they receive the credit grants you configured (e.g. monthly). For more, see [Create a Plan](/docs/product-catalogue/plans/create) and [Linking features to plans](/docs/entitlements/linking-to-plans).
   </Step>
 
    <Step title="Step 3: Credit Grant and Entitlement (Plan-Based Path)">
@@ -165,7 +165,7 @@ To implement Apollo-style credit-based pricing in Flexprice, follow these steps 
   ![Add credit grant dialog on the Commitments & benefits step of the New contract wizard](/images/docs/subscription-flow/credit-grants.png)
   </Frame>
 
-    For **direct purchase only**, skip this step and top up the wallet in Step 6 (Top Up the Wallet). For more, see [Plans](/docs/product-catalogue/plans/create) and [Linking features to plans](/docs/product-catalogue/features/linking-to-plans).
+    For **direct purchase only**, skip this step and top up the wallet in Step 6 (Top Up the Wallet). For more, see [Plans](/docs/product-catalogue/plans/create) and [Linking features to plans](/docs/entitlements/linking-to-plans).
   </Step>
 
   <Step title="Step 4: Create Customer">
@@ -195,7 +195,7 @@ To implement Apollo-style credit-based pricing in Flexprice, follow these steps 
 
     **Use this step for:** First-time credit purchase or add-on packs.
 
-    For more, see [Top-up wallet](/docs/wallet/top-up) and [Auto top-up](/docs/wallet/auto-top-up).
+    For more, see [Top Up a Wallet](/docs/wallet/top-up) and [Auto top-up](/docs/wallet/auto-top-up).
   </Step>
 
   <Step title="Step 7: Debit Wallet When User Performs an Action">
@@ -203,7 +203,7 @@ To implement Apollo-style credit-based pricing in Flexprice, follow these steps 
 
     <Steps>
       <Step title="Check entitlement">
-        **Check entitlement:** Does this customer’s plan allow this feature? (You set this when [linking features to plans](/docs/product-catalogue/features/linking-to-plans).) If not, block the action.
+        **Check entitlement:** Does this customer’s plan allow this feature? (You set this when [linking features to plans](/docs/entitlements/linking-to-plans).) If not, block the action.
       </Step>
       <Step title="Look up credit cost">
         **Look up credit cost:** Use your mapping (e.g. the tables in **Key Chargeable Features in Apollo** above) and get the cost for this action.

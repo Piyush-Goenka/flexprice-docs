@@ -1,5 +1,5 @@
 ---
-title: "Meter Usage with Features"
+title: "How to Meter Usage with Features"
 sidebarTitle: "Features"
 description: "How a Flexprice feature turns usage events into a billable quantity: feature types, aggregations, filters, changes after creation, and testing"
 ---
@@ -7,7 +7,7 @@ description: "How a Flexprice feature turns usage events into a billable quantit
 A feature is something you sell: a metered quantity such as tokens, or a capability such as SSO. A metered feature turns the [usage events](/docs/core-concepts/send-usage-events) you send into a quantity per customer and billing period, and a usage price on a [plan](/docs/core-concepts/plans-and-prices) charges for that quantity. A feature that reads the wrong property, filters out real events, or adds up readings misbills every invoice. Nothing reports the mistake, because Flexprice accepts the events either way.
 
 <Info>
-  Manage features with [Create feature](/api-reference/features/create-feature), [Update feature](/api-reference/features/update-feature), and [Delete feature](/api-reference/features/delete-feature). For a field-by-field walkthrough, see [Creating a Metered Feature](/docs/event-ingestion/creating-a-metered-feature), and for each aggregation, [Aggregation Types](/docs/product-catalogue/features/aggregation/overview).
+  Manage features with [Create feature](/api-reference/features/create-feature), [Update feature](/api-reference/features/update-feature), and [Delete feature](/api-reference/features/delete-feature). For a field-by-field walkthrough, see [Create a Metered Feature](/docs/features/creating-a-metered-feature), and for each aggregation, [Aggregation Types](/docs/features/aggregation/overview).
 </Info>
 
 ## Choosing a feature type
@@ -49,7 +49,7 @@ A metered feature carries a meter: which events it counts, how it combines them,
 ```
 
 - **`event_name`**: The feature counts events whose `event_name` matches this value exactly, including case.
-- **`aggregation`**: Every type except `COUNT` reads a `field`, a top-level key in the event's `properties`. `SUM`, `AVG`, `MAX`, and `LATEST` can use an [`expression`](/docs/product-catalogue/features/custom-expression) instead, such as `input_tokens + output_tokens`. Flexprice compiles it when you create the feature and rejects one that doesn't compile. `SUM_WITH_MULTIPLIER` also needs a `multiplier` greater than 0.
+- **`aggregation`**: Every type except `COUNT` reads a `field`, a top-level key in the event's `properties`. `SUM`, `AVG`, `MAX`, and `LATEST` can use an [`expression`](/docs/features/custom-expression) instead, such as `input_tokens + output_tokens`. Flexprice compiles it when you create the feature and rejects one that doesn't compile. `SUM_WITH_MULTIPLIER` also needs a `multiplier` greater than 0.
 - **`unit_singular` and `unit_plural`**: Set both or neither: the API rejects one without the other.
 
 ### Counting one event toward several features
@@ -156,13 +156,13 @@ Test each feature before real usage depends on it:
 [Delete feature](/api-reference/features/delete-feature) archives the feature and its meter. It fails with `400` and the message `Feature is linked to some plans, please remove the feature from the plans first` while a published entitlement to the feature exists on a plan, an addon, or a subscription. A usage price doesn't block it. An archived feature stops counting new events, so its usage price bills no new usage. Remove the feature's prices and entitlements from your plans first.
 
 <CardGroup cols={2}>
-  <Card title="Features" icon="cubes" href="/docs/product-catalogue/features/overview">
+  <Card title="Features" icon="cubes" href="/docs/features/overview">
     What each feature type is for, and how features attach to plans.
   </Card>
-  <Card title="Aggregation Types" icon="calculator" href="/docs/product-catalogue/features/aggregation/overview">
+  <Card title="Aggregation Types" icon="calculator" href="/docs/features/aggregation/overview">
     How each aggregation turns events into a quantity.
   </Card>
-  <Card title="Creating a Metered Feature" icon="gauge" href="/docs/event-ingestion/creating-a-metered-feature">
+  <Card title="Create a Metered Feature" icon="gauge" href="/docs/features/creating-a-metered-feature">
     Set the event name, aggregation, filters, and units.
   </Card>
   <Card title="Event Debugger" icon="bug" href="/docs/event-ingestion/event-debugger">

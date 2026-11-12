@@ -1,5 +1,5 @@
 ---
-title: "How Flexprice Invoices Work"
+title: "How Do Flexprice Invoices Work?"
 sidebarTitle: "Invoices"
 description: "How Flexprice builds, finalizes, and corrects invoices, how advance fees and arrears usage share one invoice, and how to bill usage that arrives late"
 ---
@@ -7,7 +7,7 @@ description: "How Flexprice builds, finalizes, and corrects invoices, how advanc
 An invoice bills a [subscription](/docs/core-concepts/subscriptions) for one stretch of time: the fixed fees that fall due and the usage its metered features aggregated, less coupons and wallet credits, plus tax. Subscriptions raise invoices on their own, when they start and at the end of each billing period, which makes invoices the last step of the path that starts with [usage events](/docs/core-concepts/send-usage-events). Mistakes here cost money directly: usage that reaches Flexprice after an invoice is computed isn't on it, and voiding a paid invoice to correct it moves the payment into the customer's wallet.
 
 <Info>
-  Find invoices with [Query invoices](/api-reference/invoices/query-invoices) and [Get invoice](/api-reference/invoices/get-invoice), seal or cancel them with [Finalize invoice](/api-reference/invoices/finalize-invoice) and [Void invoice](/api-reference/invoices/void-invoice), and see the next one early with [Get invoice preview](/api-reference/invoices/get-invoice-preview). For the dashboard, see [Managing Invoices](/docs/invoices/managing). For the arithmetic, see [Invoice Calculation Order](/docs/invoices/calculation).
+  Find invoices with [Query invoices](/api-reference/invoices/query-invoices) and [Get invoice](/api-reference/invoices/get-invoice), seal or cancel them with [Finalize invoice](/api-reference/invoices/finalize-invoice) and [Void invoice](/api-reference/invoices/void-invoice), and see the next one early with [Get invoice preview](/api-reference/invoices/get-invoice-preview). For the dashboard, see [Manage Invoices](/docs/invoices/managing). For the arithmetic, see [Invoice Calculation Order](/docs/invoices/calculation).
 </Info>
 
 ## Telling invoices apart by billing reason
@@ -174,7 +174,7 @@ If subscription auto-cancellation is on in `subscription_config` (it's off by de
   <Card title="Invoice Calculation Order" icon="calculator" href="/docs/invoices/calculation">
     How coupons, wallet credits, and tax combine, with worked examples.
   </Card>
-  <Card title="Managing Invoices" icon="list-check" href="/docs/invoices/managing">
+  <Card title="Manage Invoices" icon="list-check" href="/docs/invoices/managing">
     View invoices, update their status, and download PDFs in the dashboard.
   </Card>
   <Card title="Backfill Past Usage" icon="clock-rotate-left" href="/docs/core-concepts/usage-events/backfill">

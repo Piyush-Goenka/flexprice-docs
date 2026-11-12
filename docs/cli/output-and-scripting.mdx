@@ -1,5 +1,6 @@
 ---
-title: "Output & scripting"
+title: "How to Use the Flexprice CLI in Scripts"
+sidebarTitle: "Output and Scripting"
 description: "The machine-facing contract: stdout/stderr separation, stable exit codes, and non-interactive behaviour"
 ---
 
@@ -79,7 +80,7 @@ flexprice customers delete cust_123 --force
   Without `--force`, a non-interactive run **fails rather than proceeding**. The CLI will not destroy something on the grounds that nobody was available to be asked.
 </Warning>
 
-Note that `--force` is a per-command flag, so it goes after the resource and action — see [Global flags](/docs/cli/global-flags).
+Note that `--force` is a per-command flag, so it goes after the resource and action. See [Global Flags](/docs/cli/global-flags).
 
 ## A worked CLI script for CI
 
@@ -102,7 +103,7 @@ echo "created $CUSTOMER_ID"
 ## Next steps for CLI scripting
 
 <CardGroup cols={2}>
-  <Card icon="/images/developers/icons/flag.svg" title="Global flags" href="/docs/cli/global-flags">
+  <Card icon="/images/developers/icons/flag.svg" title="Global Flags" href="/docs/cli/global-flags">
     Every flag, grouped by what it controls.
   </Card>
   <Card icon="/images/developers/icons/key.svg" title="Authentication" href="/docs/cli/authentication">

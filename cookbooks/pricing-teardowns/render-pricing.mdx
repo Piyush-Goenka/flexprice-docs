@@ -54,8 +54,8 @@ The current Pro fee is flat, not per seat. Render's [workspace plan update](http
 | Render's pricing uses | Flexprice setup |
 | --- | --- |
 | One Pro workspace fee | A $25 monthly recurring charge with quantity 1 |
-| Active runtime for each cron service | One filtered [SUM meter](/docs/product-catalogue/features/aggregation/sum) per job, priced at $0.00016 per runtime minute |
-| A $1 minimum per cron service | A separate [line-item commitment with true-up](/docs/subscriptions/commitment/overview) on each job's usage price; overage factor 1.0 |
+| Active runtime for each cron service | One filtered [SUM meter](/docs/features/aggregation/sum) per job, priced at $0.00016 per runtime minute |
+| A $1 minimum per cron service | A separate [line-item commitment with true-up](/docs/commitment/overview) on each job's usage price; overage factor 1.0 |
 | 25 GB shared by the workspace | One customer-level bandwidth meter with a zero-priced first tier through 25 GB |
 | $0.15 per GB above that allowance | Graduated pricing on the bandwidth meter; no second deduction through an entitlement or wallet |
 | Monthly allowance reset | Calendar-month usage periods; discard unused bandwidth allowance rather than carrying a balance |
@@ -70,7 +70,7 @@ This example assumes a full month with no service additions, deletions, instance
 
 ### 2. Create the runtime and bandwidth meters
 
-In **Product Catalog > Features**, create these [metered features](/docs/product-catalogue/features/create). All three use SUM aggregation and the same workspace customer identifier.
+In **Product Catalog > Features**, create these [metered features](/docs/features/create). All three use SUM aggregation and the same workspace customer identifier.
 
 | Feature | Event name | SUM property | Required filters |
 | --- | --- | --- | --- |

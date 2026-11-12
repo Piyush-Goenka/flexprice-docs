@@ -133,7 +133,7 @@ Create or select a Flexprice customer representing the workspace. Count its unsu
 
 Replace the customer, plan and price IDs with actual IDs, and choose the intended start date. `price_basic_annual_user` must reference the fixed annual price created in the previous step. Keep this plan limited to that one price so no unrelated charges attach.
 
-The [quantity override](/docs/subscriptions/plan-price-overrides) applies to fixed prices, not metered usage prices. Each workspace can use the same catalogue price with its own quantity. Do not emit daily user-count snapshots into a `SUM` meter: that would count the same users repeatedly instead of setting the subscription quantity.
+The [quantity override](/docs/product-catalogue/price-overrides/plan-price-overrides) applies to fixed prices, not metered usage prices. Each workspace can use the same catalogue price with its own quantity. Do not emit daily user-count snapshots into a `SUM` meter: that would count the same users repeatedly instead of setting the subscription quantity.
 
 ### 4. Verify the annual invoice
 
@@ -148,7 +148,7 @@ Before collecting payment, inspect the subscription line item and invoice throug
 | Base charge before tax or discounts | $1,440 |
 | Usage charges or AI credits | None in this example |
 
-Keep the user count unchanged for this scoped example. If users are added or suspended during the year, implementing Linear's monthly reconciliation requires a separate verified workflow for effective dates, remaining-term prorations and credits. Do not assume a live [line-item quantity update](/docs/subscriptions/subscription-line-item-overrides) alone reproduces those rules.
+Keep the user count unchanged for this scoped example. If users are added or suspended during the year, implementing Linear's monthly reconciliation requires a separate verified workflow for effective dates, remaining-term prorations and credits. Do not assume a live [line-item quantity update](/docs/product-catalogue/change-pricing/subscription-line-item-overrides) alone reproduces those rules.
 
 ## Worked bill
 
@@ -175,5 +175,5 @@ Pricing checked on 2026-11-06.
 ## Related guides
 
 - [Plan pricing](/docs/product-catalogue/plans/pricing)
-- [Plan price overrides](/docs/subscriptions/plan-price-overrides)
+- [Plan price overrides](/docs/product-catalogue/price-overrides/plan-price-overrides)
 - [Creating subscriptions](/docs/subscriptions/customers-create-subscription)

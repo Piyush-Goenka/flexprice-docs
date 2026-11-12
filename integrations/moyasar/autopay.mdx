@@ -1,5 +1,6 @@
 ---
 title: 'How to Set Up Charge Automatically'
+sidebarTitle: 'Moyasar Autopay'
 description: 'Save a customer card via Flexprice checkout and charge invoices automatically'
 ---
 
@@ -120,7 +121,7 @@ Once a customer has a saved payment method, Flexprice charges it automatically w
     If a valid saved method is found, Flexprice creates a charge request using the stored token. The customer does not need to take any action.
   </Step>
   <Step title="Fallback">
-    If no active saved payment method exists, Flexprice falls back to the invoice-link flow. See [Moyasar Invoice Synchronization](/integrations/moyasar/invoice-sync).
+    If no active saved payment method exists, Flexprice falls back to the invoice-link flow. See [Moyasar Invoice Sync](/integrations/moyasar/invoice-sync).
   </Step>
   <Step title="Invoice marked paid">
     When the charge is confirmed, Flexprice marks the invoice as `PAID`.

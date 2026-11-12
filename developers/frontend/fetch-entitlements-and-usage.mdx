@@ -1,5 +1,6 @@
 ---
-title: "Fetch entitlements and usage on the client"
+title: "How to Fetch Entitlements and Usage Client-Side"
+sidebarTitle: "Fetch Entitlements and Usage on the Client"
 description: "Two safe patterns for getting a customer's entitlements, usage, and wallet balance into a browser or mobile app"
 ---
 
@@ -59,7 +60,7 @@ Your backend asks Flexprice for a session token for one customer. The browser th
     <UsageQuota items={adaptUsageQuotaItems(usage.features)} />
     ```
 
-    `/wallets` returns an array because a customer can have several wallets or none, so pick the one to show and skip the card when it is empty. The `adapt*` functions are exported by the kit and map raw API responses into each component's props. See [Install the UI kit](/developers/frontend/install#map-api-data-with-the-exported-adapters).
+    `/wallets` returns an array because a customer can have several wallets or none, so pick the one to show and skip the card when it is empty. The `adapt*` functions are exported by the kit and map raw API responses into each component's props. See [Install the UI Kit](/developers/frontend/install#map-api-data-with-the-exported-adapters).
   </Step>
 </Steps>
 

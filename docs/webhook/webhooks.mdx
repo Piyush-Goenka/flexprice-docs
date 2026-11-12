@@ -1,5 +1,6 @@
 ---
-title: "Webhooks"
+title: "How Do Flexprice Webhooks Work?"
+sidebarTitle: "Webhooks"
 description: "How Flexprice webhooks deliver invoice, payment, subscription, wallet, and usage events to your systems"
 ---
 
@@ -15,7 +16,7 @@ Webhooks push a notification to your server when something changes in Flexprice:
 
 <Steps>
   <Step title="Register an endpoint">
-    Add an HTTPS URL in the dashboard under **Developers > Webhooks** and pick the events it should receive. Each endpoint gets its own signing secret. See [Set up an endpoint](/developers/webhooks/set-up-an-endpoint).
+    Add an HTTPS URL in the dashboard under **Developers > Webhooks** and pick the events it should receive. Each endpoint gets its own signing secret. See [Set Up an Endpoint](/developers/webhooks/set-up-an-endpoint).
   </Step>
   <Step title="Flexprice sends a POST">
     The body is JSON with an `event_type` and the object that changed:
@@ -28,10 +29,10 @@ Webhooks push a notification to your server when something changes in Flexprice:
     ```
   </Step>
   <Step title="Your handler verifies, acknowledges, and processes">
-    Check the signature on the raw body, return `2xx` within 5 seconds, and do the work on a queue. See [Signature verification](/developers/webhooks/signature-verification).
+    Check the signature on the raw body, return `2xx` within 5 seconds, and do the work on a queue. See [Signature Verification](/developers/webhooks/signature-verification).
   </Step>
   <Step title="Failures are retried">
-    A non-`2xx` response or a timeout is retried on a backoff schedule, so handlers must tolerate duplicates and reordering. See [Retries and ordering](/developers/webhooks/retries-and-ordering).
+    A non-`2xx` response or a timeout is retried on a backoff schedule, so handlers must tolerate duplicates and reordering. See [Retries and Ordering](/developers/webhooks/retries-and-ordering).
   </Step>
 </Steps>
 
@@ -58,7 +59,7 @@ Sixty-nine event types cover customers, subscriptions, invoices, payments, refun
 | Retries | 8 attempts over about a day | 3 attempts within 2 minutes | 8 attempts over about a day |
 | Delivery logs and replay | Dashboard | Server logs | Dashboard |
 
-Flexprice Cloud always uses Svix. A self-hosted instance uses native delivery unless Svix is turned on in [configuration](/docs/getting-started/configuration#webhook-configuration).
+Flexprice Cloud always uses Svix. A self-hosted instance uses native delivery unless Svix is turned on in [configuration](/docs/self-hosting/configuration#webhook-configuration).
 
 ## Webhook handler best practices
 
@@ -71,10 +72,10 @@ Flexprice Cloud always uses Svix. A self-hosted instance uses native delivery un
 7. **Subscribe to `event.rejected`** so dropped usage is never silent.
 
 <CardGroup cols={2}>
-  <Card icon="/images/developers/icons/plug.svg" title="Set up an endpoint" href="/developers/webhooks/set-up-an-endpoint" />
-  <Card icon="/images/developers/icons/signature.svg" title="Signature verification" href="/developers/webhooks/signature-verification" />
-  <Card icon="/images/developers/icons/rotate.svg" title="Retries and ordering" href="/developers/webhooks/retries-and-ordering" />
-  <Card icon="/images/developers/icons/flask.svg" title="Test webhooks locally" href="/developers/webhooks/test-locally" />
-  <Card icon="/images/developers/icons/logs.svg" title="Event catalog" href="/developers/webhooks/event-catalog" />
+  <Card icon="/images/developers/icons/plug.svg" title="Set Up an Endpoint" href="/developers/webhooks/set-up-an-endpoint" />
+  <Card icon="/images/developers/icons/signature.svg" title="Signature Verification" href="/developers/webhooks/signature-verification" />
+  <Card icon="/images/developers/icons/rotate.svg" title="Retries and Ordering" href="/developers/webhooks/retries-and-ordering" />
+  <Card icon="/images/developers/icons/flask.svg" title="Test Webhooks Locally" href="/developers/webhooks/test-locally" />
+  <Card icon="/images/developers/icons/logs.svg" title="Event Catalog" href="/developers/webhooks/event-catalog" />
   <Card icon="/images/developers/icons/api-reference.svg" title="Payload schemas in the API reference" href="/api-reference/webhook-events/invoiceupdatefinalized" />
 </CardGroup>

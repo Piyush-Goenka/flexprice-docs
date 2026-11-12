@@ -1,5 +1,5 @@
 ---
-title: "Self-hosting"
+title: "Self-Hosting"
 description: "Run the Flexprice community edition on your own infrastructure: where the guides are and what a developer needs to know first"
 ---
 
@@ -8,16 +8,16 @@ Flexprice is open source under a community edition you can run yourself. The dep
 ## Self-hosting guides
 
 <CardGroup cols={2}>
-  <Card icon="/images/developers/icons/open-source.svg" title="Self-hosting guide" href="/docs/getting-started/self-hosting-guide">
+  <Card icon="/images/developers/icons/open-source.svg" title="Self-hosting guide" href="/docs/self-hosting/overview">
     Docker Compose on one machine: Postgres, ClickHouse, Kafka, Temporal, and the API.
   </Card>
-  <Card icon="/images/integrations/logos/aws-marketplace.svg" title="Self-hosting on AWS" href="/docs/getting-started/self-hosting-aws">
+  <Card icon="/images/integrations/logos/aws-marketplace.svg" title="Self-Hosting on AWS" href="/docs/self-hosting/self-hosting-aws">
     A production layout on AWS with managed data stores.
   </Card>
-  <Card icon="/images/developers/icons/window.svg" title="Frontend" href="/docs/getting-started/self-hosting-frontend">
+  <Card icon="/images/developers/icons/window.svg" title="Frontend" href="/docs/self-hosting/frontend">
     Build and serve the dashboard against your API.
   </Card>
-  <Card icon="/images/developers/icons/gear.svg" title="Configuration" href="/docs/getting-started/configuration">
+  <Card icon="/images/developers/icons/gear.svg" title="Configuration" href="/docs/self-hosting/configuration">
     Every environment variable, including webhook and Svix settings.
   </Card>
 </CardGroup>
@@ -29,9 +29,9 @@ The [architecture page](/docs/getting-started/architecture) explains what each s
 | Concern | Flexprice Cloud | Self-hosted |
 | --- | --- | --- |
 | Base URL | `https://us.api.flexprice.io/v1` (US), `https://api.cloud.flexprice.io/v1` (India), `https://canada.api.flexprice.io/v1` (Canada), or `https://eu.api.flexprice.io/v1` (EU) | Your host, for example `http://localhost:8080/v1`. Pass it to the SDK's server URL, the CLI's `--base-url`, and the MCP server's `--server-url` |
-| API keys | Created in the dashboard | Same, in your dashboard; a local seed key is documented in the [self-hosting guide](/docs/getting-started/self-hosting-guide#api-documentation) |
-| Webhooks | Svix delivery with signatures and long retries | Native delivery by default: no signature, short retry window. Enable Svix in configuration for parity. See [Signature verification](/developers/webhooks/signature-verification#signature-verification-on-self-hosted-deployments) |
-| OpenAPI spec | Hosted at `https://swagger.flexprice.io`. See [OpenAPI spec](/developers/api-tooling/openapi-spec) | `docs/swagger/swagger-3-0.json` in the repository, matching your checked-out version |
+| API keys | Created in the dashboard | Same, in your dashboard; a local seed key is documented in the [self-hosting guide](/docs/self-hosting/overview#api-documentation) |
+| Webhooks | Svix delivery with signatures and long retries | Native delivery by default: no signature, short retry window. Enable Svix in configuration for parity. See [Signature Verification](/developers/webhooks/signature-verification#signature-verification-on-self-hosted-deployments) |
+| OpenAPI spec | Hosted at `https://swagger.flexprice.io`. See [OpenAPI Spec](/developers/api-tooling/openapi-spec) | `docs/swagger/swagger-3-0.json` in the repository, matching your checked-out version |
 | Status | [status.flexprice.io](https://status.flexprice.io) | Poll `GET /health` on your deployment |
 | Version | Upgraded by Flexprice | You pull a release. Check the [changelog](/docs/changelog) for migrations |
 

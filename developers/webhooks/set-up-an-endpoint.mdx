@@ -1,5 +1,6 @@
 ---
-title: "Set up an endpoint"
+title: "How to Set Up a Webhook Endpoint"
+sidebarTitle: "Set Up an Endpoint"
 description: "Register a webhook endpoint in the Flexprice dashboard, choose the events it receives, and write a handler that acknowledges correctly"
 ---
 
@@ -12,7 +13,7 @@ A webhook endpoint is an HTTPS URL you own that Flexprice sends a `POST` to when
     In the dashboard, go to **Developers** and open the **Webhooks** section, or run `flexprice open webhooks` from the [CLI](/docs/cli/overview).
   </Step>
   <Step title="Add the endpoint">
-    Click **Add Endpoint** and enter your URL. It must be HTTPS and reachable from the public internet. For local development, use a tunnel or Svix Play as described in [Test webhooks locally](/developers/webhooks/test-locally).
+    Click **Add Endpoint** and enter your URL. It must be HTTPS and reachable from the public internet. For local development, use a tunnel or Svix Play as described in [Test Webhooks Locally](/developers/webhooks/test-locally).
   </Step>
   <Step title="Choose events">
     Subscribe to the events your handler acts on rather than everything. A billing integration usually starts with:
@@ -26,7 +27,7 @@ A webhook endpoint is an HTTPS URL you own that Flexprice sends a `POST` to when
     The full list, with a link to each payload, is in the [event catalog](/developers/webhooks/event-catalog).
   </Step>
   <Step title="Copy the signing secret">
-    Open the endpoint and copy its signing secret (it starts with `whsec_`). Store it with your other secrets. Your handler uses it to verify every delivery; see [Signature verification](/developers/webhooks/signature-verification).
+    Open the endpoint and copy its signing secret (it starts with `whsec_`). Store it with your other secrets. Your handler uses it to verify every delivery; see [Signature Verification](/developers/webhooks/signature-verification).
   </Step>
 </Steps>
 
@@ -41,7 +42,7 @@ Endpoints are per environment. Register one in sandbox and a separate one in pro
 | Body | `{ "event_type": "<name>", "<object>": { ... } }` where the object key matches the event: `invoice`, `payment`, `subscription`, `wallet`, `customer`, and so on |
 | Success | Any `2xx` response |
 | Timeout | Respond within 5 seconds |
-| Failure | Non-`2xx` or a timeout triggers a retry. See [Retries and ordering](/developers/webhooks/retries-and-ordering) |
+| Failure | Non-`2xx` or a timeout triggers a retry. See [Retries and Ordering](/developers/webhooks/retries-and-ordering) |
 
 A finalized invoice looks like this:
 
@@ -69,7 +70,7 @@ A handler has four jobs, in this order:
 
 1. **Verify the signature** on the raw body before parsing anything.
 2. **Acknowledge fast.** Return `200` and do the real work on a queue. Anything slower than 5 seconds counts as a failure and is retried.
-3. **Dedupe.** Store the delivery ID (the `svix-id` header) and skip a delivery you have already processed. Retries and redeliveries mean you will see duplicates. Do not key on the object ID plus `event_type` alone: two `subscription.updated` messages for the same subscription would collapse into one. If you key on the object, include its `updated_at`. See [Retries and ordering](/developers/webhooks/retries-and-ordering#handling-duplicate-webhook-deliveries).
+3. **Dedupe.** Store the delivery ID (the `svix-id` header) and skip a delivery you have already processed. Retries and redeliveries mean you will see duplicates. Do not key on the object ID plus `event_type` alone: two `subscription.updated` messages for the same subscription would collapse into one. If you key on the object, include its `updated_at`. See [Retries and Ordering](/developers/webhooks/retries-and-ordering#handling-duplicate-webhook-deliveries).
 4. **Return `200` for events you do not handle.** Otherwise Flexprice keeps retrying them.
 
 <CodeGroup>
@@ -155,7 +156,7 @@ The worker that drains the queue parses `event_type` and the typed payload. [Par
 The endpoint's page in the dashboard shows its error rate, a **Logs** tab with every attempt and its response, and an **Activity** tab with delivery counts over time. Failed attempts can be replayed from **Logs** after you fix the handler.
 
 <CardGroup cols={3}>
-  <Card icon="/images/developers/icons/signature.svg" title="Signature verification" href="/developers/webhooks/signature-verification" />
-  <Card icon="/images/developers/icons/rotate.svg" title="Retries and ordering" href="/developers/webhooks/retries-and-ordering" />
+  <Card icon="/images/developers/icons/signature.svg" title="Signature Verification" href="/developers/webhooks/signature-verification" />
+  <Card icon="/images/developers/icons/rotate.svg" title="Retries and Ordering" href="/developers/webhooks/retries-and-ordering" />
   <Card icon="/images/developers/icons/flask.svg" title="Test locally" href="/developers/webhooks/test-locally" />
 </CardGroup>

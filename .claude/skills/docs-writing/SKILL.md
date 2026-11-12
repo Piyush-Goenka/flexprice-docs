@@ -24,7 +24,8 @@ flexprice-docs/
 ├── docs/                    ← All documentation pages (.mdx)
 │   ├── customers/           ← Customer-related docs
 │   ├── wallet/              ← Wallet docs
-│   ├── product-catalogue/   ← Plans, Features, Coupons
+│   ├── features/            ← Features and aggregation types
+│   ├── product-catalogue/   ← Plans, prices, addons, groups, coupons
 │   ├── subscriptions/       ← Subscription workflows
 │   ├── webhook/             ← Webhook reference
 │   ├── event-ingestion/     ← Event & metering docs
@@ -59,28 +60,40 @@ Also check `docs/webhook/webhooks.mdx` if the doc involves webhooks, and `docs/w
 
 | Topic | Directory |
 |-------|-----------|
-| Customer management | `docs/customers/` |
-| Wallet features | `docs/wallet/` |
-| Plans, Features, Coupons | `docs/product-catalogue/` |
-| Subscription workflows | `docs/subscriptions/` |
-| Integrations | `integrations/<provider>/` |
-| Sending usage events (API, idempotency, volume, backfill) | `docs/core-concepts/usage-events/` |
-| Webhooks, event debugging and monitoring | `docs/webhook/` or `docs/event-ingestion/` |
 | Core Concepts pages (one guided page per concept) | `docs/core-concepts/` |
+| Sending usage events (API, idempotency, volume, backfill) | `docs/core-concepts/usage-events/` |
+| Features and aggregation types | `docs/features/` |
+| Event debugging and monitoring | `docs/event-ingestion/` |
+| Plans, prices, addons, groups, coupons, discounts, price overrides | `docs/product-catalogue/` |
+| Entitlements | `docs/entitlements/` |
+| Customer management | `docs/customers/` |
+| Subscription workflows | `docs/subscriptions/` |
+| Wallet features | `docs/wallet/` |
+| Commitments (Enterprise Billing) | `docs/commitment/` |
+| Invoices | `docs/invoices/` |
+| Taxes | `docs/taxes/` |
+| Checkout and payments | `docs/checkout/` or `docs/payments/` |
+| Self-hosting | `docs/self-hosting/` |
+| Webhooks | `docs/webhook/` |
+| Integrations | `integrations/<provider>/` |
 | Alerts & notifications | `docs/customers/` (customer-scoped) or nearest feature section |
+
+A page's folder follows the sidebar section it sits in. If you move a page to another section in `docs.json`, move its file into that section's folder as well and add a redirect (see the Navigation rules).
 
 ### 3. Frontmatter
 
-Every `.mdx` file starts with:
+Every `.mdx` file starts with this (leave out `sidebarTitle` when the title is already a short noun phrase):
 
 ```mdx
 ---
-title: "Page Title"
+title: "How to Create a Plan"
+sidebarTitle: "Create a Plan"
 description: "One sentence describing what this page covers."
 ---
 ```
 
-- `title`: Short noun phrase, title case
+- `title`: Title Case. Capitalize every word except articles, coordinating conjunctions, and prepositions (a, an, the, and, or, for, of, on, in, to, at, by, with, from, like, vs) unless the word comes first. Capitalize both parts of a hyphenated compound (Usage-Based, Self-Hosting), but keep small words inside one lowercase (Time-of-Day, End-to-End), and keep acronyms and brand names as written (API, SDK, QuickBooks). Write the title as a how-to or a question wherever it reads naturally, because agents and search match it well: task pages use How to plus an imperative verb (How to Create a Plan, not Creating a plan), concept pages use What Is, What Are or How Does (What Are Spend Alerts?, How Does Proration Work?). Landing pages follow the same rule; when the section is a common noun, add "in Flexprice" so the question reads naturally (What Is a Customer in Flexprice?). Keep reference pages as plain noun phrases: CLI command pages, API reference pages, UI kit component pages, and the changelog. Sibling pages in one sidebar group share one pattern (every sync page is How Does <Provider> <Object> Sync Work?). Write "and", never "&", in titles and sidebar labels. Keep it under about 48 characters, because search results show it with " - Flexprice" appended. No ALL CAPS words. The same casing rules apply to `sidebarTitle` and to group names in `docs.json`
+- `sidebarTitle`: The short label the sidebar shows in place of the title. Required whenever the title is a how-to or a question: use the imperative for a task page (Create a Plan) and the plain noun phrase for a concept page (Spend Alerts, Proration). Keep it to about four words and never phrase it as a question. Inside a provider group, start every label with the provider name and use "Sync", not "Synchronization" (Stripe Customer Sync, QuickBooks Item Sync). Leave it out when the title is already a short noun phrase. When you turn an existing title into a question, move the old title into `sidebarTitle` so the sidebar does not change. Cards and inline links that name the page use this short form
 - `description`: Shown in search results and page meta — one sentence, no period
 
 ### 4. Opening Paragraph
@@ -231,7 +244,7 @@ Model new webhook events on existing ones — see `docs/wallet/low-balance-alert
 
 After writing a new file, **always add it to `docs.json`**.
 
-The navigation lives in `navigation.tabs[0].groups` (the Documentation tab). Each top-level group is a section heading, in this order: Start Here, Usage Metering, Pricing and Packaging, Entitlements, Customers, Subscriptions, Credits and Wallets, Enterprise Billing, Invoicing and Taxes, Payments and Checkout, Reporting and Data, Self-hosting, Platform and Security. Start Here holds the Core Concepts group (landing page `docs/core-concepts/overview` as its root): one opinionated guidance page per concept, in the order the data flows (Usage Events, Features, Plans and Prices, Customers, Subscriptions, Invoices), each linking to the detail pages in the topic sections. Usage Events is itself a nested group (root `docs/core-concepts/send-usage-events`) that holds every page about sending events, in `docs/core-concepts/usage-events/`. Inside a section, topics are collapsible sub-groups (Usage Metering holds Features, Flexprice Collector, Debug and Monitor, AI Cost Tracking). Billing recipes and pricing teardowns belong in the Cookbooks tab, not in Documentation. Structure:
+The navigation lives in `navigation.tabs[0].groups` (the Documentation tab). Each top-level group is a section heading, in this order: Start Here, Usage Metering, Pricing and Packaging, Entitlements, Customers, Subscriptions, Credits and Wallets, Enterprise Billing, Invoicing and Taxes, Payments and Checkout, Reporting and Data, Self-Hosting, Platform and Security. Start Here holds the Core Concepts group (landing page `docs/core-concepts/overview` as its root): one opinionated guidance page per concept, in the order the data flows (Usage Events, Features, Plans and Prices, Customers, Subscriptions, Invoices), each linking to the detail pages in the topic sections. Usage Events is itself a nested group (root `docs/core-concepts/send-usage-events`) that holds every page about sending events, in `docs/core-concepts/usage-events/`. Inside a section, topics are collapsible sub-groups (Usage Metering holds Features, Flexprice Collector, Debug and Monitor, AI Cost Tracking). Billing recipes and pricing teardowns belong in the Cookbooks tab, not in Documentation. Structure:
 
 ```json
 {
@@ -253,6 +266,7 @@ The navigation lives in `navigation.tabs[0].groups` (the Documentation tab). Eac
 - No `icon` on any header tab or any group, top-level or nested. The only navigation icons are on the global anchors (Support, Community, Website)
 - A sub-group holds 3 to 6 pages. Never leave more than 6 pages in one flat list: give a topic with several pages its own nested sub-group (Plans and Packaging holds Plans, Addons, Groups). Aggregation Types, one page per type, is the only exception
 - Never create a sub-group for a single page; a lone page sits directly in its section
+- A nested group whose topic has a landing page uses that page as the group's `root`, so clicking the group name opens it and the page is not listed again inside the group (Plans, Taxes, Coupons, Spend Alerts). A top-level section never takes a `root`; its landing page stays the first entry
 - Always add new pages immediately after the most relevant existing page in the same sub-group
 - Never add a new top-level section without asking first
 - Renaming, moving or deleting a page file changes its URL, so add a redirect from the old URL to its new home in `redirect.json` (an entry `{ "source": "/old/path", "destination": "/new/path" }`). `docs.json` loads that file with `"redirects": { "$ref": "./redirect.json" }`, so never add redirects to `docs.json` itself. Also repoint every existing redirect whose destination is the old URL straight at the new one, so redirects never chain (a to b to c becomes a to c and b to c). Check them with `mint broken-links --check-redirects`
@@ -309,7 +323,7 @@ Card template (one line per card, the icon is a file path):
 
 ### Page frontmatter
 
-Integration pages use `title` and `description`. The marketplace pages (`integrations/marketplace-integration/**`) also carry `tag: 'Beta'`, which renders as a badge next to the page name in the sidebar; keep it on every marketplace page, including new ones. Do not add a `tag` to other integration pages unless product explicitly asks for a badge.
+Integration pages use `title`, `sidebarTitle` and `description`, following the frontmatter rules above. The marketplace pages (`integrations/marketplace-integration/**`) also carry `tag: 'Beta'`, which renders as a badge next to the page name in the sidebar; keep it on every marketplace page, including new ones. Do not add a `tag` to other integration pages unless product explicitly asks for a badge.
 
 ---
 
@@ -379,6 +393,7 @@ The `.claude/launch.json` in this repo is configured to use this exact path. Use
 
 - [ ] File is in the right directory (`docs/<section>/`)
 - [ ] Frontmatter has `title` and `description`
+- [ ] A how-to or question `title` has a short `sidebarTitle`
 - [ ] Page is added to `docs.json` in the correct group
 - [ ] Every renamed, moved or deleted page file has a redirect in `redirect.json`
 - [ ] No em dashes: `grep -n "—" docs/path/to/page.mdx` returns nothing

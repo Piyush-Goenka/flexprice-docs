@@ -59,7 +59,7 @@ The [cost documentation](https://docs.pinecone.io/guides/manage-cost/understandi
 
 | Pinecone's pricing uses | Flexprice setup |
 | --- | --- |
-| **Independent read and write units** | Two [metered features](/docs/product-catalogue/features/create) using SUM over reconciled `read_units` and `write_units` |
+| **Independent read and write units** | Two [metered features](/docs/features/create) using SUM over reconciled `read_units` and `write_units` |
 | **Storage charged over time** | A SUM meter over normalized `storage_gb_months`, not raw byte snapshots |
 | **Different prices by plan, cloud and region** | Filter every meter to the selected Standard on-demand scope and AWS `us-east-1` |
 | **Per-million presentation of RU and WU rates** | [Flat-fee usage charges](/docs/product-catalogue/plans/billing-models/flat-fee) at the exact per-unit decimal amounts |
@@ -196,4 +196,4 @@ Pricing checked on 2026-11-04.
 
 ## Related recipe
 
-<Card icon="book-open" horizontal={true} href="/cookbooks/billing-recipes/usage-based-pricing" title="Build Usage-based Pricing like Vapi.ai" />
+<Card icon="book-open" horizontal={true} href="/cookbooks/billing-recipes/usage-based-pricing" title="Build Usage-Based Pricing like Vapi.ai" />
